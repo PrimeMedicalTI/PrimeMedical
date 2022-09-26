@@ -1,0 +1,385 @@
+#INCLUDE 'PROTHEUS.CH'
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±³Fun‡…o    ³ FSREST01  ³ Autor ³Elisângela Souza      ³ Data ³14/07/2021³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Relatorio de Estoque por Lote                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ MATR425(void)                                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Generico                                                   ³±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+/*/
+User Function FSREST01()
+
+Local oReport
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Interface de impressao                                                ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oReport:= ReportDef()
+oReport:PrintDialog()
+             
+Return
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±³Programa  ³ ReportDef³Autor  ³Alexandre Inacio Lemes ³Data  ³26/07/2006³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Relatorio de Estoque por Lote                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Retorno   ³ oExpO1: Objeto do relatorio                                ³±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+/*/
+Static Function ReportDef()
+
+Local cTitle      := "Produtos Consignados"
+//Local cPicSaldo   := PesqPict("SB8","B8_SALDO"  ,18)
+Local oReport 
+Local oSection1
+Local oSection2
+Local cAliasSB := GetNextAlias()
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//| Variaveis utilizadas para parametros                        |
+//| mv_par01	      	// Da Filial	                        |
+//| mv_par02        	// Ate Filial	                        |
+//| mv_par03	      	// Do  Produto                          |
+//| mv_par04        	// Ate Produto                          |
+//| mv_par05        	// De  Local			        	    |
+//| mv_par06        	// Ate Local				            |
+//| mv_par07        	// Do Tipo  				            |
+//| mv_par08        	// Ate o Tipo  			                |
+//| mv_par09      		// Do Grupo 				            |
+//| mv_par10        	// Ate o Grupo		                    |
+//| mv_par11        	// Da Descrição			                |
+//| mv_par12        	// Até Descrição			            |
+//| mv_par13        	// De  Lote                             |
+//| mv_par14        	// Ate Lote			         		    |
+//| mv_par15			// Da Data de Validade ?	 		    |
+//| mv_par16			// Ate a Data de Validade ? 			|
+//| mv_par17			// Considera Poder de Terceiros ?		|
+//| mv_par18			// Do Cliente ?				 			|
+//| mv_par19			// Ate o Cliente ?			 		    |
+//| mv_par20			// Da Serie ?				 			|
+//| mv_par21			// Ate a Serie ?			 		    |
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Pergunte("FSREST01",.F.)
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Criacao do componente de impressao                                      ³
+//³                                                                        ³
+//³TReport():New                                                           ³
+//³ExpC1 : Nome do relatorio                                               ³
+//³ExpC2 : Titulo                                                          ³
+//³ExpC3 : Pergunte                                                        ³
+//³ExpB4 : Bloco de codigo que sera executado na confirmacao da impressao  ³
+//³ExpC5 : Descricao                                                       ³
+//³                                                                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oReport:= TReport():New("FSREST01",cTitle,"FSREST01", {|oReport| ReportPrint(oReport,cAliasSB)},"Este programa emitirá uma relacao do saldo consignado.") 
+oReport:SetLandscape() 
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Criacao da secao utilizada pelo relatorio                               ³
+//³                                                                        ³
+//³TRSection():New                                                         ³
+//³ExpO1 : Objeto TReport que a secao pertence                             ³
+//³ExpC2 : Descricao da seçao                                              ³
+//³ExpA3 : Array com as tabelas utilizadas pela secao. A primeira tabela   ³
+//³        sera considerada como principal para a seção.                   ³
+//³ExpA4 : Array com as Ordens do relatório                                ³
+//³ExpL5 : Carrega campos do SX3 como celulas                              ³
+//³        Default : False                                                 ³
+//³ExpL6 : Carrega ordens do Sindex                                        ³
+//³        Default : False                                                 ³
+//³                                                                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Criacao da celulas da secao do relatorio                                ³
+//³                                                                        ³
+//³TRCell():New                                                            ³
+//³ExpO1 : Objeto TSection que a secao pertence                            ³
+//³ExpC2 : Nome da celula do relatório. O SX3 será consultado              ³
+//³ExpC3 : Nome da tabela de referencia da celula                          ³
+//³ExpC4 : Titulo da celula                                                ³
+//³        Default : X3Titulo()                                            ³
+//³ExpC5 : Picture                                                         ³
+//³        Default : X3_PICTURE                                            ³
+//³ExpC6 : Tamanho                                                         ³
+//³        Default : X3_TAMANHO                                            ³
+//³ExpL7 : Informe se o tamanho esta em pixel                              ³
+//³        Default : False                                                 ³
+//³ExpB8 : Bloco de código para impressao.                                 ³
+//³        Default : ExpC2                                                 ³
+//³                                                                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oSection1:= TRSection():New(oReport,"Empresa",{"SA1"},)
+oSection1:SetTotalInLine(.F.)
+oSection1:SetHeaderPage() 
+
+TRCell():New(oSection1,"EMPRESA"   ,"   ","Empresa/Cliente"  ,/*Picture*/,150,/*lPixel*/,/*{|| code-block de impressao }*/)
+
+oSection1:Cell('EMPRESA'):SetCellBreak()  
+
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oSection2:= TRSection():New(oSection1,"Saldos por Lote",{"SD6","SD2","SF4"},) // Saldos
+oSection2:SetTotalInLine(.F.)
+oSection2:SetHeaderPage()
+
+TRCell():New(oSection2,"PRODUTO"   ,"   ","Produto"  , /*Picture*/, 25         ,/*lPixel*/,/*{|| code-block de impressao }*/,,,/*RIGHT*/,.T.)
+TRCell():New(oSection2,"B1_DESC"   ,"SB1","Descrição", /*Picture*/, 60         ,/*lPixel*/,/*{|| code-block de impressao }*/,,,/*RIGHT*/,.T.)
+TRCell():New(oSection2,"B1_UM"     ,"SB1","UM"       , /*Picture*/, /*Tamanho*/,/*lPixel*/,/*{|| code-block de impressao }*/,,,"RIGHT")
+TRCell():New(oSection2,"LOCAL"     ,"   ","Local"    , /*Picture*/, 05         ,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection2,"LOTECTL"   ,"   ","Lote"     , /*Picture*/, 40         ,/*lPixel*/,/*{|| code-block de impressao }*/,,,/*RIGHT*/,.T.)
+TRCell():New(oSection2,"DTVALID"   ,"   ","Validade" , /*Picture*/, 10         ,/*lPixel*/,/*{|| code-block de impressao }*/)
+TRCell():New(oSection2,"C5_PACIENT","   ","Paciente" , /*Picture*/, 50         ,/*lPixel*/,/*{|| code-block de impressao }*/,,,/*RIGHT*/,.T.)
+TRCell():New(oSection2,"C5_CONVENI","   ","Convenio" , /*Picture*/, 30         ,/*lPixel*/,/*{|| code-block de impressao }*/,,,/*RIGHT*/,.T.)
+TRCell():New(oSection2,"SALDO1"    ,"   ","Saldo"+CRLF+"1a.U.M.","@E 99999999999" ,16,/*lPixel*/,/*{|| code-block de impressao }*/,,,"RIGHT")
+
+Return(oReport)
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±³Programa  ³ReportPrin³ Autor ³Alexandre Inacio Lemes ³Data  ³26/07/2006³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Relatorio de Estoque por Lote                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Retorno   ³Nenhum                                                      ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ExpO1: Objeto Report do Relatório                           ³±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+/*/
+
+Static Function ReportPrint(oReport,cAliasSB)
+
+Local oSection1  := oReport:Section(1) 
+Local oSection2	 := oReport:Section(1):Section(1)
+Local cEmpresa	 := ""
+Local nSaldo     := 0
+Local lPrinted   := .F.
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Adiciona a ordem escolhida ao titulo do relatorio          ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oReport:SetTitle(oReport:Title() )
+
+DbSelectArea("SB6")
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Filtragem do relatório                                                  ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+MakeSqlExpr(oReport:uParam)  
+oReport:Section(1):BeginQuery()	
+
+If mv_par17 = 1 // Consignacao
+	BeginSql Alias cAliasSB
+
+	SELECT B6_FILIAL AS FILIAL, B6_PRODUTO AS PRODUTO, B6_LOCAL AS LOCALP, D2_LOTECTL AS LOTE, D2_DTVALID AS DTVALID, 
+		   SUM(B6_SALDO) AS SALDO, B1_DESC, B1_UM, A1_COD AS CLIENTE, A1_LOJA AS LOJA, A1_NREDUZ AS NOME, M0_FILIAL
+		  
+	FROM %table:SB6% SB6, %table:SB1% SB1, %table:SD2% SD2, %table:SA1% SA1, %table:SF4% SF4, SYS_COMPANY XX8
+
+	WHERE B6_FILIAL >= %Exp:mv_par01%  AND 
+		B6_FILIAL   <= %Exp:mv_par02%  AND    
+		B6_PRODUTO  >= %Exp:mv_par03%  AND 
+		B6_PRODUTO  <= %Exp:mv_par04%  AND           
+		B6_LOCAL    >= %Exp:mv_par05%  AND 
+		B6_LOCAL    <= %Exp:mv_par06%  AND
+		B1_TIPO     >= %Exp:mv_par07%  AND
+	 	B1_TIPO     <= %Exp:mv_par08%  AND
+		B1_GRUPO    >= %Exp:mv_par09%  AND
+		B1_GRUPO    <= %Exp:mv_par10%  AND
+		B1_DESC     >= %Exp:mv_par11%  AND
+		B1_DESC     <= %Exp:mv_par12%  AND
+		B6_CLIFOR   >= %Exp:mv_par18%  AND 
+		B6_CLIFOR   <= %Exp:mv_par19%  AND
+		D2_LOTECTL  >= %Exp:mv_par13%  AND 
+		D2_LOTECTL  <= %Exp:mv_par14%  AND     
+		D2_DTVALID  >= %Exp:Dtos(mv_par15)% AND 
+		D2_DTVALID  <= %Exp:Dtos(mv_par16)% AND 
+		D2_SERIE    >= %Exp:mv_par20%  AND 
+		D2_SERIE    <= %Exp:mv_par21%  AND  
+		B1_COD      = B6_PRODUTO       AND
+		F4_CODIGO   = B6_TES           AND
+		B6_FILIAL   = D2_FILIAL        AND
+		B6_DOC      = D2_DOC           AND
+		B6_SERIE    = D2_SERIE         AND     
+		B6_CLIFOR   = D2_CLIENTE       AND
+		B6_LOJA     = D2_LOJA          AND
+		B6_IDENT    = D2_IDENTB6       AND
+		B6_PRODUTO  = D2_COD           AND
+		A1_COD 	    = D2_CLIENTE       AND
+		A1_LOJA 	= D2_LOJA          AND
+		B6_PODER3   = %Exp:'R'%        AND
+		B6_SALDO    <> %Exp:0%         AND
+		F4_FSTIPO   <> %Exp:'2'%       AND
+		M0_CODFIL   = B6_FILIAL        AND
+		SA1.%NotDel%				   AND
+		SB1.%NotDel%                   AND
+		SB6.%NotDel%                   AND
+		SD2.%NotDel%                   AND 
+		SF4.%NotDel%                   AND 
+		XX8.%NotDel%
+		GROUP BY B6_FILIAL, B1_GRUPO, B6_PRODUTO, B6_LOCAL, D2_LOTECTL, D2_DTVALID, B1_DESC, B1_UM, A1_COD, A1_LOJA, A1_NREDUZ, M0_FILIAL
+		ORDER BY CLIENTE, LOJA, B1_GRUPO, PRODUTO, LOCALP, LOTE
+
+	EndSql 
+
+ElseIf mv_par17 = 2 // Procedimento
+	BeginSql Alias cAliasSB
+
+	SELECT B6_FILIAL AS FILIAL, B6_PRODUTO AS PRODUTO, B6_LOCAL AS LOCALP, D2_LOTECTL AS LOTE, D2_DTVALID AS DTVALID, 
+		   SUM(B6_SALDO) AS SALDO, B1_DESC, B1_UM, A1_COD AS CLIENTE, A1_LOJA AS LOJA, A1_NREDUZ AS NOME, M0_FILIAL,
+		   C5_PACIENT, C5_CONVENI
+ 
+	FROM %table:SB6% SB6, %table:SB1% SB1, %table:SD2% SD2, %table:SA1% SA1, %table:SF4% SF4, %table:SC5% SC5, SYS_COMPANY XX8
+
+	WHERE B6_FILIAL >= %Exp:mv_par01%  AND 
+		B6_FILIAL   <= %Exp:mv_par02%  AND    
+		B6_PRODUTO  >= %Exp:mv_par03%  AND 
+		B6_PRODUTO  <= %Exp:mv_par04%  AND           
+		B6_LOCAL    >= %Exp:mv_par05%  AND 
+		B6_LOCAL    <= %Exp:mv_par06%  AND
+		B1_TIPO     >= %Exp:mv_par07%  AND
+	 	B1_TIPO     <= %Exp:mv_par08%  AND
+		B1_GRUPO    >= %Exp:mv_par09%  AND
+		B1_GRUPO    <= %Exp:mv_par10%  AND
+		B1_DESC     >= %Exp:mv_par11%  AND
+		B1_DESC     <= %Exp:mv_par12%  AND
+		B6_CLIFOR   >= %Exp:mv_par18%  AND 
+		B6_CLIFOR   <= %Exp:mv_par19%  AND
+		D2_LOTECTL  >= %Exp:mv_par13%  AND 
+		D2_LOTECTL  <= %Exp:mv_par14%  AND     
+		D2_DTVALID  >= %Exp:Dtos(mv_par15)% AND 
+		D2_DTVALID  <= %Exp:Dtos(mv_par16)% AND 
+		D2_SERIE    >= %Exp:mv_par20%  AND 
+		D2_SERIE    <= %Exp:mv_par21%  AND  
+		B1_COD      = B6_PRODUTO       AND
+		F4_CODIGO   = B6_TES           AND
+		B6_FILIAL   = D2_FILIAL        AND
+		B6_DOC      = D2_DOC           AND
+		B6_SERIE    = D2_SERIE         AND     
+		B6_CLIFOR   = D2_CLIENTE       AND
+		B6_LOJA     = D2_LOJA          AND
+		B6_IDENT    = D2_IDENTB6       AND
+		B6_PRODUTO  = D2_COD           AND
+		A1_COD 	    = D2_CLIENTE       AND
+		A1_LOJA 	= D2_LOJA          AND
+		D2_FILIAL   = C5_FILIAL        AND
+		D2_PEDIDO   = C5_NUM           AND
+		B6_PODER3   = %Exp:'R'%        AND
+		B6_SALDO    <> %Exp:0%         AND
+		F4_FSTIPO   = %Exp:'2'%        AND
+		M0_CODFIL   = B6_FILIAL        AND
+		SA1.%NotDel%				   AND
+		SB1.%NotDel%                   AND
+		SB6.%NotDel%                   AND
+		SC5.%NotDel%                   AND
+		SD2.%NotDel%                   AND 
+		SF4.%NotDel%                   AND 
+		XX8.%NotDel%
+		GROUP BY B6_FILIAL, B1_GRUPO, B6_PRODUTO, B6_LOCAL, D2_LOTECTL, D2_DTVALID, B1_DESC, B1_UM, A1_COD, A1_LOJA, A1_NREDUZ, M0_FILIAL,
+		         C5_PACIENT, C5_CONVENI
+		ORDER BY CLIENTE, LOJA, B1_GRUPO, PRODUTO, LOCALP, LOTE
+
+	EndSql 
+
+Endif
+
+oReport:Section(1):EndQuery(/*Array com os parametros do tipo Range*/)
+oSection2:SetParentQuery()
+
+oReport:SetMeter((cAliasSB)->(LastRec()))
+
+If mv_par17 = 1 // Consignação
+	oSection2:Cell("C5_PACIENT"):Disable()
+	oSection2:Cell("C5_CONVENI"):Disable()
+ElseIf mv_par17 = 2 // Procedimento
+	oSection2:Cell("C5_PACIENT"):Enable()
+	oSection2:Cell("C5_CONVENI"):Enable()
+Endif
+
+oSection1:Init()
+oSection2:Init()
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Desabilita Celulas conforme Parametros e Ordens Selecionadas ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+TRFunction():New(oSection2:Cell("SALDO1"  ),NIL,"SUM",/*oBreak1*/,,/*cPicture*/,/*uFormula*/,.T.,.F.,,oSection2)
+
+(cAliasSB)->( DbGoTop() )
+
+While !oReport:Cancel() .And. !&(cAliasSB)->(Eof())
+
+	cSeekSA1 := CLIENTE+LOJA
+	cCondSA1 := 'CLIENTE+LOJA'
+
+	If Empty((cAliasSB)->CLIENTE)
+		cEmpresa := "EMPRESA: " + (cAliasSB)->M0_FILIAL	
+	ElseIf !Empty((cAliasSB)->CLIENTE)
+		cEmpresa := "CLIENTE: " + (cAliasSB)->CLIENTE + "/" + (cAliasSB)->LOJA + "-" + (cAliasSB)->NOME
+	Endif
+
+	oSection1:Cell("EMPRESA"):SetValue(cEmpresa)
+	oReport:Section(1):PrintLine()
+
+	While !oReport:Cancel() .And. !(cAliasSB)->( Eof() ) .And. cSeekSA1 == &(cCondSA1)
+
+		oReport:IncMeter()
+		If oReport:Cancel()
+			Exit
+		EndIf
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³  Saldo do Lote ou Lote/Sublote                               ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		nSaldo      := (cAliasSB)->SALDO
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³Salva Dados do Registro Atual / Passa para o Pr¢ximo Registro ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+		oSection2:Cell("PRODUTO"):SetValue( (cAliasSB)->PRODUTO)
+		oSection2:Cell("B1_DESC"):SetValue( (cAliasSB)->B1_DESC)
+		oSection2:Cell("B1_UM"):SetValue( (cAliasSB)->B1_UM)
+		oSection2:Cell("LOCAL"):SetValue( (cAliasSB)->LOCALP)
+		oSection2:Cell("LOTECTL"):SetValue( (cAliasSB)->LOTE)
+		oSection2:Cell("DTVALID"):SetValue( Stod((cAliasSB)->DTVALID))
+
+		If mv_par17 = 2 // Procedimento
+			oSection2:Cell("C5_PACIENT"):SetValue( (cAliasSB)->C5_PACIENT)
+			oSection2:Cell("C5_CONVENI"):SetValue( (cAliasSB)->C5_CONVENI)
+		Endif
+
+		oSection2:Cell("SALDO1"):SetValue((cAliasSB)->SALDO)
+
+		oSection2:PrintLine()		
+		oSection2:CALIAS:=cAliasSB
+
+		DbSkip()
+
+	EndDo
+
+	oReport:SkipLine() 
+	lPrinted := .T.
+
+	If lPrinted
+		oReport:Section(1):Section(1):SetTotalText("Total do Cliente: " + cEmpresa)
+		oReport:Section(1):Section(1):Finish()
+
+		// Salta página por Cliente
+		oReport:Section(1):Finish()
+		oReport:Section(1):SetPageBreak(.T.)
+
+		oSection1:Init()
+		oSection2:Init()
+		lPrinted := .F.
+	EndIf
+Enddo
+	
+oReport:Section(1):Finish()
+oReport:Section(1):Section(1):Finish()
+oReport:Section(1):SetPageBreak(.T.)
+
+Return Nil

@@ -1,0 +1,277 @@
+#INCLUDE 'PROTHEUS.CH'
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±³Fun‡…o    ³ FSREST04  ³ Autor ³Elisângela Souza      ³ Data ³29/07/2021³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Relatorio de Estoque por Lote                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Sintaxe   ³ MATR425(void)                                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³ Uso      ³ Generico                                                   ³±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+/*/
+User Function FFATR004()
+
+Local oReport
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Interface de impressao                                                ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oReport:= ReportDef()
+oReport:PrintDialog()
+             
+Return
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±³Programa  ³ ReportDef³Autor  ³Alexandre Inacio Lemes ³Data  ³26/07/2006³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Relatorio de Estoque por Lote                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Retorno   ³ oExpO1: Objeto do relatorio                                ³±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+/*/
+Static Function ReportDef()
+
+Local cTitle      := "Comissão por Produto"
+//Local cPicSaldo   := PesqPict("SD2","D2_TOTAL"  ,18)
+Local oReport 
+Local oSection1
+Local oSection2
+Local cAliasSD2 := GetNextAlias()
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//| Variaveis utilizadas para parametros                        |
+//| mv_par01	      	// Da Emissao	                        |
+//| mv_par02        	// Ate Emissao	                        |
+//| mv_par03	      	// Do  Vendedor                         |
+//| mv_par04        	// Ate Vendedor                         |
+//| mv_par05        	// Salta página por Vendedor       	    |
+//| mv_par06        	// Do Cliente				            |
+//| mv_par07        	// Ate Cliente 				            |
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Pergunte("FFATR004",.F.)
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Criacao do componente de impressao                                      ³
+//³                                                                        ³
+//³TReport():New                                                           ³
+//³ExpC1 : Nome do relatorio                                               ³
+//³ExpC2 : Titulo                                                          ³
+//³ExpC3 : Pergunte                                                        ³
+//³ExpB4 : Bloco de codigo que sera executado na confirmacao da impressao  ³
+//³ExpC5 : Descricao                                                       ³
+//³                                                                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oReport:= TReport():New("FFATR004",cTitle,"FFATR004", {|oReport| ReportPrint(oReport,cAliasSD2)},"Este programa emitirá uma relacao com o valor da comissão por produto.") 
+oReport:SetLandscape() 
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Criacao da secao utilizada pelo relatorio                               ³
+//³                                                                        ³
+//³TRSection():New                                                         ³
+//³ExpO1 : Objeto TReport que a secao pertence                             ³
+//³ExpC2 : Descricao da seçao                                              ³
+//³ExpA3 : Array com as tabelas utilizadas pela secao. A primeira tabela   ³
+//³        sera considerada como principal para a seção.                   ³
+//³ExpA4 : Array com as Ordens do relatório                                ³
+//³ExpL5 : Carrega campos do SX3 como celulas                              ³
+//³        Default : False                                                 ³
+//³ExpL6 : Carrega ordens do Sindex                                        ³
+//³        Default : False                                                 ³
+//³                                                                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Criacao da celulas da secao do relatorio                                ³
+//³                                                                        ³
+//³TRCell():New                                                            ³
+//³ExpO1 : Objeto TSection que a secao pertence                            ³
+//³ExpC2 : Nome da celula do relatório. O SX3 será consultado              ³
+//³ExpC3 : Nome da tabela de referencia da celula                          ³
+//³ExpC4 : Titulo da celula                                                ³
+//³        Default : X3Titulo()                                            ³
+//³ExpC5 : Picture                                                         ³
+//³        Default : X3_PICTURE                                            ³
+//³ExpC6 : Tamanho                                                         ³
+//³        Default : X3_TAMANHO                                            ³
+//³ExpL7 : Informe se o tamanho esta em pixel                              ³
+//³        Default : False                                                 ³
+//³ExpB8 : Bloco de código para impressao.                                 ³
+//³        Default : ExpC2                                                 ³
+//³                                                                        ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oSection1:= TRSection():New(oReport,"Vendedor",{"SA3"},)
+oSection1:SetTotalInLine(.F.)
+oSection1:SetHeaderPage() 
+
+TRCell():New(oSection1,"A3_COD"  ,"SA3",/*Titulo*/,/*Picture*/                ,/*Tamanho*/         ,/*lPixel*/  ,{|| SA3->A3_COD })
+TRCell():New(oSection1,"A3_NOME" ,"SA3",/*Titulo*/,/*Picture*/                ,/*Tamanho*/         ,/*lPixel*/  ,{|| SA3->A3_NOME })
+
+oSection1:Cell('A3_COD'):SetCellBreak()  
+
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oSection2:= TRSection():New(oSection1,"Produtos",{"SD2","SF2","SA1"},) // Saldos
+oSection2:SetTotalInLine(.F.)
+oSection2:SetHeaderPage()
+    
+TRCell():New(oSection2,"D2_SERIE" 	,cAliasSD2,/*Titulo*/,/*Picture*/               ,/*Tamanho*/  ,/*lPixel*/,{|| D2_SERIE })
+TRCell():New(oSection2,"D2_DOC"		,cAliasSD2,/*Titulo*/,/*Picture*/               ,/*Tamanho*/  ,/*lPixel*/,{|| D2_DOC })
+TRCell():New(oSection2,"D2_EMISSAO"	,cAliasSD2,/*Titulo*/,/*Picture*/               ,/*Tamanho*/  ,/*lPixel*/,{|| D2_EMISSAO })
+TRCell():New(oSection2,"D2_PEDIDO"	,cAliasSD2,/*Titulo*/,/*Picture*/               ,/*Tamanho*/  ,/*lPixel*/,{|| D2_PEDIDO })
+TRCell():New(oSection2,"A1_COD"   	,cAliasSD2,/*Titulo*/,/*Picture*/               ,/*Tamanho*/  ,/*lPixel*/,{|| A1_COD })
+TRCell():New(oSection2,"A1_LOJA"  	,cAliasSD2,/*Titulo*/,/*Picture*/               ,/*Tamanho*/  ,/*lPixel*/,{|| A1_LOJA })
+TRCell():New(oSection2,"A1_NOME"	,cAliasSD2,/*Titulo*/,/*Picture*/               ,30		      ,/*lPixel*/,{|| Substr(SA1->A1_NOME,1,30)  })
+TRCell():New(oSection2,"D2_COD"		,cAliasSD2,/*Titulo*/,/*Picture*/               ,/*Tamanho*/  ,/*lPixel*/,{|| D2_COD })
+TRCell():New(oSection2,"B1_DESC"	,cAliasSD2,/*Titulo*/,/*Picture*/               ,40           ,/*lPixel*/,{|| Substr(SB1->B1_DESC,1,40)  })
+TRCell():New(oSection2,"D2_QUANT"	,cAliasSD2,/*Titulo*/,/*Picture*/               ,/*Tamanho*/  ,/*lPixel*/,{|| D2_QUANT })
+TRCell():New(oSection2,"D2_TOTAL"	,cAliasSD2,/*Titulo*/,/*Picture*/               ,/*Tamanho*/  ,/*lPixel*/,{|| D2_TOTAL })
+TRCell():New(oSection2,"D2_COMIS1"	,cAliasSD2,"% Comis" ,PesqPict('SD2','D2_COMIS1'),TamSx3("D2_COMIS1")[1],/*lPixel*/,{|| 5,5 }) //nVlrTitulo })
+TRCell():New(oSection2,"NVALCOM"	,cAliasSD2,"Valor Comissao",PesqPict('SD2','D2_TOTAL'),TamSx3("D2_TOTAL")[1],/*lPixel*/,{|| nValCom })
+
+Return(oReport)
+
+/*/
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+±±³Programa  ³ReportPrin³ Autor ³Alexandre Inacio Lemes ³Data  ³26/07/2006³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Descri‡…o ³ Relatorio de Estoque por Lote                              ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Retorno   ³Nenhum                                                      ³±±
+±±ÃÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´±±
+±±³Parametros³ExpO1: Objeto Report do Relatório                           ³±±
+±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+/*/
+
+Static Function ReportPrint(oReport,cAliasSD2)
+
+Local oSection1  := oReport:Section(1) 
+Local oSection2	 := oReport:Section(1):Section(1)
+Local lPrinted   := .F.
+Local nTotal	 := 0
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Adiciona a ordem escolhida ao titulo do relatorio          ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+oReport:SetTitle(oReport:Title() )
+
+DbSelectArea('SA3')
+SA3->( DbSetOrder(1) )
+
+DbSelectArea("SD2")
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³Filtragem do relatório                                                  ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+MakeSqlExpr(oReport:uParam)  
+oReport:Section(1):BeginQuery()	
+
+	BeginSql Alias cAliasSD2
+
+		SELECT D2_FILIAL, A1_COD, A1_LOJA, A1_NOME, D2_DOC, D2_SERIE, D2_PEDIDO, D2_EMISSAO, D2_COD, B1_DESC, SUM(D2_QUANT) AS D2_QUANT, 
+		       SUM(D2_TOTAL) AS D2_TOTAL, A3_COD, A3_NOME, D2_COMIS1, ((D2_COMIS1/100)*SUM(D2_TOTAL)) AS VALCOMIS
+
+		FROM %table:SD2% SD2, %table:SA1% SA1, %table:SF2% SF2, %table:SB1% SB1, %table:SA3% SA3
+
+		WHERE D2_FILIAL = %xFilial:SD2%
+		AND  D2_COMIS1 <> %Exp:0%
+		AND	 D2_EMISSAO >= %Exp:Dtos(mv_par01)%
+		AND  D2_EMISSAO <= %Exp:Dtos(mv_par02)%
+		AND  F2_VEND1 BETWEEN %Exp:MV_PAR03% AND %Exp:MV_PAR04%
+		AND  A1_COD   BETWEEN %Exp:MV_PAR06% AND %Exp:MV_PAR07%
+		AND  A1_COD    = F2_CLIENTE
+		AND  A1_LOJA   = F2_LOJA
+		AND  B1_COD    = D2_COD
+		AND  F2_FILIAL = D2_FILIAL
+		AND  F2_SERIE  = D2_SERIE
+		AND  F2_DOC    = D2_DOC
+		AND  A3_COD    = F2_VEND1
+		AND  SD2.%NotDel%
+		AND  SA1.%NotDel%
+		AND  SF2.%NotDel%
+		AND  SB1.%NotDel%
+		AND  SA3.%NotDel%
+		GROUP BY D2_FILIAL, A1_COD, A1_LOJA, A1_NOME, D2_DOC, D2_SERIE, D2_PEDIDO, D2_EMISSAO, D2_COD, B1_DESC, A3_COD, A3_NOME, D2_COMIS1
+		ORDER BY D2_FILIAL, A3_COD, D2_EMISSAO, D2_SERIE, D2_DOC, D2_COD
+	EndSql 
+
+oReport:Section(1):EndQuery(/*Array com os parametros do tipo Range*/)
+oSection2:SetParentQuery()
+
+oReport:SetMeter((cAliasSD2)->(LastRec()))
+oSection1:Init()
+oSection2:Init()
+
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³ Desabilita Celulas conforme Parametros e Ordens Selecionadas ³
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+TRFunction():New(oSection2:Cell("NVALCOM"  ),NIL,"SUM",/*oBreak1*/,,/*cPicture*/,/*uFormula*/,.T.,.F.,,oSection2)
+
+While !oReport:Cancel() .And. !&(cAliasSD2)->(Eof())
+
+	cSeekSA3 := D2_FILIAL+A3_COD
+	cCondSA3 := 'D2_FILIAL+A3_COD'
+	cVend	 := (cAliasSD2)->A3_COD + " - " + (cAliasSD2)->A3_NOME
+
+	oSection1:Cell("A3_COD"):SetValue((cAliasSD2)->A3_COD)
+	oSection1:Cell("A3_NOME"):SetValue((cAliasSD2)->A3_NOME)
+
+	oReport:Section(1):PrintLine()
+
+	While !oReport:Cancel() .And. !(cAliasSD2)->( Eof() ) .And. cSeekSA3 == &(cCondSA3)
+
+		oReport:IncMeter()
+		If oReport:Cancel()
+			Exit
+		EndIf
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³  Saldo do Lote ou Lote/Sublote                               ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		nTotal   += (cAliasSD2)->VALCOMIS
+
+		//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		//³posiciona SB2 para impressao de campos adicionados pelo usuario ³
+		//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+		oSection2:Cell("D2_SERIE"):SetValue((cAliasSD2)->D2_SERIE)
+		oSection2:Cell("D2_DOC"):SetValue((cAliasSD2)->D2_DOC)
+		oSection2:Cell("D2_EMISSAO"):SetValue((cAliasSD2)->D2_EMISSAO)
+		oSection2:Cell("D2_PEDIDO"):SetValue((cAliasSD2)->D2_PEDIDO)
+		oSection2:Cell("A1_COD"):SetValue((cAliasSD2)->A1_COD)
+		oSection2:Cell("A1_LOJA"):SetValue((cAliasSD2)->A1_LOJA)
+		oSection2:Cell("A1_NOME"):SetValue((cAliasSD2)->A1_NOME)
+		oSection2:Cell("D2_COD"):SetValue((cAliasSD2)->D2_COD)
+		oSection2:Cell("B1_DESC"):SetValue((cAliasSD2)->B1_DESC)
+		oSection2:Cell("D2_QUANT"):SetValue((cAliasSD2)->D2_QUANT)
+		oSection2:Cell("D2_TOTAL"):SetValue((cAliasSD2)->D2_TOTAL)
+		oSection2:Cell("D2_COMIS1"):SetValue((cAliasSD2)->D2_COMIS1)
+		oSection2:Cell("NVALCOM"):SetValue((cAliasSD2)->VALCOMIS)
+
+		oSection2:PrintLine()		
+		oSection2:CALIAS:=cAliasSD2
+
+		DbSkip()
+	
+	EndDo
+
+	oReport:SkipLine() 
+	lPrinted := .T.
+
+	If lPrinted
+		oReport:Section(1):Section(1):SetTotalText("Total do Vendedor " + cVend)
+		oReport:Section(1):Section(1):Finish()
+
+		If mv_par05 = 1 // Salta página por vendedor
+			oReport:Section(1):Finish()
+			oReport:Section(1):SetPageBreak(.T.)
+		Endif
+
+		oSection1:Init()
+		oSection2:Init()
+		lPrinted := .F.
+	EndIf
+Enddo
+	
+oReport:Section(1):Finish()
+oReport:Section(1):SetPageBreak(.T.)
+
+Return Nil

@@ -1,0 +1,37 @@
+#include "TOTVS.CH"
+
+/*/{Protheus.doc} TDialog
+Rotina criada para estudos de componentes visual comparado ao Delphi
+@type function
+@version 1.0 
+@author André Brito
+@since 16/07/2022
+@return variant, return_description
+@see Os componentes visuais do AdvPL são criados na interface (SmartClient / SmartCient  HTML) através de classes da linguagem AdvPL. Alguns componentes possuem mais de um construtor além do NEW(), como por exemplo o CREATE(). 
+https://tdn.totvs.com/display/tec/Visual
+/*/
+
+        User Function TDialog() 
+        
+        // cria diálogo
+        Local oDlg
+        Local oTButton1
+        Local oTFont
+
+        // TFont
+        oTFont := TFont():New('Courier new',,16,.T.)
+
+        oDlg := TDialog():New(180,180,550,700,'Exemplo TDialog',,,,,CLR_BLACK,CLR_WHITE,,,.T.)
+
+
+
+        oPanel:= tPanel():New(01,01,"Teste",oDlg,oTFont,.T.,,CLR_YELLOW,CLR_BLUE,100,100)
+        oTButton1 := TButton():New( 002, 002, "Botão 01",oPanel,{||alert("Botão 01")}, 40,10,,,.F.,.T.,.F.,,.F.,,,.F. )
+
+        oTButton2 := TButton():New( 20, 50, "Botão 01",oDlg,{||alert("Botão 01")}, 40,10,,,.F.,.T.,.F.,,.F.,,,.F. )
+
+
+        // ativa diálogo centralizado
+        oDlg:Activate(,,,.T.,,,)
+ 
+Return
