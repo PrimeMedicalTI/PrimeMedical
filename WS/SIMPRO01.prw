@@ -22,7 +22,8 @@ WSMETHOD GET ALL WSRECEIVE cbuscar WSREST PRODUTOS
     	
 	BeginSql alias cAlias
 
-			SELECT 				
+			SELECT 
+
 				Top 30 Max(D1.R_E_C_N_O_) as Recno, Rtrim(D1_COD) as ID, Rtrim(B1_DESC) AS Produto, 				
 				Produto.B1_FSCANVI as ANVISA, BM_GRUPO + ' - ' + BM_DESC as Grupo, 
 				Rtrim(B1_ORIGEM) + ' - ' + Upper(Rtrim(Origem.X5_DESCRI)) as Origem, B1_POSIPI as NCM,
@@ -30,6 +31,7 @@ WSMETHOD GET ALL WSRECEIVE cbuscar WSREST PRODUTOS
 				Isnull((Select Sum(B2_QATU) from SB2010 B2 where B2_FILIAL = '010101' AND D_E_L_E_T_ <> '*' AND B2_COD = D1_COD AND B2_LOCAL in ('01','30')),0) as EstoqueSaldo,
 				Isnull((Select Sum(B2_RESERVA) from SB2010 B2 where B2_FILIAL = '010101' AND D_E_L_E_T_ <> '*' AND B2_COD = D1_COD AND B2_LOCAL in ('01','30')),0) as EstoqueReserva,
 				Isnull((Select Sum(B2_QATU) - Sum(B2_RESERVA) from SB2010 B2 where B2_FILIAL = '010101' AND D_E_L_E_T_ <> '*' AND B2_COD = D1_COD AND B2_LOCAL in ('01','30')),0) as EstoqueDisponivel
+				
 			FROM SD1010 D1 (nolock)
 			INNER JOIN SB1010 Produto (nolock) ON B1_FILIAL = ''
 												   AND Produto.D_E_L_E_T_ <> '*'
