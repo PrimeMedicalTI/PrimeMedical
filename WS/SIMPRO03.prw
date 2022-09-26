@@ -35,8 +35,7 @@ WSRESTFUL CALCULARPORPRECOVENDA DESCRIPTION "Calcular Lucro definindo por um pre
 	WSDATA nOutrasDespesas AS Float  
 	WSDATA nFreteTerrestrePorto AS Float  
 	WSDATA nFreteMaritimo AS Float  
-	WSDATA nArmazenagem AS Float  
-	
+	WSDATA nArmazenagem AS Float  	
 
     WSMETHOD GET  ALL DESCRIPTION '' ;
 	WSSYNTAX aUrl PRODUCES APPLICATION_JSON
