@@ -5,7 +5,7 @@ SELECT
 	F2_DOC AS Nota,
 	D2_ITEM as Item,
 	F2_SERIE AS Serie, 
-	CONVERT(Varchar(10),CONVERT(DATE,F2_EMISSAO,112),103) AS Emissao, 
+	CONVERT(Varchar(10),CONVERT(DATE,F2_EMISSAO,112),103) AS Emissao, BM_FSLINHA as LinhaDeProduto,
 	Case when F2_DTPROCE <> '' then Convert(Varchar(10),Convert(Datetime,F2_DTPROCE,112),103) else '' end as DtProcedimento, 
 	Day(F2_EMISSAO) as Dia,
 
@@ -160,7 +160,7 @@ SELECT
 	F2_DOC AS Nota,
 	D2_ITEM as Item,
 	F2_SERIE AS Serie, 
-	CONVERT(Varchar(10),CONVERT(DATE,F2_EMISSAO,112),103) AS Emissao, 
+	CONVERT(Varchar(10),CONVERT(DATE,F2_EMISSAO,112),103) AS Emissao, BM_FSLINHA as LinhaDeProduto,
 	Case when F2_DTPROCE <> '' then Convert(Varchar(10),Convert(Datetime,F2_DTPROCE,112),103) else '' end as DtProcedimento, 
 	Day(F2_EMISSAO) as Dia,
 
@@ -322,7 +322,7 @@ SELECT
 	D1_NFORI AS Nota,
 	D1_ITEMORI as Item,
 	D1_SERIORI AS Serie, 
-	CONVERT(Varchar(10),CONVERT(DATE,F1_DTDIGIT,112),103) AS Emissao,
+	CONVERT(Varchar(10),CONVERT(DATE,F1_DTDIGIT,112),103) AS Emissao, BM_FSLINHA as LinhaDeProduto,
 	Case when F2_DTPROCE <> '' then Convert(Varchar(10),Convert(Datetime,F2_DTPROCE,112),103) else '' end as DtProcedimento, 
 	Day(F1_DTDIGIT) as Dia,
 	Year(F1_DTDIGIT) as Ano,
