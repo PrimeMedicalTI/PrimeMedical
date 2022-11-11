@@ -91,11 +91,16 @@ User Function PE01NFESEFAZ()
 	cMensFis	:= cMensFis + SF1->F1_FSOBS
 
 	cPaciente	:= Posicione("SC5",1,xFilial("SC5")+aInfoItem[1][1],"C5_PACIENT")
+	cMedico 	:= Posicione("SC5",1,xFilial("SC5")+aInfoItem[1][1],"C5_MEDICO")
 	
 	// Pedido do cliente
 	cMensCli := cMensCli + " Pedido do Cliente: " + SC5->C5_FSPEDCL
-	
+
 	// Mensagem de procedimento
+	If !Empty(cMedico)
+		cMensCli	:= cMensCli + " Medico: " + Alltrim(cMedico) 
+	Endif	
+	
 	If !Empty(cPaciente)
 		cMensCli	:= cMensCli + " Paciente: " + Alltrim(cPaciente) + " - Data Procedimento: " + Dtoc(SC5->C5_DTPROCE) + "- Conv?o: " + Alltrim(SC5->C5_CONVENI)
 	Endif
