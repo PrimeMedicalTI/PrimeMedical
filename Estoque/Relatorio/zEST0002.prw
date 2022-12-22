@@ -1,160 +1,124 @@
-//Bibliotecas
-#Include "Totvs.ch"
-
-/*/{Protheus.doc} User Function zEST0002
-Despacho de Separação
-@author Roseclei Ventura
-@since 27/10/2022
-@version 1.0
-@type function
-@obs Codigo gerado automaticamente pelo Autumn Code Maker
-@see http://autumncodemaker.com
-/*/
+#INCLUDE "Protheus.ch"
+#INCLUDE "Topconn.ch"
 
 User Function zEST0002()
-	Local aArea := FWGetArea()
-	Local oReport
-	Local aPergs   := {}
-	Local xPar0 := Space(6)
-	
-	//Adicionando os parametros do ParamBox
-	aAdd(aPergs, {1, "Pedido", xPar0,  "", ".T.", "SC9", ".T.", 80,  .T.})
-	
-	//Se a pergunta for confirma, cria as definicoes do relatorio
-	If ParamBox(aPergs, "Informe os parametros")
-		oReport := fReportDef()
-		oReport:PrintDialog()
-	EndIf
-	
-	FWRestArea(aArea)
-Return
+Private oReport    := Nil
+Private oSection1  := Nil //Primeira Sessão
+Private oSection2  := Nil //Segunda  Sessão
+Private oSection3  := Nil //Terceira  Sessão
+Private cPerg 	 := "EST0002"
 
-/*/{Protheus.doc} fReportDef
-Definicoes do relatorio zEST0002
-@author Roseclei Ventura
-@since 27/10/2022
-@version 1.0
-@type function
-@obs Codigo gerado automaticamente pelo Autumn Code Maker
-@see http://autumncodemaker.com
-/*/
 
-Static Function fReportDef()
-	Local oReport
-	Local oSection := Nil
-	Local oBreak := Nil
-	
-	//Criacao do componente de impressao
-	oReport := TReport():New( "zEST0002",;
-		"DESPACHO DE SEPARAÇÃO",;
-		,;
-		{|oReport| fRepPrint(oReport),};
-		)
-	oReport:SetTotalInLine(.F.)
-	oReport:lParamPage := .F.
-	oReport:oPage:SetPaperSize(9)
-	
-	//Orientacao do Relatorio
-	oReport:SetLandscape()
-	
-	//Definicoes da fonte utilizada
-	oReport:cFontBody := "Arial"
-	oReport:SetLineHeight(40)
-	oReport:nFontBody := 10
-	
-	//Criando a secao de dados
-	oSection := TRSection():New( oReport,;
-		"Dados",;
-		{"QRY_REP"})
-	oSection:SetTotalInLine(.F.)
-	
-	//Colunas do relatorio
-	TRCell():New(oSection, "PEDIDO", "QRY_REP", "PEDIDO", /*cPicture*/, 20, /*lPixel*/, /*{|| code-block de impressao }*/, "LEFT", /*lLineBreak*/, "LEFT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	//TRCell():New(oSection, "NOTA", "QRY_REP", "NOTA", /*cPicture*/, 26, /*lPixel*/, /*{|| code-block de impressao }*/, "LEFT", /*lLineBreak*/, "LEFT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	//TRCell():New(oSection, "CODCLI", "QRY_REP", "CODCLI", /*cPicture*/, 22, /*lPixel*/, /*{|| code-block de impressao }*/, "LEFT", /*lLineBreak*/, "LEFT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	TRCell():New(oSection, "CLIENTE", "QRY_REP", "CLIENTE", /*cPicture*/, 66, /*lPixel*/, /*{|| code-block de impressao }*/, "RIGHT", /*lLineBreak*/, "RIGHT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	TRCell():New(oSection, "ITEM", "QRY_REP", "ITEM", /*cPicture*/, 10, /*lPixel*/, /*{|| code-block de impressao }*/, "LEFT", /*lLineBreak*/, "LEFT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	TRCell():New(oSection, "COD", "QRY_REP", "COD", /*cPicture*/, 68, /*lPixel*/, /*{|| code-block de impressao }*/, "RIGHT", /*lLineBreak*/, "RIGHT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	TRCell():New(oSection, "PRODUTO", "QRY_REP", "PRODUTO", /*cPicture*/, 50, /*lPixel*/, /*{|| code-block de impressao }*/, "RIGHT", /*lLineBreak*/, "RIGHT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	TRCell():New(oSection, "QTD", "QRY_REP", "QTD", /*cPicture*/, 13, /*lPixel*/, /*{|| code-block de impressao }*/, "LEFT", /*lLineBreak*/, "LEFT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	//TRCell():New(oSection, "ARMAZEM", "QRY_REP", "ARMAZEM", /*cPicture*/, 7, /*lPixel*/, /*{|| code-block de impressao }*/, "LEFT", /*lLineBreak*/, "LEFT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	TRCell():New(oSection, "LOTE", "QRY_REP", "LOTE", /*cPicture*/, 36, /*lPixel*/, /*{|| code-block de impressao }*/, "LEFT", /*lLineBreak*/, "LEFT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	TRCell():New(oSection, "DTVALID", "QRY_REP", "DTVALID", /*cPicture*/, 30, /*lPixel*/, /*{|| code-block de impressao }*/, "RIGHT", /*lLineBreak*/, "RIGHT", /*lCellBreak*/, /*nColSpace*/, /*lAutoSize*/, /*nClrBack*/, /*nClrFore*/, .F.)
-	
-	//Quebras do relatorio
-	oBreak := TRBreak():New(oSection, oSection:Cell("PEDIDO"), {||"Total da Quebra"}, .F.)
-	
-Return oReport
+ValidPerg()
 
-/*/{Protheus.doc} fRepPrint
-Impressao do relatorio zEST0002
-@author Roseclei Ventura
-@since 27/10/2022
-@version 1.0
-@type function
-@obs Codigo gerado automaticamente pelo Autumn Code Maker
-@see http://autumncodemaker.com
-/*/
 
-Static Function fRepPrint(oReport)
-	Local aArea    := FWGetArea()
-	Local cQryReport  := ""
-	Local oSectDad := Nil
-	Local nAtual   := 0
-	Local nTotal   := 0
+Pergunte(cPerg,.T.)
+
+
+ReportDef()
+oReport:PrintDialog()
+
+
+Return 
+
+Static Function ReportDef()
+oReport := TReport():New("EST0002","Relatório - Pedido Liberado",cPerg,{|oReport| PrintReport(oReport)},"Relatório - Pedido Liberado")
+oReport:SetLandscape(.T.) 
+
+oSection1 := TRSection():New(oReport,"Pedido","SC9")
+TRCell():New( oSection1, "C9_PEDIDO"      , "SC9")
+TRCell():New( oSection1, "C9_CLIENTE"    , "SC9")
+TRCell():New( oSection1, "A1_NOME"     , "SA1")
+TRCell():New( oSection1, "A1_END"    , "SA1")
+TRCell():New( oSection1, "A1_MUN"  , "SA1")
+TRCell():New( oSection1, "A1_BAIRRO"  , "SA1")
+
+oSection2 := TRSection():New( oSection1 , "C5_OBSINTE","SC5" ) 
+TRCell():New( oSection2, "C5_OBSINTE"     , "SC5")
+
+oSection3 := TRSection():New( oSection2 , "C9_PRODUTO","SC9" ) 
+TRCell():New( oSection3, "C9_PRODUTO"     , "SC9")
+TRCell():New( oSection3, "B1_DESC"     , "SB1")
+TRCell():New( oSection3, "C9_QTDLIB"     , "SC9")
+TRCell():New( oSection3, "C9_LOCAL"     , "SC9")
+TRCell():New( oSection3, "C9_LOTECTL"     , "SC9")
+TRCell():New( oSection3, "C9_DTVALID"     , "SC9")
+
+//TRFunction():New(oSection2:Cell("C5_OBSINTE"),,"SC5")
+//TRFunction():New(oSection2:Cell("F1_DOC"),,"COUNT")
+
+Return 
+
+Static Function PrintReport(oReport)
+Local cAlias := GetNextAlias()
+
+oSection1:BeginQuery() 
+BeginSql Alias cAlias
+
+select 
+		C9_PEDIDO ,
+		C9_CLIENTE,
+		A1_NOME ,
+		C9_PRODUTO , 
+		B1_DESC ,
+		C9_QTDLIB,
+		C9_LOCAL ,
+		C9_LOTECTL,
+		C9_DTVALID ,
+		C5_OBSINTE, A1_END,A1_BAIRRO,A1_MUN
 	
-	//Pegando as secoes do relatorio
-	oSectDad := oReport:Section(1)
-	
-	//Montando consulta de dados
-	cQryReport += "select "	+ CRLF
-	cQryReport += " C9_PEDIDO as Pedido, " + CRLF
-	/*/cQryReport += " C9_NFISCAL as Nota, " + CRLF
-	cQryReport += " C9_CLIENTE as CodCLi, "	  + CRLF
-	cQryReport += " A1_NOME as Cliente, " + CRLF /*/
-	cQryReport += " Rtrim(C9_CLIENTE) + ' - ' + A1_NREDUZ as Cliente, " + CRLF 
-	cQryReport += " C9_ITEM as Item, " + CRLF
-	cQryReport += " C9_PRODUTO as Cod, " + CRLF
-	cQryReport += " B1_DESC as Produto, " + CRLF
-	cQryReport += " C9_QTDLIB as Qtd, " + CRLF
-	/*/cQryReport += " C9_LOCAL as Armazem, " + CRLF /*/
-	cQryReport += " C9_LOTECTL as Lote, " + CRLF
-	cQryReport += " case when C9_DTVALID < GETDATE( ) then 'VENCIDO' else CONVERT(Varchar(10),CONVERT(DATE,C9_DTVALID,112),103) end as DTVALID "+ CRLF
-	cQryReport += " from SC9010 Pedido (Nolock) "		+ CRLF
-	cQryReport += " inner join SB1010 Produto (Nolock) ON Produto.D_E_L_E_T_ <> '*' " + CRLF
-	cQryReport += " AND B1_COD = C9_PRODUTO " + CRLF
-	cQryReport += " inner join SA1010 Cliente (Nolock) ON Cliente.D_E_L_E_T_ <> '*' " + CRLF
-	cQryReport += " AND A1_COD = C9_CLIENTE " + CRLF
-	cQryReport += " AND A1_LOJA = C9_LOJA "	+ CRLF
-	cQryReport += " Where 1=1 "	+ CRLF
-	cQryReport += " AND Pedido.C9_FILIAL = '010101' " + CRLF
-	cQryReport += " AND Pedido.D_E_L_E_T_ <> '*' "	+ CRLF
-	cQryReport += " AND C9_PEDIDO = '" + MV_PAR01 + "' " + CRLF
-	cQryReport += " order by Pedido, Item"	+ CRLF
-	
-	//Executando consulta e setando o total da regua
-	PlsQuery(cQryReport, "QRY_REP")
-	DbSelectArea("QRY_REP")
-	Count to nTotal
-	oReport:SetMeter(nTotal)
-	
-	//Enquanto houver dados
-	oSectDad:Init()
-	QRY_REP->(DbGoTop())
-	While ! QRY_REP->(Eof())
-	
-		//Incrementando a regua
-		nAtual++
-		oReport:SetMsgPrint("Imprimindo registro " + cValToChar(nAtual) + " de " + cValToChar(nTotal) + "...")
-		oReport:IncMeter()
+from %table:SC9% Pedido (Nolock)
+inner join  %table:SB1% Produto (Nolock) ON Produto.D_E_L_E_T_ <> '*'
+							         AND B1_COD = C9_PRODUTO
+inner join  %table:SA1% Cliente (Nolock) ON Cliente.D_E_L_E_T_ <> '*'
+							         AND A1_COD = C9_CLIENTE
+									 AND A1_LOJA = C9_LOJA
+inner join  %table:SC5% ped (Nolock) ON ped.D_E_L_E_T_ <> '*'
+							         AND C9_PEDIDO = C5_NUM
+									 AND C9_CLIENTE = C5_CLIENTE									 
+Where 1=1
+//AND Pedido.C9_FILIAL = '010101'
+AND Pedido.D_E_L_E_T_ <> '*'
+AND C9_PEDIDO = %exp:(MV_PAR01)%   
 		
-		//Imprimindo a linha atual
-		oSectDad:PrintLine()
-		
-		QRY_REP->(DbSkip())
-	EndDo
-	oSectDad:Finish()
-	QRY_REP->(DbCloseArea())
-	
-	FWRestArea(aArea)
-Return
+EndSql
+
+oSection1:EndQuery() //Fim da Query
+oSection2:SetParentQuery() 
+oSection3:SetParentQuery() 
+
+//oSection2:SetParentFilter({|cForLoja| (cAlias)->C9_CLIENTE+(cAlias)->A1_NOME = cForLoja},{|| (cAlias)->C9_CLIENTE+(cAlias)->A1_NOME})
+
+oSection1:Print() 
+oSection2:Print()
+oSection3:Print() 
+
+//O Alias utilizado para execução da querie é fechado.
+(cAlias)->(DbCloseArea())
+
+Return 
+
+
+Static Function ValidPerg()
+	Local aArea  := SX1->(GetArea())
+	Local aRegs := {}
+	Local i,j
+
+	aadd( aRegs, { cPerg,"01","Pedido ?","Pedido ?","Pedido ?","MV_CH0","C", 6,0,0,"G","","mv_par01","","",""," ","",""," ","","","","","","","","","","","","","","","","","","SC9"          } )
+	//aadd( aRegs, { cPerg,"02","Fornecedor ate ?","Fornecedor ate ?","Fornecedor ate ?","mv_ch2","C", 6,0,0,"G","","mv_par02","","","mv_par02"," ","",""," ","","","","","","","","","","","","","","","","","","SA2"       } )
+
+	DbselectArea('SX1')
+	SX1->(DBSETORDER(1))
+	For i:= 1 To Len(aRegs)
+		If ! SX1->(DBSEEK( AvKey(cPerg,"X1_GRUPO") +aRegs[i,2]) )
+			Reclock('SX1', .T.)
+			FOR j:= 1 to SX1->( FCOUNT() )
+				IF j <= Len(aRegs[i])
+					FieldPut(j,aRegs[i,j])
+				ENDIF
+			Next j
+			SX1->(MsUnlock())
+		Endif
+	Next i 
+	RestArea(aArea) 
+Return(cPerg)
