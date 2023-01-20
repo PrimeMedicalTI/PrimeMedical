@@ -2,7 +2,33 @@ Select
 
 	Produto.R_E_C_N_O_ as Recno, Rtrim(BM_GRUPO) + ' - ' + Rtrim(BM_DESC) AS Grupo, B1_COD as Codigo, B1_DESC as Produto, 
 	Case when B1_RASTRO = 'L' then 'SIM' else 'NÃO' end as Rastro, 
-	B1_FSCANVI as Anvisa,
+	B1_FSCANVI as Anvisa, B1_LOCPAD as ArmPadrao,
+	Case 
+		When B1_TIPO = 'AI' then 'AI - ATIVO IMOBILIZADO' 
+		When B1_TIPO = 'BN' then 'BN - BENEFICIAMENTO' 
+		When B1_TIPO =' EM' then 'EM - EMBALAGEM' 
+		When B1_TIPO = 'GE' then 'GE - GARANTIA ESTENDIDA' 
+		When B1_TIPO = 'GG' then 'GG - GASTOS GERAIS' 
+		When B1_TIPO = 'GN' then 'GN - GENERICO' 
+		When B1_TIPO = 'IA' then 'IA - INSUMO AGRICOLA' 
+		When B1_TIPO = 'II' then 'II - INSUMO INDUSTRIAIS' 
+		When B1_TIPO = 'IN' then 'IN - PRODUTOS INDUSTRIAIS' 
+		When B1_TIPO = 'KT' then 'KT - KIT' 
+		When B1_TIPO = 'MC' then 'MC - MATERIAL DE CONSUMO' 
+		When B1_TIPO = 'ME' then 'ME - MERCADORIA' 
+		When B1_TIPO = 'MM' then 'MM - MATERIAIS MANFRO' 
+		When B1_TIPO = 'MO' then 'MO - MAO DE OBRA' 
+		When B1_TIPO = 'MP' then 'MP - MATERIA PRIMA'
+		When B1_TIPO = 'OI' then 'OI - OUTROS INSUMOS' 
+		When B1_TIPO = 'PA' then 'PA - PRODUTO ACABADO' 
+		When B1_TIPO = 'PI' then 'PI - PRODUTO INTERMEDIARIO' 
+		When B1_TIPO = 'PP' then 'PP - PRODUTO EM PROCESSO'
+		When B1_TIPO = 'PV' then 'PV - PRODUTO VEICULO' 
+		When B1_TIPO = 'SL' then 'SL - SELO DE CONTROLE'
+		When B1_TIPO = 'SM' then 'SM - SEMENTES' 
+		When B1_TIPO = 'SP' then 'SP - SUBPRODUTO'
+		When B1_TIPO = 'SV' then 'SV - SERVIÇO'
+	End  as TipoProduto,
 	
 	Case when B1_FSCANVI = '' then '' else Convert(Varchar(10),Convert(Datetime,B1_FSDTANV,112),103) end as DataAnvisa,
 	
