@@ -81,7 +81,6 @@ Left Join NNR010 ArmazemCliente (nolock)  ON ArmazemCliente.NNR_FILIAL = '010101
 Where F2_FILIAL = '010101'
 AND Nota.D_E_L_E_T_ <> '*' 
 AND F2_TIPO = 'N'
-AND F2_DOC = @DOC
 AND CONVERT(DATE,F2_EMISSAO,112) between :DATAINICIAL AND :DATAFIM
 
 UNION ALL
@@ -168,7 +167,6 @@ Inner Join SX5010 CFOP ON X5_FILIAL = ''
 Where F2_FILIAL = '010101'
 AND Nota.D_E_L_E_T_ <> '*' 
 AND F2_TIPO = 'N'
-AND F2_DOC = @DOC
 AND CONVERT(DATE,F2_EMISSAO,112) between :DATAINICIAL AND :DATAFIM
 
 Order by Emissao, Nota, Item
