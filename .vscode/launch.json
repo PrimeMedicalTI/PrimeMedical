@@ -7,7 +7,7 @@
 			"name": "Depuração do idioma TOTVS",
 			"program": "${command:AskForProgramName}",
 			"cwb": "${workspaceFolder}",
-			"smartclientBin": "D:\\TOTVS\\Smartclient - Homologação\\smartclient.exe",
+			"smartclientBin": "D:\\Totvs\\Base Teste 12133\\smartclient.exe",
 			"isMultiSession": true,
 			"enableTableSync": true
 		}

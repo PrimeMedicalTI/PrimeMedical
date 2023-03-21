@@ -298,7 +298,6 @@ Local c_Titulo		:= ""
 Local _nVlrDesc    	:= 0
 Local _nVlrCred    	:= 0
 
-
 //Posiciona o SA6 (Bancos)
 DbSelectArea("SA6")
 DbSetOrder(1)
@@ -402,6 +401,7 @@ Do While TTRB->(!EOF())
 	TTRB->(dbSkip())
 	IncProc()
 	nMark++
+
 EndDo
 
 //oPrint:Print()
@@ -499,7 +499,6 @@ oPrint:Line (nRow1+0550, 100,nRow1+0550,2300 )
 
 oPrint:Line (nRow1+0350,1050,nRow1+0150,1050 )
 oPrint:Line (nRow1+0350,1500,nRow1+0150,1500 ) 
-
           
 
 /*****************/
@@ -567,7 +566,8 @@ oPrint:Say  (nRow2+0910,1485,"Data do Processamento"                          ,o
 oPrint:Say  (nRow2+0940,1550,StrZero(Day(aDadosTit[3]),2) +"/"+ StrZero(Month(aDadosTit[3]),2) +"/"+ Right(Str(Year(aDadosTit[3])),4),oFont10) // Data impressao
 
 oPrint:Say  (nRow2+0910,1810,"Nosso Número"                                   ,oFont8)
-oPrint:Say  (nRow2+0940,1850,Alltrim(RIGHT(aDadosTit[6],9))                            ,oFont10)
+// oPrint:Say  (nRow2+0940,1850,Alltrim(RIGHT(aDadosTit[6],9))                            ,oFont10)
+oPrint:Say  (nRow2+0940,1850,Substr(aDadosTit[6],1,3) +"/"+ Substr(aDadosTit[6],4)  ,oFont10)
 
 oPrint:Say  (nRow2+0980,100 ,"Uso do Banco"                                   ,oFont8)
 
@@ -700,7 +700,8 @@ oPrint:Say  (nRow3+2230,1550,StrZero(Day(aDadosTit[3]),2) +"/"+ StrZero(Month(aD
 
 
 oPrint:Say  (nRow3+2200,1810,"Nosso Número"                                   ,oFont8)
-oPrint:Say  (nRow3+2230,1850,Alltrim(RIGHT(aDadosTit[6],9))                   ,oFont10)
+// oPrint:Say  (nRow3+2230,1850,Alltrim(RIGHT(aDadosTit[6],9))                   ,oFont10)
+oPrint:Say  (nRow3+2230,1950,Substr(aDadosTit[6],1,3)+"/"+Substr(aDadosTit[6],4)  ,oFont10)
 
 oPrint:Say  (nRow3+2270,100 ,"Uso do Banco"                                   ,oFont8)
 
@@ -787,7 +788,7 @@ If	Empty(TTRB->E1_NUMBCO) .or. l_GeraNN	//MV_PAR17 = 2
 	MsUnlock()
 
 	cNossoNum 	:= StrZero(Val(SEE->EE_FAXATU),8)
-	cNroDoc		:=cCart+cNossoNum
+	cNroDoc		:= cCart+cNossoNum	
 
 	cNros := ALLTRIM(cAgencia)+ALLTRIM(cConta)+Alltrim(cNroDoc)
 	aNros := {}
@@ -822,7 +823,9 @@ If	Empty(TTRB->E1_NUMBCO) .or. l_GeraNN	//MV_PAR17 = 2
 		SE1->E1_NUMDV  := cNroDV
 		SE1->E1_PORTADO := '341'
 	MsUnlock()
-	cNossoNum  := Substr(cNroDoc,4,8)
+	cNossoNum  := Substr(TTRB->E1_NUMBCO,4,8)
+	// Substr(cNroDoc,4,8)	
+
 	cNroDV     := cNroDV
 Else
 	cNossoNum  := Substr(TTRB->E1_NUMBCO,4,8)
