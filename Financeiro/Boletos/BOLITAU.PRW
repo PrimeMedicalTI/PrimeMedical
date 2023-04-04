@@ -538,7 +538,7 @@ oPrint:Say  (nRow2+0765,400 ,"",oFont10)
 
 oPrint:Say  (nRow2+0710,1810,"Vencimento"                                     ,oFont8)
 cString	:= StrZero(Day(aDadosTit[4]),2) +"/"+ StrZero(Month(aDadosTit[4]),2) +"/"+ Right(Str(Year(aDadosTit[4])),4)
-nCol := 1700+(374-(len(cString)*22))
+nCol := 1855+(374-(len(cString)*22))
 oPrint:Say  (nRow2+0750,nCol,cString,oFont11c)
 
 oPrint:Say  (nRow2+0810,100 ,"Beneficiário"                                        ,oFont8)
@@ -547,7 +547,7 @@ oPrint:Say  (nRow2+0875,100 ,aDadosEmp[2]+" "+aDadosEmp[3]	,oFont8) //Endereco
 
 oPrint:Say  (nRow2+0810,1810,"Agência/Código Beneficiário",oFont8)
 cString := aDadosBanco[3]+"/"+aDadosBanco[4]+"-"+aDadosBanco[5]
-nCol := 1740+(374-(len(cString)*22))
+nCol := 1860+(374-(len(cString)*22))
 oPrint:Say  (nRow2+0850,nCol,cString,oFont11c)
 
 oPrint:Say  (nRow2+0910,100 ,"Data do Documento"                              ,oFont8)
@@ -567,7 +567,7 @@ oPrint:Say  (nRow2+0940,1550,StrZero(Day(aDadosTit[3]),2) +"/"+ StrZero(Month(aD
 
 oPrint:Say  (nRow2+0910,1810,"Nosso Número"                                   ,oFont8)
 // oPrint:Say  (nRow2+0940,1850,Alltrim(RIGHT(aDadosTit[6],9))                            ,oFont10)
-oPrint:Say  (nRow2+0940,1850,Substr(aDadosTit[6],1,3) +"/"+ Substr(aDadosTit[6],4)  ,oFont10)
+oPrint:Say  (nRow2+0940,1985,Substr(aDadosTit[6],1,3) +"/"+ Substr(aDadosTit[6],4)  ,oFont10)
 
 oPrint:Say  (nRow2+0980,100 ,"Uso do Banco"                                   ,oFont8)
 
@@ -582,7 +582,7 @@ oPrint:Say  (nRow2+0980,1485,"Valor"                                          ,o
 
 oPrint:Say  (nRow2+0980,1810,"Valor do Documento"                          	,oFont8)
 cString := Alltrim(Transform(aDadosTit[5],"@E 99,999,999.99"))
-nCol := 1570+(374-(len(cString)*22))
+nCol := 1860+(374-(len(cString)*22))
 oPrint:Say  (nRow2+1010,nCol,cString ,oFont11c)
 
 oPrint:Say  (nRow2+1050,100 ,"Instruções (Todas informações deste bloqueto são de exclusiva responsabilidade do beneficiário)",oFont8)
@@ -670,7 +670,7 @@ oPrint:Say  (nRow3+2055,400 ,"",oFont10)
            
 oPrint:Say  (nRow3+2000,1810,"Vencimento",oFont8)
 cString := StrZero(Day(aDadosTit[4]),2) +"/"+ StrZero(Month(aDadosTit[4]),2) +"/"+ Right(Str(Year(aDadosTit[4])),4)
-nCol	 	 := 1700+(374-(len(cString)*22))
+nCol	 	 := 1855+(374-(len(cString)*22))
 oPrint:Say  (nRow3+2040,nCol,cString,oFont11c)
 
 oPrint:Say  (nRow3+2100,100 ,"Beneficiário",oFont8)
@@ -678,7 +678,7 @@ oPrint:Say  (nRow3+2140,100 ,aDadosEmp[1]+" - "+aDadosEmp[6]	,oFont10) //Nome + 
 
 oPrint:Say  (nRow3+2100,1810,"Agência/Código Beneficiário",oFont8)
 cString := aDadosBanco[3]+"/"+aDadosBanco[4]+"-"+aDadosBanco[5]
-nCol 	 := 1740+(374-(len(cString)*22))
+nCol 	 := 1860+(374-(len(cString)*22))
 oPrint:Say  (nRow3+2140,nCol,cString ,oFont11c)
 
 
@@ -701,7 +701,7 @@ oPrint:Say  (nRow3+2230,1550,StrZero(Day(aDadosTit[3]),2) +"/"+ StrZero(Month(aD
 
 oPrint:Say  (nRow3+2200,1810,"Nosso Número"                                   ,oFont8)
 // oPrint:Say  (nRow3+2230,1850,Alltrim(RIGHT(aDadosTit[6],9))                   ,oFont10)
-oPrint:Say  (nRow3+2230,1850,Substr(aDadosTit[6],1,3)+"/"+Substr(aDadosTit[6],4)  ,oFont10)
+oPrint:Say  (nRow3+2230,1985,Substr(aDadosTit[6],1,3)+"/"+Substr(aDadosTit[6],4)  ,oFont10)
 
 oPrint:Say  (nRow3+2270,100 ,"Uso do Banco"                                   ,oFont8)
 
@@ -716,7 +716,7 @@ oPrint:Say  (nRow3+2270,1485,"Valor"                                          ,o
 
 oPrint:Say  (nRow3+2270,1810,"Valor do Documento"                          	,oFont8)
 cString := Alltrim(Transform(aDadosTit[5],"@E 99,999,999.99"))
-nCol 	 := 1570+(374-(len(cString)*22))
+nCol 	 := 1860+(374-(len(cString)*22))
 oPrint:Say  (nRow3+2300,nCol,cString,oFont11c)
 
 oPrint:Say  (nRow3+2340,100 ,"Instruções (Todas informações deste bloqueto são de exclusiva responsabilidade do beneficiário)",oFont8)
