@@ -729,7 +729,7 @@ Local aChNFe	:= {}
 			If ValType(oNfe:_MDfe:_InfMDfe:_infDoc:_infMunDescarga) == "A"
 				For nY := 1 to len(oNfe:_MDfe:_InfMDfe:_infDoc:_infMunDescarga)
 					If ValAtrType(oNfe:_MDfe:_InfMDfe:_infDoc:_infMunDescarga[nY]:_infNFe) == "A"
-						For nP := 1 to Len(oNfe:_MD_infMunDescargafe:_InfMDfe:_infDoc:_infMunDescarga[nY]:_infNFe)
+						For nP := 1 to Len(oNfe:_MDfe:_InfMDfe:_infDoc:_infMunDescarga[nY]:_infNFe)
 							aadd(aChNFe, oNfe:_MDfe:_InfMDfe:_infDoc:_infMunDescarga[nY]:_infNFe[nP])			
 						Next nP
 					Else

@@ -225,13 +225,13 @@ cString += '<xLgr>'+IIF(!lEndFis,ConvType(FisGetEnd(SM0->M0_ENDCOB,SM0->M0_ESTCO
 
 If !lEndFis
 	If FisGetEnd(SM0->M0_ENDCOB,SM0->M0_ESTCOB)[2]<>0
-		cString += '<nro>'+FisGetEnd(SM0->M0_ENDCOB,SM0->M0_ESTCOB)[3]+'</nro>'  
+		cString += '<nro>'+Alltrim(FisGetEnd(SM0->M0_ENDCOB,SM0->M0_ESTCOB)[3])+'</nro>'  
 	Else
 		cString += '<nro>'+"SN"+'</nro>' 
 	EndIf
 Else
 	If FisGetEnd(SM0->M0_ENDENT,SM0->M0_ESTENT)[2]<>0
-		cString += '<nro>'+FisGetEnd(SM0->M0_ENDENT,SM0->M0_ESTENT)[3]+'</nro>' 
+		cString += '<nro>'+Alltrim(FisGetEnd(SM0->M0_ENDENT,SM0->M0_ESTENT)[3])+'</nro>' 
 	Else
 		cString += '<nro>'+"SN"+'</nro>'
 	EndIf
@@ -414,7 +414,7 @@ If !Empty(cVeiculo)
 	dbSetOrder(1)
 
 	For nX := 1 To Len(aVeiSF2)
-		If FindFunction("TCCheck") .And. TCCheck('DCL')	//ExistTemplate("OMSA200P")
+		if existTemplate("TDCVG001")
 			dbSelectArea("SA4")
 			dbSetOrder(1)
 			dbSelectArea("LBW")
