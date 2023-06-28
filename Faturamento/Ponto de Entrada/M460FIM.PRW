@@ -53,7 +53,6 @@ User Function M460FIM()
             DbSelectArea("SD2")
             SD2->( DbSetOrder(3))
             SD2->( DbSeek(SF2->F2_FILIAL+SF2->F2_DOC+SF2->F2_SERIE+SF2->F2_CLIENTE+SF2->F2_LOJA))
-
             c_Filial    := SF2->F2_FILIAL
             c_Doc       := SF2->F2_DOC
             c_Serie     := SF2->F2_SERIE
