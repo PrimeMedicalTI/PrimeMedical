@@ -16,7 +16,6 @@
 -------------------------------------------------------------------------------------------------------------------
 */
 
-
 User Function PE01NFESEFAZ()
 
 	Local aProd     	:= PARAMIXB[1]
@@ -85,7 +84,7 @@ User Function PE01NFESEFAZ()
 		Endif
 */
 //		aProd[nx][25] 	:= 'ANVISA N '+Alltrim(c_CodANV)+' LOTE: '+Alltrim(c_LOTE)+' VALIDADE: '+ d_DTVALID
-		aProd[nx][25] 	:= 'ANVISA N '+Alltrim(c_CodANV)+' LOTE: '+Alltrim(c_LOTE)+' VALIDADE: '+ Dtoc(d_DTVALID)
+		aProd[nx][25] 	:= 'ANVISA: '+Alltrim(c_CodANV)+' LOTE: '+Alltrim(c_LOTE)+' VALIDADE: '+ Dtoc(d_DTVALID)
 	Next nx
 
 	cMensFis	:= cMensFis + SF1->F1_FSOBS
