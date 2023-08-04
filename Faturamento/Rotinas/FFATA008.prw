@@ -49,6 +49,7 @@ While !(cAliaSB6)->( Eof() )
     U_FFATA009(c_Filial, c_Cod, c_Local, c_Lote, d_DtValid, d_Data)
 
     (cAliaSB6)->( DbSkip() )
+    
 Enddo
 
 (cAliaSB6)->( DBCloseArea() )

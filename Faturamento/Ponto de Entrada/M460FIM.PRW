@@ -32,10 +32,13 @@ User Function M460FIM()
             SF2->F2_CONVENI := SC5->C5_CONVENI
             SF2->F2_DTPROCE := SC5->C5_DTPROCE
             SF2->F2_MENNOTA := SC5->C5_MENNOTA
-            SF2->F2_FSNOME  := Upper(cUserName)
+            SF2->F2_FSNOME  := Upper(cUserName)            
             MsUnlock()
-        Endif
+        Endif        
     Endif 
+
+
+    /*
 
     // Inserido em 05/05/2022 - Elisângela Souza
     // Grava registros nas tabelas SB2 e SB8
@@ -75,7 +78,16 @@ User Function M460FIM()
                 
                 SD2->( DbSkip() )
             Enddo
-        Endif    
+        Endif 
+
+
     Endif
+
+    RestArea(aAreaSF2)
+    RestArea(aAreaSD2)
+    RestArea(aAreaSC5)
+    RestArea(aAreaSE1)    
+    
+    */
 
 Return
