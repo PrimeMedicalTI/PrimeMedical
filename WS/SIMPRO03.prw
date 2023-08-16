@@ -65,7 +65,6 @@ WSMETHOD GET ALL WSRECEIVE 	cProdutoID, nConsumidorFinal, cEstadoVenda, nPrecoDe
 
 	BeginSql alias cAlias
 
-
 			Select 
 
 				Marca, Grupo, Produto_ID, Produto, Nota, Serie, Emissao, UFCompra, UFVenda, PrecoUnitario, PrecoUnitarioComIPI, 
