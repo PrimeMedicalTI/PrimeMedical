@@ -179,7 +179,7 @@ Else
 				{ "E1_PREFIXO"  ,, "Prefixo"	  ,"@!"},;
 				{ "E1_NUM"	    ,, "Numero"       ,"@!"},;
 				{ "E1_PARCELA"  ,, "Parcela"      ,"@!"},;
-				{ "E1_FSFORMA"   ,, "Tipo"         ,"@X"},;
+				{ "E1_EMISSAO"   ,, "Emissão"   , "@!"},;				
 				{ "E1_CLIENTE"  ,, "Cliente"      ,"@!"},;
 				{ "E1_NOMCLI"  ,, "Nome"      ,"@!"},;
 				{ "E1_VALOR"    ,, "Valor"        ,"@E 999,999,999.99"},;
@@ -680,7 +680,6 @@ oPrint:Say  (nRow3+2100,1810,"Agência/Código Beneficiário",oFont8)
 cString := SUBSTR(aDadosBanco[3],1,4)+"-"+aDadosBanco[7]+"/"+ALLTRIM(aDadosBanco[4])+"-"+aDadosBanco[5]
 nCol 	 := 1810+(374-(len(cString)*22))
 oPrint:Say  (nRow3+2140,nCol,cString ,oFont11c)
-
 
 oPrint:Say  (nRow3+2200,100 ,"Data do Documento"                              ,oFont8)
 oPrint:Say (nRow3+2230,100, StrZero(Day(aDadosTit[2]),2) +"/"+ StrZero(Month(aDadosTit[2]),2) +"/"+ Right(Str(Year(aDadosTit[2])),4), oFont10)
