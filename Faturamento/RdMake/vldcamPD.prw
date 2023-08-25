@@ -1,6 +1,19 @@
 #Include "Protheus.ch"
 #Include "totvs.ch"
 
+/*/{Protheus.doc} User Function nomeFunction
+	(long_description)
+	@type  Function
+	@author Roseclei ventura
+	@since 21/08/2023
+	@version version
+	@param param_name, param_type, param_descr
+	@return return_var, return_type, return_description
+	@example
+	(examples)
+	@see (links_or_references)
+	/*/
+
 
 User Function vldcampd()  // Gatilho para alertar sobre o Risco do Cliente no Pedido de Vendas
 
@@ -14,4 +27,6 @@ User Function vldcampd()  // Gatilho para alertar sobre o Risco do Cliente no Pe
 
 	ENDIF
 
-RETURN  cCampo
+RETURN cCampo
+
+
