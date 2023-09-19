@@ -492,7 +492,7 @@ Static Function Rodap1(n_Pag)
 	
 	n_Lin := 2870
 	oPrn:Say(n_Lin,0100,"Proposta Digitada por:",oArial11N,,0)
-	oPrn:Say(n_Lin,0600,FwGetUserName(RetCodUsr()),oArial8N,,0)
+	oPrn:Say(n_Lin,0600,SCJ->CJ_FSUSER,oArial8N,,0)
 	oPrn:Say(n_Lin,2000,"Página: " + Alltrim(Str(n_Pag)) ,oArial8,,0) 
 
 	n_Lin := n_Lin + 30

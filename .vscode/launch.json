@@ -10,6 +10,30 @@
 			"smartclientBin": "D:\\Totvs\\Smartclient - Homologação\\smartclient.exe",
 			"isMultiSession": true,
 			"enableTableSync": true
+		},
+		{
+			"type": "totvs_tdsreplay_debug",
+			"request": "launch",
+			"cwb": "${workspaceRoot}",
+			"ignoreSourcesNotFound": true,
+			"name": "Teste CST",
+			"tdsReplayFile": "D:\\Totvs\\Smartclient - Homologação\\replay_20230908_130334_with_lib.trplay",
+			"password": "",
+			"includeSources": "*",
+			"excludeSources": "",
+			"importOnlySourcesInfo": false
+		},
+		{
+			"type": "totvs_tdsreplay_debug",
+			"request": "launch",
+			"cwb": "${workspaceRoot}",
+			"ignoreSourcesNotFound": true,
+			"name": "Replay -CST",
+			"tdsReplayFile": "D:\\Totvs\\Smartclient - Homologação\\replay_20230908_130334_with_lib.trplay",
+			"password": "",
+			"includeSources": "*",
+			"excludeSources": "",
+			"importOnlySourcesInfo": false
 		}
 	],
 	"lastPrograms": [

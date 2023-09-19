@@ -32,7 +32,7 @@ Return()
     If ZZ0->( DbSeek( FWxFilial("ZZ0") + c_Vend + c_Regiao ))
         n_Comissao := ZZ0->ZZ0_FSCOMR
     Endif
-
+ 
     //Verifica comissao do vendedor no grupo de produto
     DbSelectArea("SB1")
     SB1->( DbSetOrder(1) )
