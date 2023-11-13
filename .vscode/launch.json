@@ -9,7 +9,8 @@
 			"cwb": "${workspaceFolder}",
 			"smartclientBin": "D:\\Totvs\\Smartclient - Homologação\\smartclient.exe",
 			"isMultiSession": true,
-			"enableTableSync": true
+			"enableTableSync": true,
+			"enableMultiThread": true
 		},
 		{
 			"type": "totvs_tdsreplay_debug",
@@ -39,7 +40,10 @@
 	"lastPrograms": [
 		{
 			"label": "SIGAMDI"
+		},
+		{
+			"label": "xxxx"
 		}
 	],
-	"lastProgramExecuted": "SIGAMDI"
+	"lastProgramExecuted": "xxxx"
 }
