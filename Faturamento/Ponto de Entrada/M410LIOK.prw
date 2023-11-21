@@ -34,7 +34,6 @@ If !(c_CFO$c_Param) .And. !Empty(d_Valid) .And. d_Valid < dDataBase .And. !Empty
 //	l_Ret := .T.
 Endif
 
-
 // Inserido em 05/05/2022 - Elisângela Souza - Consignado
 If M->C5_TIPO ="N" .And. c_Poder3 = "R" .And. c_Tipo = "1"
     DbSelectArea("SA1")
