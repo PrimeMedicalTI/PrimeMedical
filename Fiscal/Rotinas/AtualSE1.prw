@@ -1,6 +1,6 @@
 #INCLUDE "TOTVS.CH"
 
-User Function AtualizaSE1()
+User Function AtualSE1()
 Local c_Query := ""
 
    Begin Transaction
