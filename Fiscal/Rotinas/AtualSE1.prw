@@ -4,8 +4,7 @@ User Function AtualSE1()
 Local c_Query := ""
 
    Begin Transaction
-         //Monta o Update
-        
+                 
          c_Query := "Update SE1010 Set E1_NFELETR = F2_NFELETR, " + ;
                 "E1_PORTADO = C5_FSBANCO, E1_AGEDEP = C5_FSAGENC, " + ;
                 "E1_CONTA = C5_FSCTA from SF2010 F2 (nolock) " + ;
