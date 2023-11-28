@@ -151,8 +151,10 @@ Do	While QRYREG->(!Eof())
         U_Bolitau(c_SerNf, c_Agen, c_Cta, c_Subc)
     ElseIf  c_Banco = '748'
         U_Bolsicred(c_SerNf, c_Agen, c_Cta, c_Subc)
+    ElseIf  c_Banco = '637'
+        U_BOLSOFISA(c_SerNf, c_Agen, c_Cta, c_Subc) 
     Endif
-Enddo
+    Enddo
 Return
 
 Static Function GeraAmbos()
