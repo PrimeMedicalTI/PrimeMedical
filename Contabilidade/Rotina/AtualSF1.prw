@@ -1,28 +1,24 @@
 #INCLUDE "TOTVS.CH"
 
-User Function AtualSF2()
+User Function AtualSF1()
 Local c_Query := ""
 
    Begin Transaction
-         // Monta o novo Update
-         c_Query := "Update SF2010 Set F2_DTLANC = '' " + ;
-                    "FROM SF2010 Nota (nolock) " + ;
-                    "INNER JOIN SA1010 Cliente (nolock) ON A1_FILIAL = '' " + ;
-                    "AND Cliente.D_E_L_E_T_ <> '*' " + ;
-                    "AND A1_COD = F2_CLIENTE " + ;
-                    "AND A1_LOJA = F2_LOJA " + ;
-                    "Inner JOIN SD2010 Item (nolock) ON D2_FILIAL = '010101' " + ;
-                    "AND Item.D_E_L_E_T_ <> '*' " + ;
-                    "AND D2_DOC = F2_DOC " + ;
-                    "AND D2_SERIE = F2_SERIE " + ;
-                    "AND D2_TIPO = F2_TIPO " + ;
-                    "AND D2_CLIENTE = F2_CLIENTE " + ;
-                    "AND D2_LOJA = F2_LOJA " + ;
-                    "AND D2_CF in ('5927', '5152', '6152') " + ;
+         // Monta o novo Update para SF1010
+         c_Query := "Update SF1010 Set F1_DTLANC = '' " + ;
+                    "from SD1010 DevItem (nolock) " + ;
+                    "INNER JOIN SF1010 Nota (nolock) ON F1_FILIAL = '010101' " + ;
+                    "AND Nota.D_E_L_E_T_ <> '*' " + ;
+                    "AND F1_DOC = D1_DOC " + ;
+                    "AND F1_SERIE = D1_SERIE " + ;
+                    "AND F1_TIPO = D1_TIPO " + ;
+                    "AND F1_FORNECE = D1_FORNECE " + ;
+                    "AND F1_LOJA = D1_LOJA " + ;
                     "Where 1=1 " + ;
-                    "AND F2_FILIAL = '010101' " + ;
-                    "AND Year(F2_EMISSAO) = 2023 " + ;
-                    "AND Nota.D_E_L_E_T_ <> '*'"
+                    "AND D1_FILIAL = '010101' " + ;
+                    "AND D1_CF in ('1152', '2152') " + ;
+                    "AND Year(D1_DTDIGIT) = 2023 " + ;
+                    "AND DevItem.D_E_L_E_T_ <> '*'"
 
         // Tenta executar o update
         n_Erro := TcSqlExec(c_Query)
