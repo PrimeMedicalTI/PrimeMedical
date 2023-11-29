@@ -22,7 +22,7 @@ considerar a conta para baixa do titulo a mesma enviada no bordero de cobrança,
 User Function F200PORT()
    Local lRet := .T.
 
-   If AllTrim(cBanco) == '637' .OR. AllTrim(cBanco) == '033' .OR. AllTrim(cBanco) == '001'
+   If AllTrim(cBanco) == '637' .OR. AllTrim(cBanco) == '033' .OR. AllTrim(cBanco) == '001' .OR. AllTrim(cBanco) == '748' .OR. AllTrim(cBanco) == '422' .OR. AllTrim(cBanco) == '341'
       lRet := .F.
    Endif
 
@@ -34,7 +34,7 @@ Local lRet := .T.
 
 If AllTrim(cBanco) == '637' // Se For Banco Santander Então Não Considera o E1_PORTADO Considera o Banco Informado nos Parâmetros
 lRet := .F.
-Endif */
+Endif 
 
-Return lRet
+Return lRet  */
 
