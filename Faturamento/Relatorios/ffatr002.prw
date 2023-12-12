@@ -101,23 +101,23 @@ For n_I = 1 To mv_par04
 	@ 0,00 PSay "^LS0"
 //	@ 0,00 PSay "^FO0,0^GFA,02688,02688,00028,:Z64:"
 //	@ 0,00 PSay "eJztlb9rE2EYx5/LEZSKJAd3W4/GulXQVdvh7uCytXAHly03OfoXuOgLLoEO/gcSmqVeoEOnJkLMUCdBMyh0aCC0IKVK6xiJvOfzvO+bS5pUKOIgxW/y/ri8+fR7z49cAf7r2ipJkm22gDODbUjqAAvbsCIuAeJ+vw82Tl2oQtwFsHvqEiBF1R2cvgOHdADgDIEuiaugXAunACLAiQZdguIGSzgNiRsCjTFX9f1K1/b9ckB+h3gDB2ArjgMUBg4DXXBcciqGCCDvWgCa8ItAIz91NuaAOM5BJ47JsypyXRu5Hm6rMWifMb4Jd4M4TXDPmT76jV9kQT6c8Vsacw4rfL3o59qCQz/bve0Fmd+z6fg4/olj5HKZnzXxQ2uP8hlBlk9H5ZMXTpwXlE8uzqh+XSqYiC/fizWq32HGZfXj+jDVJxzVTxTMJT8twHfmx7E3YClJsUGI45w4dnMcH/aICKkqKqgdTOcTe4Q9qNOWKq9fyCdGiLmhLXWMdiGfxN0aSu6t4Cb5JD/tk/Sze1pv1o9W4pzBvB9UpJ/lzvph/QTKodAlrlarsYkf2K7wy1NBbJEmUT/hVxgITme67OvulF9e1A9EIS3Fje9T1h33l3BaNM8t0xn1R0m8xGYZBddEdxk+inBdBYoMcnVcmYwYPBxFHJpacWiu4rbwS9SNJSY5+qyuVkqhOcWprdACk+sdyLjcmHfV9w3lVZy6T2oMYlckJ7yIY38c+b+l5FLJ3wM9X+YluTTTSLzFxEslOosM0yoGUVj2gsgLPdMrgqceL8CbOzvtdufHh/dnZx/Pmq9O9k6b6bBWo7M4NH3DWgz98vp6vGEvbtihHQeSezra/fKm0WlsPd65v/nyUfJkb+1heiQfoJXQjAzLzBfDil+uWJpnhJb4EaF+jtrfNpud18kI/c5byXlr1EpPRHhQDc2yZyy+C8J9v7xvwIYVGuKfH93navveabvTbB8fLR8fNXbPk7VGWi9Jv4msbAezeZmIy/Agjvtzr0PFrVxWhtxVq1ib1RW50qyuavg39QuLKOVt:1F2D"
-	@ 0,00 PSay "^FO0,10^GFA,01280,01280,00020,:Z64:"
+	@ 0,00 PSay "^FO0,15^GFA,01280,01280,00020,:Z64:"
 	@ 0,00 PSay "eJzFk79u2lAYxY8vpkYeEGulSCAm5IFnYOABMmBlQpY6RR2qdkBkwPGVJ8QQqQ9QCWWy/BS3UqW8QBBLLVAm5AFRKVEWHPdcIITSP1vbg8/lGh/9OJ8xwP9R0XU72ugUOzA6cF0XYrlMtbF4teAJ3i2X0srzvEDjwlrDWCPgVsRxrI1IRDwBt9K67XjaGFhP4OFrnoIt5rBxLlLYS5zzey2FaoEmb4bqV1zwMyGZo8kbSTtGY5fTJm+mqpcY6JxCmbwy+13JZvOYd6P8k2NeOG44iEfMcQZt8m5Wg0vOwVyaptrsJ+cLB29TgLOutcn7/G11Ar/LXFSiY5Ano7Gz62fSAchTwWrfD2JeBvvJ5nzfDwVVVeSpQO370VzJc6SDaJezlLXSvGrrkIeF7lfGIY+XybPAflkmtzw4mge+Ofr3UNt7o3mAnjd/ztlovOT+1fN2LOs90IJxqtciN4AJUQO2hTYrSwoUT/XWqOjVhM5tL++PXc7ckPDMM1u76N+W4R6JDfR/4weNOe/j1J96/Z6feL3Em5zlX9oQo3B4bb+p3ZWc8TCORinHKSSTycfE7T12u8nrD5+SvFKBGEoZjTCul0rxkIr1/Usmtw+Je9bv+lnPz5K83YIIRT0sy7Beb9auo6sw1blpEMy8SZL1vd5Dlkwz4+d+m+cvD/h60X37D0NXDvX7mNk+1K8z3wEr3BfQ:01D4"
 	If 	Empty(c_Codbar)=.F.
 //		@ 0,00 PSay "^BY2,2,63^FT286,80^BEN,,Y,N"
-		@ 0,00 PSay "^FO160,07^BY2,1,77^BCN, 77,Y,N,N,N"
+		@ 0,00 PSay "^FO160,12^BY2,1,77^BCN, 77,Y,N,N,N"
 		@ 0,00 PSay "^FD"+Alltrim(c_Codbar)+"^FS"
 	Endif
 //	@ 0,00 PSay "^FO10,130^A0N,26^FDWWW.PRIMEMEDICAL.COM.BR^FS"
 
-	@ 0,00 PSay "^FO10,120^A0N,20^FD"+a_Desc[1]+"^FS"
-	@ 0,00 PSay "^FO10,150^A0N,20^FD"+a_Desc[2]+"^FS"
-	@ 0,00 PSay "^FO10,190^A0N,20^FDANVISA: "+c_CANVI+"^FS"
-	@ 0,00 PSay "^FO10,220^A0N,20^FDREF. "+c_Ref+"^FS"
+	@ 0,00 PSay "^FO10,125^A0N,20^FD"+a_Desc[1]+"^FS"
+	@ 0,00 PSay "^FO10,155^A0N,20^FD"+a_Desc[2]+"^FS"
+	@ 0,00 PSay "^FO10,195^A0N,20^FDANVISA: "+c_CANVI+"^FS"
+	@ 0,00 PSay "^FO10,225^A0N,20^FDREF. "+c_Ref+"^FS"
 	If 	Empty(mv_par02)=.F.
-		@ 0,00 PSay "^FO10,250^A0N,20^FDLOTE: "+mv_par02+"^FS"
-		@ 0,00 PSay "^FO10,280^A0N,20^FDVAL.: "+DtoC(mv_par03)+"          Impressao: "+ Dtoc(d_Data)+" - "+c_Hora+"^FS"
-		@ 0,00 PSay "^FO290,180^BY2,1,67^BCN, 67,Y,N,N,N"
+		@ 0,00 PSay "^FO10,255^A0N,20^FDLOTE: "+mv_par02+"^FS"
+		@ 0,00 PSay "^FO10,285^A0N,20^FDVAL.: "+DtoC(mv_par03)+"          Impressao: "+ Dtoc(d_Data)+" - "+c_Hora+"^FS"
+		@ 0,00 PSay "^FO290,185^BY2,1,67^BCN, 67,Y,N,N,N"
 		@ 0,00 PSay "^FD"+Alltrim(mv_par02)+"^FS"
 	Endif
 	//@ 0,00 PSay "^FO460,300^A0N,14^FD"+Dtoc(d_Data)+" "+c_Hora+"^FS"
