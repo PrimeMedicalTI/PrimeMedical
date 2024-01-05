@@ -139,6 +139,7 @@ Do	While QRYREG->(!Eof())
             QRYREG->(DbSkip())
         End
     Endif
+    
     If  c_Banco = '001'
         U_Bolbrasil(c_SerNf, c_Agen, c_Cta, c_Subc)
     ElseIf  c_Banco = '004'
@@ -154,7 +155,7 @@ Do	While QRYREG->(!Eof())
     ElseIf  c_Banco = '637'
         U_BOLSOFISA(c_SerNf, c_Agen, c_Cta, c_Subc) 
     Endif
-    Enddo
+Enddo
 Return
 
 Static Function GeraAmbos()
