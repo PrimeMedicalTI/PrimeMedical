@@ -200,7 +200,7 @@ Do While !EOF()
 		aAdd(aDadosBanco, Alltrim(SEE->EE_CODIGO))            // [1]Numero do Banco
 		aAdd(aDadosBanco, Alltrim(SA6->A6_NOME))              // [2]Nome do Banco
 		aAdd(aDadosBanco, Left(Alltrim(SEE->EE_AGENCIA),4))   // [3]Agência
-		aAdd(aDadosBanco, substr(Alltrim(SEE->EE_CODEMP),4,10)) // [4]Conta Corrente
+		aAdd(aDadosBanco, substr(Alltrim(SEE->EE_CONTA),4,10)) // [4]Conta Corrente
 		aAdd(aDadosBanco, Right(Alltrim(SEE->EE_DVCTA),1))    // [5]Dígito da conta corrente
 		aAdd(aDadosBanco, Alltrim(_cCarteira))                // [6]Codigo da Carteira
 		aAdd(aDadosBanco, Right(Alltrim(SE1->E1_PARCELA),1))  // [7] PARCELA
