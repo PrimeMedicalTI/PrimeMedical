@@ -35,8 +35,8 @@ PutSx1( cPerg   ,"01","De Prefixo"	           ,"","","mv_ch1","C",3,0,0,"G","","
 PutSx1( cPerg   ,"02","Ate Prefixo"	           ,"","","mv_ch2","C",3,0,0,"G","","","","","MV_PAR02","","","","","","","","","","","","","","","","",{},{},{})
 PutSx1( cPerg   ,"03","De Numero"		       ,"","","mv_ch3","C",9,0,0,"G","","SE1","","","MV_PAR03","","","","","","","","","","","","","","","","",{},{},{})
 PutSx1( cPerg   ,"04","Ate Numero"	           ,"","","mv_ch4","C",9,0,0,"G","","SE1","","","MV_PAR04","","","","","","","","","","","","","","","","",{},{},{})
-PutSx1( cPerg   ,"05","De Parcela"	           ,"","","mv_ch5","C",1,0,0,"G","","","","","MV_PAR05","","","","","","","","","","","","","","","","",{},{},{})
-PutSx1( cPerg   ,"06","Ate Parcela"	           ,"","","mv_ch6","C",1,0,0,"G","","","","","MV_PAR06","","","","","","","","","","","","","","","","",{},{},{})
+PutSx1( cPerg   ,"05","De Parcela"	           ,"","","mv_ch5","C",2,0,0,"G","","","","","MV_PAR05","","","","","","","","","","","","","","","","",{},{},{})
+PutSx1( cPerg   ,"06","Ate Parcela"	           ,"","","mv_ch6","C",2,0,0,"G","","","","","MV_PAR06","","","","","","","","","","","","","","","","",{},{},{})
 PutSx1( cPerg   ,"07","De Portador"	           ,"","","mv_ch7","C",3,0,0,"G","","","","","MV_PAR07","","","","","","","","","","","","","","","","",{},{},{})
 PutSx1( cPerg   ,"08","Ate Portador" 	       ,"","","mv_ch8","C",3,0,0,"G","","","","","MV_PAR08","","","","","","","","","","","","","","","","",{},{},{})
 PutSx1( cPerg   ,"09","De Cliente"	           ,"","","mv_ch9","C",6,0,0,"G","","SA1","","","MV_PAR09","","","","","","","","","","","","","","","","",{},{},{})
@@ -44,7 +44,7 @@ PutSx1( cPerg   ,"10","Ate Cliente"	           ,"","","mv_cha","C",6,0,0,"G","",
 PutSx1( cPerg   ,"11","De Loja"		           ,"","","mv_chb","C",2,0,0,"G","","","","","MV_PAR11","","","","","","","","","","","","","","","","",{},{},{})
 PutSx1( cPerg   ,"12","Ate Loja"		       ,"","","mv_chc","C",2,0,0,"G","","","","","MV_PAR12","","","","","","","","","","","","","","","","",{},{},{})
 PutSx1( cPerg   ,"13","De Emissao"	           ,"","","mv_chd","D",8,0,0,"G","","","","","MV_PAR13","","","","","","","","","","","","","","","","",{},{},{})
-PutSx1( cPerg   ,"14","Ate Emissao"	           ,"","","mv_che","D",8,0,0,"G","","","","","MV_PAR14","","","","","","","","","","","","","","","","",{},{},{})
+PutSx1( cPerg   ,"14","De Emissao"	           ,"","","mv_che","D",8,0,0,"G","","","","","MV_PAR14","","","","","","","","","","","","","","","","",{},{},{})
 PutSx1( cPerg   ,"15","De Vencimento"	       ,"","","mv_chf","D",8,0,0,"G","","","","","MV_PAR15","","","","","","","","","","","","","","","","",{},{},{})
 PutSx1( cPerg   ,"16","Ate Vencimento"         ,"","","mv_chg","D",8,0,0,"G","","","","","MV_PAR16","","","","","","","","","","","","","","","","",{},{},{})
 PutSx1( cPerg   ,"17","Do Bordero"	           ,"","","mv_chh","C",6,0,0,"G","","","","","MV_PAR17","","","","","","","","","","","","","","","","",{},{},{})
@@ -199,8 +199,8 @@ Do While !EOF()
 		
 		aAdd(aDadosBanco, Alltrim(SEE->EE_CODIGO))            // [1]Numero do Banco
 		aAdd(aDadosBanco, Alltrim(SA6->A6_NOME))              // [2]Nome do Banco
-		aAdd(aDadosBanco, Left(Alltrim(SEE->EE_AGENCIA),4))   // [3]Agência
-		aAdd(aDadosBanco, substr(Alltrim(SEE->EE_CONTA),4,10)) // [4]Conta Corrente
+		aAdd(aDadosBanco, Alltrim(SEE->EE_AGENCIA))           // [3]Agência
+		aAdd(aDadosBanco, Alltrim(SEE->EE_CONTA)) 			  // [4]Conta Corrente
 		aAdd(aDadosBanco, Right(Alltrim(SEE->EE_DVCTA),1))    // [5]Dígito da conta corrente
 		aAdd(aDadosBanco, Alltrim(_cCarteira))                // [6]Codigo da Carteira
 		aAdd(aDadosBanco, Right(Alltrim(SE1->E1_PARCELA),1))  // [7] PARCELA
@@ -717,7 +717,7 @@ DD = Dois primeiros digitos no nosso numero
 X = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
 */
 
-cTemp   := cCodBanco + cCodMoeda + cCarteira + Right( AllTrim(SE1->E1_AGEDEP), 4 )
+cTemp   := cCodBanco + cCodMoeda + cCarteira + Right(AllTrim(SE1->E1_AGEDEP), 4)
 cDV		:= Alltrim( Str( Modulo10(cTemp) ) )
 
 cCampo1 := SubStr( cTemp, 1, 5 ) + Alltrim( SubStr( cTemp, 6 ) ) + cDV
