@@ -1,6 +1,8 @@
 //-----------------------------------------------------------------------------------------------------------------------------------
-#include "protheus.ch"
 #include "rwmake.ch"
+#include "protheus.ch"
+#INCLUDE "Report.CH"
+#INCLUDE 'TOPCONN.CH'
 //-----------------------------------------------------------------------------------------------------------------------------------
 #DEFINE _cCarteira "1"
 #DEFINE _cMoeda    "9"
@@ -95,7 +97,7 @@ dbGoTop()
 
 If Empty(cNF)
 	
-	@ 001,001 TO 400,700 DIALOG oDlg TITLE "SeleÃ§Ã£o de Titulos"
+	@ 001,001 TO 400,700 DIALOG oDlg TITLE "Seleção de Titulos"
 	@ 001,001 TO 170,350 BROWSE "SE1" MARK "E1_OK"
 	@ 180,310 BMPBUTTON TYPE 01 ACTION (lExec := .T.,Close(oDlg))
 	@ 180,280 BMPBUTTON TYPE 02 ACTION (lExec := .F.,Close(oDlg))
@@ -292,6 +294,7 @@ Static Function Impress(oPrint,aDadosEmp,aDadosTit,aDadosBanco,aDatSacado,aBolTe
 Local oFont8
 Local oFont11c
 Local oFont10
+Local oFont12
 Local oFont14
 Local oFont16n
 Local oFont15
@@ -301,7 +304,7 @@ Local nI := 0
 Local cStartPath := GetSrvProfString("StartPath","")
 Local cBmp := 030
 
-cBmp := cStartPath + " " //Logo do Banco
+cBmp := cStartPath + "sicoob.bmp" //Logo do Banco                                     *********************************** AQUI ********************
 
 
 //Parametros de TFont.New()
@@ -313,10 +316,11 @@ oFont11c := TFont():New("Courier New",9,11,.T.,.T.,5,.T.,5,.T.,.F.)
 oFont11  := TFont():New("Arial",9,11,.T.,.T.,5,.T.,5,.T.,.F.)
 oFont9  := TFont():New("Arial",9,8,.T.,.T.,5,.T.,5,.T.,.F.)
 oFont10  := TFont():New("Arial",9,10,.T.,.T.,5,.T.,5,.T.,.F.)
+oFont12  := TFont():New("Arial Narrow",9,10,.T.,.T.,5,.T.,5,.T.,.F.)
 oFont14  := TFont():New("Arial",9,14,.T.,.T.,5,.T.,5,.T.,.F.)
 oFont20  := TFont():New("Arial",9,20,.T.,.T.,5,.T.,5,.T.,.F.)
 oFont21  := TFont():New("Arial",9,21,.T.,.T.,5,.T.,5,.T.,.F.)
-oFont16n := TFont():New("Arial",9,16,.T.,.F.,5,.T.,5,.T.,.F.)
+oFont16n := TFont():New("Arial",9,16,.T.,.T.,5,.T.,5,.T.,.F.)
 oFont15  := TFont():New("Arial",9,15,.T.,.T.,5,.T.,5,.T.,.F.)
 oFont15n := TFont():New("Arial",9,14,.T.,.F.,5,.T.,5,.T.,.F.)
 oFont14n := TFont():New("Arial",9,14,.T.,.F.,5,.T.,5,.T.,.F.)
@@ -333,45 +337,47 @@ nRow1 := 0
 
 
 If File(cBmp)
-	oPrint:SayBitmap(nRow1+0080,100,cBmp,215,65)
-Endif
+	oPrint:SayBitmap(nRow1+0080,100,cBmp,215,65) // ******************* Primeiro Logo ********************************
+Endif 
 
-oPrint:Say  (nRow1+0084,100,aDadosBanco[2],oFont10 )	        // [2]Nome do Banco
+//oPrint:Say  (nRow1+0084,100,aDadosBanco[2],oFont10 )	        // [2]Nome do Banco 
 
 
 oPrint:Line (nRow1+0150,100,nRow1+0150,2300)
 
-oPrint:Say  (nRow1+0150,100 ,"BeneficiÃ¡rio",oFont10)
+oPrint:Say  (nRow1+0150,100 ,"Beneficiário",oFont10)
 oPrint:Say  (nRow1+0200,100 ,aDadosEmp[1]+" ("+aDadosEmp[6]+")"             ,oFont8)
 oPrint:Say  (nRow1+0250,100 ,aDadosEmp[2]                                    ,oFont8)
 oPrint:Say  (nRow1+0300,100 ,aDadosEmp[4]+"    "+aDadosEmp[3] ,oFont8) // CEP+Cidade+Estado
 oPrint:Say  (nRow1+0350,100 ,aDadosEmp[6] ,oFont8)
 
-oPrint:Say  (nRow1+0650,1510,"Nosso NÃºmero"                                 ,oFont8)
+oPrint:Say  (nRow1+0650,1510,"Nosso Número"                                 ,oFont8)
 cString :=  Right(AllTrim(SE1->E1_NUMBCO),7)+'-'+SE1->E1_NUMDV
 nCol := 1810+(374-(len(cString)*22))
 oPrint:Say  (nRow1+0700,nCol,cString,oFont11c)
 
-oPrint:Say  (nRow1+0550,1510,"AgÃªncia/CÃ³digo BeneficiÃ¡rio",oFont8)
+oPrint:Say  (nRow1+0550,1510,"Agência/Código Beneficiário",oFont8)
 oPrint:Say  (nRow1+0600,1510,aDadosBanco[3]+"/"+aDadosBanco[4]+" "+aDadosBanco[5],oFont10)
 
 oPrint:Say  (nRow1+0150,1510,"Vencimento",oFont8)
 oPrint:Say  (nRow1+0200,1510,StrZero(Day(aDadosTit[4]),2) +"/"+ StrZero(Month(aDadosTit[4]),2) +"/"+ Right(Str(Year(aDadosTit[4])),4),oFont10)
 
-oPrint:Say  (nRow1+0450,1510,"Data de emissÃ£o",oFont8)
+oPrint:Say  (nRow1+0450,1510,"Data de emissão",oFont8)
 oPrint:Say  (nRow1+0500,1510,StrZero(Day(aDadosTit[4]),2) +"/"+ StrZero(Month(aDadosTit[4]),2) +"/"+ Right(Str(Year(aDadosTit[4])),4),oFont10)
 
 
 oPrint:Say  (nRow1+0150,1910,"Valor do Documento",oFont8)
 oPrint:Say  (nRow1+0205,1910,AllTrim(Transform(aDadosTit[5],"@E 999,999,999.99")),oFont10)
 
-oPrint:Say  (nRow1+0450,0100,"InstruÃ§Ãµes(texto de responsabilidade do beneficiÃ¡rio)",oFont10)
-oPrint:Say  (nRow1+0600,0100,"Vencido mora 0,13%ad/multa 2,00%",oFont10)
-oPrint:Say  (nRow1+0650,0100,"Protesto no 5Âº dia Ãºtil apÃ³s vencimento",oFont10)
-oPrint:Say  (nRow1+0250,1510,"Outros acrÃ©cimos",oFont8)
+oPrint:Say  (nRow1+0450,0100,"Instruções(texto de responsabilidade do beneficiário)",oFont10)   
+oPrint:Say  (nRow1+0550,0100,"Vencido mora 0,08%ad/multa 2,00%",oFont10)
+oPrint:Say  (nRow1+0600,0100,"NÃO ACEITAMOS DEPÓSITO PARA LIQUIDAÇÃO DO TÍTULO.",oFont12)
+oPrint:Say  (nRow1+0650,0100,"QUALQUER ALTERAÇÃO NA DATA DE VENCIMENTO SERÁ COBRADO TAXA ADICIONAL.",oFont12)
+oPrint:Say  (nRow1+0700,0100,"NEGATIVAÇÃO NO SERASA E PROTESTO AUTOMÁTICO APÓS O VENCIMENTO.",oFont12)
+oPrint:Say  (nRow1+0250,1510,"Outros Acréscimos",oFont8)
 oPrint:Say  (nRow1+0250,1910,"Mora / Multa",oFont8)
 oPrint:Say  (nRow1+0350,1510,"Desconto / Abatimento",oFont8)
-oPrint:Say  (nRow1+0350,1910,"Outras DeduÃ§Ãµes",oFont8)
+oPrint:Say  (nRow1+0350,1910,"Outras Deduções",oFont8)
 oPrint:Say  (nRow1+0450,1910,"Valor Cobrado",oFont8)
 
 oPrint:Line (nRow1+0350,1510,nRow1+0350,2300 )
@@ -401,11 +407,11 @@ oPrint:Line(nRow2+0580, nI,nRow2+0580, nI+30)
 Next nI
 */
 
-
+/*
 If File(cBmp)
-	oPrint:SayBitmap(nRow2+0644,100,cBmp,215,65)
+	oPrint:SayBitmap(nRow2+0644,100,cBmp,215,65)    *********COMENTEI PQ ESTA CHAMANDO NO LUGAR ERRADO************************** AQUI ************
 Endif
-
+*/
 oPrint:Say  (nRow2+880,100,"Dados do Pagador",oFont11)
 
 oPrint:Line (nRow2+0950,100,nRow2+0950,2300 )
@@ -428,7 +434,7 @@ oPrint:Say  (nRow2+1000,110 ,aDatSacado[1]+"                   ",oFont10) //Nome
 oPrint:Say  (nRow2+0950,1810 ,"Nro.Documento"                                  ,oFont8)
 oPrint:Say  (nRow2+1000,1810 ,aDadosTit[7]+aDadosTit[1]						,oFont10) //Prefixo +Numero+Parcela
 
-oPrint:Say  (nRow2+1050,110 ,"EndereÃ§o"                                        ,oFont8)
+oPrint:Say  (nRow2+1050,110 ,"Endereço"                                        ,oFont8)
 oPrint:Say  (nRow2+1100,110 ,aDatSacado[3]+"                   ",oFont10) //Endereco
 
 oPrint:Say  (nRow2+1150,110 ,"Bairro"                                        ,oFont8)
@@ -445,11 +451,11 @@ oPrint:Say  (nRow2+1300,1710,aDatSacado[6]+"                   ",oFont10) //CEP
 
 
 oPrint:Say  (nRow2+1350,110 ,"Mensagem Pagador"                                        ,oFont8)
-oPrint:Say  (nRow2+1630,200 ,"Este recibo somente terÃ¡ validade com a  autenticaÃ§Ã£o mecÃ¢nica ou"                                        ,oFont8)
+oPrint:Say  (nRow2+1630,200 ,"Este recibo somente terá validade com a  autenticação mecânica ou"                                        ,oFont8)
 oPrint:Say  (nRow2+1680,200 ,"acompanhado do recibo de pagamento emitido pelo Banco. Recebimento"                                        ,oFont8)
-oPrint:Say  (nRow2+1730,200 ,"atravÃ©s do cheque n.          do banco. Esta esta quitaÃ§Ã£o sÃ³ terÃ¡"                                        ,oFont8)
-oPrint:Say  (nRow2+1780,200 ,"validade apÃ³s o pagamento do cheque pelo banco pagador."                                        ,oFont8)
-oPrint:Say  (nRow2+1620,1350 ," AutenticaÃ§Ã£o MecÃ¢nica  -  Recibo do Pagador" ,oFont8)
+oPrint:Say  (nRow2+1730,200 ,"através do cheque n.          do banco. Esta esta quitação só terá"                                        ,oFont8)
+oPrint:Say  (nRow2+1780,200 ,"validade após o pagamento do cheque pelo banco pagador."                                        ,oFont8)
+oPrint:Say  (nRow2+1620,1350 ," Autenticação Mecânica  -  Recibo do Pagador" ,oFont8)
 
 
 oPrint:Line (nRow2+1630,1200,nRow2+1630,1300 )
@@ -472,8 +478,11 @@ oPrint:Line (nRow3+2000,100,nRow3+2000,2300)
 oPrint:Line (nRow3+2000,500,nRow3+1920, 500)
 oPrint:Line (nRow3+2000,710,nRow3+1920, 710)
 
-oPrint:Say  (nRow3+1934,100," SICOOB",oFont14 )		// 	[2]Nome do Banco
-oPrint:Say  (nRow3+1925,575,aDadosBanco[1])	// 	[1]Numero do Banco
+If File(cBmp)
+	oPrint:SayBitmap(nRow3+1934,100,cBmp,215,65)		// [2]Nome do Banco    *********troquei o nome SICOOB por cBmp************************** AQUI ********************
+Endif   
+
+oPrint:Say  (nRow3+1934,575,aDadosBanco[1],oFont16n)	// 	[1]Numero do Banco    ********** adicionei ,oFont16n e alterei a margem 1934 ******************* AQUI ***********
 oPrint:Say  (nRow3+1934,0900,transform(aCB_RN_NN[2],"@R 99999.99999 99999.999999 99999.999999 9 99999999999999"),oFont15n)			//	Linha Digitavel do Codigo de Barras
 
 oPrint:Line (nRow3+2100,100,nRow3+2100,2300 )
@@ -498,10 +507,10 @@ cString := StrZero(Day(aDadosTit[4]),2) +"/"+ StrZero(Month(aDadosTit[4]),2) +"/
 nCol	 	 := 1810+(374-(len(cString)*22))
 oPrint:Say  (nRow3+2040,nCol,cString,oFont11c)
 
-oPrint:Say  (nRow3+2100,100 ,"BeneficiÃ¡rio",oFont8)
-oPrint:Say  (nRow3+2140,100 ,aDadosEmp[1]+"                  - "+aDadosEmp[6]	,oFont10) //Nome + CNPJ
+oPrint:Say  (nRow3+2100,100 ,"Beneficiário",oFont8)
+oPrint:Say  (nRow3+2140,100 ,aDadosEmp[1]+"        - "+aDadosEmp[6]	,oFont10) //Nome + CNPJ  ************ recuar um pouco  *********AQUI********************
 
-oPrint:Say  (nRow3+2100,1810,"AgÃªncia/CÃ³digo BeneficiÃ¡rio",oFont8)
+oPrint:Say  (nRow3+2100,1810,"Agência/Código Beneficiário",oFont8)
 cString := Alltrim(aDadosBanco[3]+"/"+aDadosBanco[4]+"  "+aDadosBanco[5])
 
 nCol 	 := 1810+(374-(len(cString)*22))
@@ -513,7 +522,7 @@ oPrint:Say (nRow3+2230,100, StrZero(Day(dDataBase),2) +"/"+ StrZero(Month(dDataB
 oPrint:Say (nRow3+2200,505 ,"Nro.Documento"                                 ,oFont8)
 oPrint:Say (nRow3+2230,605 ,aDadosTit[7]+aDadosTit[1]						,oFont10) //Prefixo +Numero+Parcela
 
-oPrint:Say (nRow3+2200,1005,"EspÃ©cie Doc."                                  ,oFont8)
+oPrint:Say (nRow3+2200,1005,"Espécie Doc."                                  ,oFont8)
 oPrint:Say (nRow3+2230,1050,aDadosTit[8]									,oFont10) //Tipo do Titulo
 
 oPrint:Say (nRow3+2200,1305,"Aceite"                                        ,oFont8)
@@ -523,7 +532,7 @@ oPrint:Say  (nRow3+2200,1485,"Data do Processamento"                        ,oFo
 oPrint:Say  (nRow3+2230,1550,StrZero(Day(aDadosTit[3]),2) +"/"+ StrZero(Month(aDadosTit[3]),2) +"/"+ Right(Str(Year(aDadosTit[3])),4)                               ,oFont10) // Data impressao
 
 
-oPrint:Say  (nRow3+2200,1810,"Nosso NÃºmero"                                 ,oFont8)
+oPrint:Say  (nRow3+2200,1810,"Nosso Número"                                 ,oFont8)
 cString :=  Right(AllTrim(SE1->E1_NUMBCO),7)+'-'+SE1->E1_NUMDV
 nCol := 1810+(374-(len(cString)*22))
 oPrint:Say  (nRow3+2230,nCol,cString,oFont11c)
@@ -534,7 +543,7 @@ oPrint:Say  (nRow3+2270,100 ,"Uso do Banco"                                 ,oFo
 oPrint:Say  (nRow3+2270,505 ,"Carteira"                                     ,oFont8)
 oPrint:Say  (nRow3+2300,555 ,aDadosBanco[6]                                 ,oFont10)
 
-oPrint:Say  (nRow3+2270,755 ,"EspÃ©cie"                                      ,oFont8)
+oPrint:Say  (nRow3+2270,755 ,"Espécie"                                      ,oFont8)
 oPrint:Say  (nRow3+2300,805 ,"R$"                                           ,oFont10)
 
 oPrint:Say  (nRow3+2270,1005,"Quantidade"                                   ,oFont8)
@@ -544,16 +553,17 @@ oPrint:Say  (nRow3+2270,1810,"Valor do Documento"                          	,oFo
 cString := Alltrim(Transform(aDadosTit[5],"@E 99,999,999.99"))
 oPrint:Say  (nRow3+2300,nCol,cString,oFont11c)
 
-oPrint:Say  (nRow3+2340,100 ,"InstruÃ§Ãµes (texto de responsabilidade do beneficiÃ¡rio) ",oFont8)
+oPrint:Say  (nRow3+2340,100 ,"Instruções (texto de responsabilidade do beneficiário) ",oFont8)
 
-oPrint:Say  (nRow3+2440,110 ,"Vencimento mora 0,13%ad/ multa 2,00%"                       ,oFont10)
-oPrint:Say  (nRow3+2490,110 ,"NÃ£o conceder desconto."   ,oFont10)
-oPrint:Say  (nRow3+2550,110 ,"Protesto no 5Âº dia Ãºtil apÃ³s vencimento"   ,oFont10)
+oPrint:Say  (nRow3+2440,110 ,"Vencimento mora 0,08%ad/ multa 2,00%"                       ,oFont10)
+oPrint:Say  (nRow3+2490,110 ,"NÃO ACEITAMOS DEPÓSITO PARA LIQUIDAÇÃO DO TÍTULO."   ,oFont10)
+oPrint:Say  (nRow3+2550,110 ,"QUALQUER ALTERAÇÃO NA DATA DE VENCIMENTO SERÁ COBRADO TAXA ADICIONAL."   ,oFont10)
+oPrint:Say  (nRow3+2600,110 ,"NEGATIVAÇÃO NO SERASA E PROTESTO AUTOMÁTICO APÓS O VENCIMENTO."   ,oFont10)
 
 oPrint:Say  (nRow3+2340,1810,"(-)Desconto/Abatimento"                       ,oFont8)
-oPrint:Say  (nRow3+2410,1810,"(-)Outras DeduÃ§Ãµes"                           ,oFont8)
+oPrint:Say  (nRow3+2410,1810,"(-)Outras Deduções"                           ,oFont8)
 oPrint:Say  (nRow3+2480,1810,"(+)Mora/Multa"                                ,oFont8)
-oPrint:Say  (nRow3+2550,1810,"(+)Outros AcrÃ©scimos"                         ,oFont8)
+oPrint:Say  (nRow3+2550,1810,"(+)Outros Acréscimos"                         ,oFont8)
 oPrint:Say  (nRow3+2620,1810,"(=)Valor Cobrado"                             ,oFont8)
 
 
@@ -571,7 +581,7 @@ oPrint:Say  (nRow3+2806,400 ,aDatSacado[6]+"    "+aDatSacado[4]+" - "+aDatSacado
 
 
 oPrint:Say  (nRow3+2815,100 ,"Pagador/Avalista"                             ,oFont8)
-oPrint:Say  (nRow3+2855,1500,"AutenticaÃ§Ã£o MecÃ¢nica - Ficha de CompensaÃ§Ã£o" ,oFont8)
+oPrint:Say  (nRow3+2855,1500,"Autenticação Mecânica - Ficha de Compensação" ,oFont8)
 
 oPrint:Line (nRow3+2000,1800,nRow3+2690,1800 )
 oPrint:Line (nRow3+2410,1800,nRow3+2410,2300 )
