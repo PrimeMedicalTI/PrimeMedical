@@ -44,7 +44,8 @@ User Function M460FIM()
 
    // Atualizar Titulos de Serviços **************************************************************
 
-   Begin Transaction                 
+   Begin Transaction  
+
          c_Query := "Update SE1010 Set E1_NFELETR = F2_NFELETR, " + ;
                 "E1_PORTADO = C5_FSBANCO, E1_AGEDEP = C5_FSAGENC, " + ;
                 "E1_CONTA = C5_FSCTA from SF2010 F2 (nolock) " + ;
@@ -58,7 +59,48 @@ User Function M460FIM()
                 "AND ((E1_PORTADO = '') OR (F2_NFELETR <> E1_NFELETR))" 
         
         n_Erro := TcSqlExec(c_Query)
-             
+
+        c_Query2 := "Update SB1010 Set B1_UCOM = DataUltimaNota, B1_UPRC = ValorUltimaNota " + ;
+           "from SB1010 B1 (nolock) " + ;
+           "Inner Join ( " + ;
+           "   Select D1.D1_COD, D1_DTDIGIT as DataUltimaNota, Round((D1_VUNIT),2) as ValorUltimaNota " + ;
+           "   from SD1010 D1 (nolock) " + ;
+           "   INNER JOIN SF1010 Nota (nolock) ON Nota.D_E_L_E_T_ <> '*' " + ;
+           "   AND F1_DOC = D1_DOC " + ;
+           "   AND F1_SERIE = D1_SERIE " + ;
+           "   AND F1_TIPO = D1_TIPO " + ;
+           "   AND F1_FORNECE = D1_FORNECE " + ;
+           "   AND F1_LOJA = D1_LOJA " + ;
+           "   Inner Join ( " + ;
+           "      Select BM_GRUPO, BM_DESC, D1_COD, Rtrim(B1_DESC) AS Produto, Max(D1.R_E_C_N_O_) as Recno " + ;
+           "      from SD1010 D1 (nolock) " + ;
+           "      INNER JOIN SB1010 Produto (nolock) ON B1_FILIAL = '' " + ;
+           "      AND Produto.D_E_L_E_T_ <> '*' " + ;
+           "      AND B1_COD = D1.D1_COD " + ;
+           "      INNER JOIN SBM010 Grupo (nolock) ON BM_FILIAL = '' " + ;
+           "      AND Grupo.D_E_L_E_T_ <> '*' " + ;
+           "      AND BM_GRUPO = B1_GRUPO " + ;
+           "      INNER JOIN SF4010 TipoEntrada (nolock) ON TipoEntrada.F4_FILIAL = '' " + ;
+           "      AND TipoEntrada.D_E_L_E_T_ <> '*' " + ;
+           "      AND TipoEntrada.F4_CODIGO = D1_TES " + ;
+           "      AND TipoEntrada.F4_ESTOQUE = 'S' " + ;
+           "      AND TipoEntrada.F4_DUPLIC = 'S' " + ;
+           "      AND TipoEntrada.F4_TIPO = 'E' " + ;
+           "      Inner Join SX5010 CFOP (nolock) ON X5_FILIAL = '' " + ;
+           "      AND CFOP.D_E_L_E_T_ <> '*' " + ;
+           "      AND X5_TABELA = '13' " + ;
+           "      AND X5_CHAVE = TipoEntrada.F4_CF " + ;
+           "      where 1=1 " + ;
+           "      AND D1.D_E_L_E_T_ <> '*' " + ;
+           "      AND D1_TIPO = 'N' " + ;
+           "      AND X5_DESCRI like '%COMPRA%' " + ;
+           "      Group by BM_GRUPO, BM_DESC, D1_COD, B1_DESC " + ;
+           "   ) UltimaNota ON UltimaNota.Recno = D1.R_E_C_N_O_ " + ;
+           ") ULtimaNota ON ULtimaNota.D1_COD = B1_COD " + ;
+           "Where Round(B1_UPRC,2) <> ValorUltimaNota";
+
+         n_Erro := TcSqlExec(c_Query2)
+
         If n_Erro != 0
             MsgStop("Erro na execução da query: "+TcSqlError(), "Atenção")
             DisarmTransaction()
