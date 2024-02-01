@@ -1,4 +1,5 @@
 {
     "totvsLanguageServer.welcomePage": false,
-    "totvsLanguageServer.askCompileResult": false
+    "totvsLanguageServer.askCompileResult": false,
+    "totvsLanguageServer.editor.linter.includes": "D:\\Totvs\\Includes"
 }
