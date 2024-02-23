@@ -11,11 +11,9 @@ Local nPTES     := aScan(aHeader,{|x| AllTrim(x[2]) == 'C6_TES'})
 Local i         := 0
 
 // Verifica se o código da admnistradora foi informado
-If Empty(M->C5_FSCADM) .And. nOpc <> 1
-    
+If Empty(M->C5_FSCADM) .And. nOpc <> 1    
     DbSelectArea("SF4")
     DbSetOrder(1) 
-
     For i:= 1 to Len(aCols)
         
         If aCols[i][Len(aHeader) + 1] == .F.
