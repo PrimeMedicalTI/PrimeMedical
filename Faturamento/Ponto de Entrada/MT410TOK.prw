@@ -6,7 +6,7 @@ User Function MT410TOK()
 Local l_Ret     := .T.			// Conteudo de retorno
 Local cMsg      := ""			// Mensagem de alerta
 Local nOpc      := PARAMIXB[1]	// Opcao de manutencao
-Local aRecTiAdt := PARAMIXB[2]	// Array com registros de adiantamentoc
+//Local aRecTiAdt := PARAMIXB[2]	// Array com registros de adiantamentoc
 Local nPTES     := aScan(aHeader,{|x| AllTrim(x[2]) == 'C6_TES'}) 
 Local i         := 0
 

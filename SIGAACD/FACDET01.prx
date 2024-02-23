@@ -38,7 +38,7 @@ Modelo ZPL Etiqueta de produto:
 */
 User Function Img01 //Identificacao de produto
      
-Local cCodigo,sConteudo,cTipoBar, nX
+Local cCodigo,cTipoBar, nX
 /*
 Local nqtde 	:= If(len(paramixb) >= 1,paramixb[ 1],NIL)
 Local cCodSep 	:= If(len(paramixb) >= 2,paramixb[ 2],NIL)

@@ -58,7 +58,6 @@ Local nItens    := 0
 Local nTotal    := 0
 Local oBrush1   := TBrush():New(,CLR_GRAY)
 Local oFont1    := TFont():New('Arial',,12,,.T.)
-Local oFont2    := TFont():New('Arial',,08,,.T.)
 Local oFont3    := TFont():New('Arial',,20,,.T.,,,,,,.T.)
 Local oFont4    := TFont():New('Arial',,14,,.T.)
 
