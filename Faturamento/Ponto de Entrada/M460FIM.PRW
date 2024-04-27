@@ -44,20 +44,43 @@ User Function M460FIM()
 
    // Atualizar Titulos de Serviços **************************************************************
 
-   Begin Transaction  
+   Begin Transaction 
+
+        c_Query := "Update SFT010 Set D_E_L_E_T_ = '*', R_E_C_D_E_L_ = R_E_C_N_O_ " + ;
+                  "Where FT_SERIE = 'A' AND D_E_L_E_T_ <> '*'"
+        n_Erro := TcSqlExec(c_Query)
+
+        c_Query := "Update SF3010 Set D_E_L_E_T_ = '*', R_E_C_D_E_L_ = R_E_C_N_O_ " + ;
+                "Where F3_SERIE = 'A' AND D_E_L_E_T_ <> '*'"
+        n_Erro := TcSqlExec(c_Query)               
+
+        c_Query := "Update SB1010 Set B1_CODAPEL = Rtrim(Ltrim(Substring(B1_COD,1,Len(B1_COD)-1))) " + ;
+          "Where B1_COD like '%.'"
+        n_Erro := TcSqlExec(c_Query)
+
+        c_Query := "Update SE1010 Set E1_PORTADO = C5_FSBANCO, " + ;
+           "E1_AGEDEP = C5_FSAGENC, E1_CONTA = C5_FSCTA from SF2010 F2 (nolock) " + ;
+           "Inner Join SE1010 E1 (nolock) ON E1_FILIAL = F2_FILIAL " + ;
+           "AND E1.D_E_L_E_T_ <> '*' AND E1_NUM = F2_DOC " + ;
+           "AND E1_SERIE = F2_SERIE AND E1_CLIENTE = F2_CLIENTE " + ;
+           "AND E1_LOJA = F2_LOJA AND E1_FSFORMA = 'BOL' " + ;
+           "AND (E1_PORTADO = '') AND E1_BAIXA = '' " + ;
+           "Inner Join SC5010 C5 (nolock) ON C5_FILIAL = F2_FILIAL " + ;
+           "AND C5.D_E_L_E_T_ <> '*' AND C5_NUM = F2_PEDIDO " + ;
+           "AND C5_FSBANCO <> '' Where F2.D_E_L_E_T_ <> '*'"
+        n_Erro := TcSqlExec(c_Query)
 
          c_Query := "Update SE1010 Set E1_NFELETR = F2_NFELETR, " + ;
                 "E1_PORTADO = C5_FSBANCO, E1_AGEDEP = C5_FSAGENC, " + ;
                 "E1_CONTA = C5_FSCTA from SF2010 F2 (nolock) " + ;
-                "Inner Join SE1010 E1 ON E1_FILIAL = F2_FILIAL " + ;
+                "Inner Join SE1010 E1 (nolock) ON E1_FILIAL = F2_FILIAL " + ;
                 "AND E1.D_E_L_E_T_ <> '*' AND E1_NUM = F2_DOC " + ;
                 "AND E1_SERIE = F2_SERIE AND E1_CLIENTE = F2_CLIENTE " + ;
-                "AND E1_LOJA = F2_LOJA Inner Join SC5010 C5 ON C5_FILIAL = F2_FILIAL " + ;
+                "AND E1_LOJA = F2_LOJA Inner Join SC5010 C5 (nolock) ON C5_FILIAL = F2_FILIAL " + ;
                 "AND C5.D_E_L_E_T_ <> '*' AND C5_NUM = F2_PEDIDO " + ;
                 "Where F2.D_E_L_E_T_ <> '*' " + ;
                 "AND F2_ESPECIE = 'RPS'" + ; 
-                "AND ((E1_PORTADO = '') OR (F2_NFELETR <> E1_NFELETR))" 
-        
+                "AND ((E1_PORTADO = '') OR (F2_NFELETR <> E1_NFELETR))"         
         n_Erro := TcSqlExec(c_Query)
 
         c_Query2 := "Update SB1010 Set B1_UCOM = DataUltimaNota, B1_UPRC = ValorUltimaNota " + ;
@@ -97,8 +120,7 @@ User Function M460FIM()
            "      Group by BM_GRUPO, BM_DESC, D1_COD, B1_DESC " + ;
            "   ) UltimaNota ON UltimaNota.Recno = D1.R_E_C_N_O_ " + ;
            ") ULtimaNota ON ULtimaNota.D1_COD = B1_COD " + ;
-           "Where Round(B1_UPRC,2) <> ValorUltimaNota";
-
+           "Where Round(B1_UPRC,2) <> ValorUltimaNota"
          n_Erro := TcSqlExec(c_Query2)
 
         If n_Erro != 0

@@ -7,6 +7,7 @@
 #DEFINE _cCarteira "1"
 #DEFINE _cMoeda    "9"
 //-----------------------------------------------------------------------------------------------------------------------------------
+
 User Function BLTSICOOB(cNota)
 
 	Local	aPergs := {}
@@ -22,7 +23,7 @@ User Function BLTSICOOB(cNota)
 	cDesc1   := "Este programa destina-se a impressao do Boleto com Codigo de Barras."
 	cDesc2   := ""
 	cDesc3   := ""
-	cString  := /*"SEE" */   "SE1"
+	cString  := "SE1"
 	wnrel    := "BOLETO"
 	lEnd     := .F.
 	cPerg     := Padr("BOLTSICOOB",10)
@@ -33,27 +34,27 @@ User Function BLTSICOOB(cNota)
 
 	dbSelectArea("SE1")
 
-	PutSx1( cPerg   ,"01","De Prefixo"	           ,"","","mv_ch1","C",3,0,0,"G","","","","","MV_PAR01","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"02","Ate Prefixo"	           ,"","","mv_ch2","C",3,0,0,"G","","","","","MV_PAR02","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"03","De Numero"		       ,"","","mv_ch3","C",9,0,0,"G","","SE1","","","MV_PAR03","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"04","Ate Numero"	           ,"","","mv_ch4","C",9,0,0,"G","","SE1","","","MV_PAR04","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"05","De Parcela"	           ,"","","mv_ch5","C",2,0,0,"G","","","","","MV_PAR05","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"06","Ate Parcela"	           ,"","","mv_ch6","C",2,0,0,"G","","","","","MV_PAR06","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"07","De Portador"	           ,"","","mv_ch7","C",3,0,0,"G","","","","","MV_PAR07","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"08","Ate Portador" 	       ,"","","mv_ch8","C",3,0,0,"G","","","","","MV_PAR08","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"09","De Cliente"	           ,"","","mv_ch9","C",6,0,0,"G","","SA1","","","MV_PAR09","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"10","Ate Cliente"	           ,"","","mv_cha","C",6,0,0,"G","","SA1","","","MV_PAR10","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"11","De Loja"		           ,"","","mv_chb","C",2,0,0,"G","","","","","MV_PAR11","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"12","Ate Loja"		       ,"","","mv_chc","C",2,0,0,"G","","","","","MV_PAR12","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"13","De Emissao"	           ,"","","mv_chd","D",8,0,0,"G","","","","","MV_PAR13","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"14","De Emissao"	           ,"","","mv_che","D",8,0,0,"G","","","","","MV_PAR14","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"15","De Vencimento"	       ,"","","mv_chf","D",8,0,0,"G","","","","","MV_PAR15","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"16","Ate Vencimento"         ,"","","mv_chg","D",8,0,0,"G","","","","","MV_PAR16","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"17","Do Bordero"	           ,"","","mv_chh","C",6,0,0,"G","","","","","MV_PAR17","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"18","Ate Bordero"            ,"","","mv_chi","C",6,0,0,"G","","","","","MV_PAR18","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"19","Banco     "             ,"","","mv_chj","C",3,0,0,"G","","SEE","","","MV_PAR19","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"20","Agencia    "            ,"","","mv_chl","C",5,0,0,"G","","","","","MV_PAR20","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"21","Conta      "            ,"","","mv_chm","C",10,0,0,"G","","","","","MV_PAR21","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"01","Banco     "             ,"","","mv_chj","C",3,0,0,"G","","SEE","","","MV_PAR19","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"02","Agencia    "            ,"","","mv_chl","C",5,0,0,"G","","","","","MV_PAR20","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"03","Conta      "            ,"","","mv_chm","C",10,0,0,"G","","","","","MV_PAR21","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"04","De Emissao"	           ,"","","mv_chd","D",8,0,0,"G","","","","","MV_PAR13","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"05","De Emissao"	           ,"","","mv_che","D",8,0,0,"G","","","","","MV_PAR14","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"06","De Vencimento"	       ,"","","mv_chf","D",8,0,0,"G","","","","","MV_PAR15","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"07","Ate Vencimento"         ,"","","mv_chg","D",8,0,0,"G","","","","","MV_PAR16","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"08","Do Bordero"	           ,"","","mv_chh","C",6,0,0,"G","","","","","MV_PAR17","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"09","Ate Bordero"            ,"","","mv_chi","C",6,0,0,"G","","","","","MV_PAR18","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"10","De Prefixo"	           ,"","","mv_ch1","C",3,0,0,"G","","","","","MV_PAR01","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"11","Ate Prefixo"	           ,"","","mv_ch2","C",3,0,0,"G","","","","","MV_PAR02","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"12","De Numero"		       ,"","","mv_ch3","C",9,0,0,"G","","SE1","","","MV_PAR03","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"13","Ate Numero"	           ,"","","mv_ch4","C",9,0,0,"G","","SE1","","","MV_PAR04","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"14","De Parcela"	           ,"","","mv_ch5","C",2,0,0,"G","","","","","MV_PAR05","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"15","Ate Parcela"	           ,"","","mv_ch6","C",2,0,0,"G","","","","","MV_PAR06","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"16","De Portador"	           ,"","","mv_ch7","C",3,0,0,"G","","","","","MV_PAR07","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"17","Ate Portador" 	       ,"","","mv_ch8","C",3,0,0,"G","","","","","MV_PAR08","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"18","De Cliente"	           ,"","","mv_ch9","C",6,0,0,"G","","SA1","","","MV_PAR09","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"19","Ate Cliente"	           ,"","","mv_cha","C",6,0,0,"G","","SA1","","","MV_PAR10","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"20","De Loja"		           ,"","","mv_chb","C",2,0,0,"G","","","","","MV_PAR11","","","","","","","","","","","","","","","","",{},{},{})
+	PutSx1( cPerg   ,"21","Ate Loja"		       ,"","","mv_chc","C",2,0,0,"G","","","","","MV_PAR12","","","","","","","","","","","","","","","","",{},{},{})
 
 	If Empty(cNF)
 
@@ -78,11 +79,16 @@ User Function BLTSICOOB(cNota)
 		If Empty(MV_PAR19)
 			cFilter		+= ".And. E1_PORTADO>='" + MV_PAR07 + "'.And.E1_PORTADO<='" + MV_PAR08 + "' "
 			cFilter		+= ".And. E1_PORTADO<>'   '"
+		else
+			cFilter		+= ".And. E1_AGEDEP>='" + MV_PAR20 + "'.And.E1_AGEDEP<='" + MV_PAR20 + "'.And."
+			cFilter		+= "E1_CONTA>='" + MV_PAR21 + "'.And.E1_CONTA<='" + MV_PAR21 + "'.And."
+			cFilter		+= "E1_PORTADO>='" + MV_PAR19 + "'.And.E1_PORTADO<='" + MV_PAR19 + "' "
+			cFilter		+= ".And. E1_PORTADO<>'   '"
 		Endif
 
 	Else
 
-		cFilter		+= "E1_NUM = '" + cNF + "' "
+		cFilter		+= "E1_NUM = '" + cNF + "' "		
 
 	Endif
 
@@ -97,18 +103,17 @@ User Function BLTSICOOB(cNota)
 
 	If Empty(cNF)
 
-		@ 001,001 TO 400,700 DIALOG oDlg TITLE "Sele��o de Titulos"
-		@ 001,001 TO 170,350 BROWSE "SE1" MARK "E1_OK"
+		@ 001,001 TO 400,700 DIALOG oDlg TITLE "Sele��o de Titulos - Nova Vers�o Filtros"
+		@ 001,001 TO 170,350 BROWSE "SE1" MARK "E1_OK" 
 		@ 180,310 BMPBUTTON TYPE 01 ACTION (lExec := .T.,Close(oDlg))
 		@ 180,280 BMPBUTTON TYPE 02 ACTION (lExec := .F.,Close(oDlg))
-
 		ACTIVATE DIALOG oDlg CENTERED
 
 		dbGoTop()
 
 	Else
 
-		lExec := .t.
+		lExec := .T.
 
 	Endif
 
@@ -120,25 +125,26 @@ User Function BLTSICOOB(cNota)
 	Ferase(cIndexName+OrdBagExt())
 
 Return
-//-----------------------------------------------------------------------------------------------------------------------------------
+	
+	
 Static Function MontaRel()
 
 	Local oPrint
 	Local nX			:= 0
 	Local cNroDoc 	:= " "
-	Local aDadosEmp   	:= {	SM0->M0_NOMECOM                                    					,; //[1]Nome da Empresa
-	SM0->M0_ENDCOB                                   						,; //[2]Endereço
-	AllTrim(SM0->M0_BAIRCOB)+", "+AllTrim(SM0->M0_CIDCOB)+", "+SM0->M0_ESTCOB ,; //[3]Complemento
-	"CEP: "+Subs(SM0->M0_CEPCOB,1,5)+"-"+Subs(SM0->M0_CEPCOB,6,3)             ,; //[4]CEP
-	"PABX/FAX: "+SM0->M0_TEL                                                  ,; //[5]Telefones
-	"CNPJ: "+TRANSFORM(SM0->M0_CGC,"@R 99.999.999/9999-99")				 ,; //[6]CNPJ
-	"I.E.: "+Subs(SM0->M0_INSC,1,3)+"."+Subs(SM0->M0_INSC,4,3)+"."+            ; //[7]
-	Subs(SM0->M0_INSC,7,3)+"."+Subs(SM0->M0_INSC,10,3)                        }  //[7]I.E
+	Local aDadosEmp   	:= {	SM0->M0_NOMECOM                                    					,;    //[1]Nome da Empresa
+	SM0->M0_ENDCOB                                   						,;    //[2]Endereço
+	AllTrim(SM0->M0_BAIRCOB)+", "+AllTrim(SM0->M0_CIDCOB)+", "+SM0->M0_ESTCOB ,;    //[3]Complemento
+	"CEP: "+Subs(SM0->M0_CEPCOB,1,5)+"-"+Subs(SM0->M0_CEPCOB,6,3)             ,;    //[4]CEP
+	"PABX/FAX: "+SM0->M0_TEL                                                  ,;    //[5]Telefones
+	"CNPJ: "+TRANSFORM(SM0->M0_CGC,"@R 99.999.999/9999-99")				 ,;    //[6]CNPJ
+	"I.E.: "+Subs(SM0->M0_INSC,1,3)+"."+Subs(SM0->M0_INSC,4,3)+"."+            ;    //[7]
+	Subs(SM0->M0_INSC,7,3)+"."+Subs(SM0->M0_INSC,10,3)                        }     //[7]I.E
 
 	Local aDadosTit   := {}
 	Local aDadosBanco := {}
 	Local aDatSacado  := {}
-//	Local aBolText    := {"APOS O VENCIMENTO COBRAR MORA DE R$....... ","PROTESTAR APOS 10 DIAS CORRIDOS DO VENCIMENTO ","AO DIA"}
+	//	Local aBolText    := {"APOS O VENCIMENTO COBRAR MORA DE R$....... ","PROTESTAR APOS 10 DIAS CORRIDOS DO VENCIMENTO ","AO DIA"}
 
 	Local nI          := 1
 	Local aCB_RN_NN   := {}
@@ -147,8 +153,8 @@ Static Function MontaRel()
 	Private cStartPath:= GetSrvProfString("Startpath","")
 
 	oPrint:= TMSPrinter():New( "Boleto Laser" )
-	oPrint:SetPortrait() 						// ou SetLandscape()
-	oPrint:Setup()   							// Inicia uma nova página
+	oPrint:SetPortrait() 						   // ou SetLandscape()
+	oPrint:Setup()   							   // Inicia uma nova página
 
 	DbGoTop()
 	ProcRegua(RecCount())
@@ -199,34 +205,34 @@ Static Function MontaRel()
 				NossoNum()
 			Endif
 
-			aAdd(aDadosBanco, Alltrim(SEE->EE_CODIGO))            // [1]Numero do Banco
-			aAdd(aDadosBanco, Alltrim(SA6->A6_NOME))              // [2]Nome do Banco
-			aAdd(aDadosBanco, Alltrim(SEE->EE_AGENCIA))           // [3]Agência
-			aAdd(aDadosBanco, Alltrim(SEE->EE_CONTA)) 			  // [4]Conta Corrente
-			aAdd(aDadosBanco, Right(Alltrim(SEE->EE_DVCTA),1))    // [5]Dígito da conta corrente
-			aAdd(aDadosBanco, Alltrim(_cCarteira))                // [6]Codigo da Carteira
-			aAdd(aDadosBanco, Right(Alltrim(SE1->E1_PARCELA),1))  // [7] PARCELA
+			aAdd(aDadosBanco, Alltrim(SEE->EE_CODIGO))               // [1]Numero do Banco
+			aAdd(aDadosBanco, Alltrim(SA6->A6_NOME))                 // [2]Nome do Banco
+			aAdd(aDadosBanco, Alltrim(SEE->EE_AGENCIA))              // [3]Agência
+			aAdd(aDadosBanco, Alltrim(SEE->EE_CONTA)) 			     // [4]Conta Corrente
+			aAdd(aDadosBanco, Right(Alltrim(SEE->EE_DVCTA),1))       // [5]Dígito da conta corrente
+			aAdd(aDadosBanco, Alltrim(_cCarteira))                   // [6]Codigo da Carteira
+			aAdd(aDadosBanco, Right(Alltrim(SE1->E1_PARCELA),1))     // [7] PARCELA
 
 			If Empty(SA1->A1_ENDCOB)
-				aDatSacado   := {AllTrim(SA1->A1_NOME)           	,;      	// [1]Razão Social
-				AllTrim(SA1->A1_COD )+"-"+SA1->A1_LOJA           	,;      	// [2]Código
-				AllTrim(SA1->A1_END )							,;      	// [3]Endereço
-				AllTrim(SA1->A1_MUN )                            	,;  		// [4]Cidade
-				SA1->A1_EST                                      	,;     	// [5]Estado
-				SA1->A1_CEP                                      	,;      	// [6]CEP
-				SA1->A1_CGC									,;       // [7]CGC
-				SA1->A1_PESSOA								,;       // [8]PESSOA
-				AllTrim(SA1->A1_BAIRRO)                           	}        // [9]Bairro
+				aDatSacado   := {AllTrim(SA1->A1_NOME)           	,;      	   // [1]Razão Social
+				AllTrim(SA1->A1_COD )+"-"+SA1->A1_LOJA           	,;      	   // [2]Código
+				AllTrim(SA1->A1_END )							,;      	   // [3]Endereço
+				AllTrim(SA1->A1_MUN )                            	,;  		   // [4]Cidade
+				SA1->A1_EST                                      	,;     	   // [5]Estado
+				SA1->A1_CEP                                      	,;      	   // [6]CEP
+				SA1->A1_CGC									,;          // [7]CGC
+				SA1->A1_PESSOA								,;          // [8]PESSOA
+				AllTrim(SA1->A1_BAIRRO)                           	}           // [9]Bairro
 			Else
-				aDatSacado   := {AllTrim(SA1->A1_NOME)            	,;   	// [1]Razão Social
-				AllTrim(SA1->A1_COD )+"-"+SA1->A1_LOJA            ,;   	// [2]Código
-				AllTrim(SA1->A1_ENDCOB)						,;   	// [3]Endereço
-				AllTrim(SA1->A1_MUNC)	                           ,;   	// [4]Cidade
-				SA1->A1_ESTC	                                    ,;   		// [5]Estado
-				SA1->A1_CEPC                                      ,;   	// [6]CEP
-				SA1->A1_CGC									,;		// [7]CGC
-				SA1->A1_PESSOA								,;		// [8]PESSOA
-				AllTrim(SA1->A1_BAIRRO)                            }      	// [9]Bairro
+				aDatSacado   := {AllTrim(SA1->A1_NOME)            	,;   	   // [1]Razão Social
+				AllTrim(SA1->A1_COD )+"-"+SA1->A1_LOJA            ,;   	   // [2]Código
+				AllTrim(SA1->A1_ENDCOB)						,;   	   // [3]Endereço
+				AllTrim(SA1->A1_MUNC)	                           ,;   	   // [4]Cidade
+				SA1->A1_ESTC	                                    ,;   		   // [5]Estado
+				SA1->A1_CEPC                                      ,;   	   // [6]CEP
+				SA1->A1_CGC									,;		   // [7]CGC
+				SA1->A1_PESSOA								,;		   // [8]PESSOA
+				AllTrim(SA1->A1_BAIRRO)                            }      	   // [9]Bairro
 			Endif
 
 			nVlrAbat   :=  SomaAbat(SE1->E1_PREFIXO,SE1->E1_NUM,SE1->E1_PARCELA,"R",1,,SE1->E1_CLIENTE,SE1->E1_LOJA)
@@ -236,44 +242,37 @@ Static Function MontaRel()
 			//Parte do Nosso Numero. Sao 8 digitos para identificar o titulo
 			//--------------------------------------------------------------
 
-		/*if .not. empty ( SE1->E1_PARCELA)
-			_cParcela := StrZero( Asc( Upper( ALLTRIM( SE1->E1_PARCELA ) ) ) - 64, 3, 0 )
-		else
-			_cParcela := '001'
-		endif*/
+			if .not. empty ( SE1->E1_PARCELA)
+				_cParcela := StrZero( Asc( Upper( ALLTRIM( SE1->E1_PARCELA ) ) ) - 64, 3, 0 )
+			else
+				_cParcela := '001'
+			endif
 
-		if .not. empty(SE1->E1_PARCELA)
-    		_cParcela := StrZero(Val(ALLTRIM(SE1->E1_PARCELA)), 3, 0)
-		else
-    		_cParcela := '001'
-		endif
-
-		
-		cNroDoc	 := StrZero( Val( Alltrim ( SE1->E1_NUM ) + _cParcela ), 8 )
-		/*
-		----------------------
-		Monta codigo de barras
-		----------------------
-		*/
-			aCB_RN_NN := fLinhaDig(aDadosBanco[1]      ,; // Numero do Banco
-			_cMoeda             ,; // Codigo da Moeda
-			aDadosBanco[6]      ,; // Codigo da Carteira
-			aDadosBanco[3]      ,; // Codigo da Agencia
-			aDadosBanco[4]      ,; // Codigo da Conta
-			aDadosBanco[5]      ,; // DV da Conta
-			nVlrTitulo		  ,; // Valor do Titulo
-			E1_VENCTO           ,; // Data de Vencimento do Titulo
-			cNroDoc              ) // Numero do Documento no Contas a Receber
+			cNroDoc	 := StrZero( Val( Alltrim ( SE1->E1_NUM ) + _cParcela ), 8 )
+			/*
+			----------------------
+			Monta codigo de barras
+			----------------------
+			*/
+			aCB_RN_NN := fLinhaDig(aDadosBanco[1]      ,;    // Numero do Banco
+			_cMoeda             ,;    // Codigo da Moeda
+			aDadosBanco[6]      ,;    // Codigo da Carteira
+			aDadosBanco[3]      ,;    // Codigo da Agencia
+			aDadosBanco[4]      ,;    // Codigo da Conta
+			aDadosBanco[5]      ,;    // DV da Conta
+			nVlrTitulo		  ,;    // Valor do Titulo
+			E1_VENCTO           ,;    // Data de Vencimento do Titulo
+			cNroDoc              )    // Numero do Documento no Contas a Receber
 
 
-			aDadosTit	:= {AllTrim(E1_NUM)+AllTrim(E1_PARCELA)	,;  // [1] Número do título
-			E1_EMISSAO                          	,;  // [2] Data da emissão do título
-			dDataBase                    		,;  // [3] Data da emissão do boleto
-			E1_VENCTO                           	,;  // [4] Data do vencimento
-			nVlrTitulo		               	,;  // [5] Valor do título
-			aCB_RN_NN[3]                        	,;  // [6] Nosso número (Ver fórmula para calculo)
-			E1_PREFIXO                          	,;  // [7] Prefixo da NF
-			E1_TIPO	                           	}   // [8] Tipo do Titulo
+			aDadosTit	:= {AllTrim(E1_NUM)+AllTrim(E1_PARCELA)	,;     // [1] Número do título
+			E1_EMISSAO                          	,;     // [2] Data da emissão do título
+			dDataBase                    		,;     // [3] Data da emissão do boleto
+			E1_VENCTO                           	,;     // [4] Data do vencimento
+			nVlrTitulo		               	,;     // [5] Valor do título
+			aCB_RN_NN[3]                        	,;     // [6] Nosso número (Ver fórmula para calculo)
+			E1_PREFIXO                          	,;     // [7] Prefixo da NF
+			E1_TIPO	                           	}      // [8] Tipo do Titulo
 
 			Impress(oPrint,aDadosEmp,aDadosTit,aDadosBanco,aDatSacado,,aCB_RN_NN)
 			nX := nX + 1
@@ -284,19 +283,18 @@ Static Function MontaRel()
 		nI++
 	EndDo
 
-	oPrint:Preview()     // Visualiza antes de imprimir
+	oPrint:Preview()        // Visualiza antes de imprimir
 
 Return Nil
 
-
-/*
-+-----------+----------+-------+--------------------+------+-------------+
-| Programa  |Impress   |Autor  |PSS PARTNERS        | Data |  23/10/2014 |
-+-----------+----------+-------+--------------------+------+-------------+
-| Desc.     |Impressao dos dados do boleto em modo grafico               |
-|           |                                                            |
-+-----------+------------------------------------------------------------+
-*/
+	/*
+	+-----------+----------+-------+--------------------+------+-------------+
+	| Programa  |Impress   |Autor  |PSS PARTNERS        | Data |  23/10/2014 |
+	+-----------+----------+-------+--------------------+------+-------------+
+	| Desc.     |Impressao dos dados do boleto em modo grafico               |
+	|           |                                                            |
+	+-----------+------------------------------------------------------------+
+	*/
 Static Function Impress(oPrint,aDadosEmp,aDadosTit,aDadosBanco,aDatSacado,aBolText,aCB_RN_NN)
 	Local oFont8
 	Local oFont11c
@@ -311,13 +309,13 @@ Static Function Impress(oPrint,aDadosEmp,aDadosTit,aDadosBanco,aDatSacado,aBolTe
 	Local cStartPath := GetSrvProfString("StartPath","")
 	Local cBmp := 030
 
-	cBmp := cStartPath + "sicoob.bmp" //Logo do Banco                                     *********************************** AQUI ********************
+	cBmp := cStartPath + "sicoob.bmp"    //Logo do Banco                                     *********************************** AQUI ********************
 
 
-//Parametros de TFont.New()
-//1.Nome da Fonte (Windows)
-//3.Tamanho em Pixels
-//5.Bold (T/F)
+	//Parametros de TFont.New()
+	//1.Nome da Fonte (Windows)
+	//3.Tamanho em Pixels
+	//5.Bold (T/F)
 	oFont8   := TFont():New("Arial",9,8,.T.,.F.,5,.T.,5,.T.,.F.)
 	oFont11c := TFont():New("Courier New",9,11,.T.,.T.,5,.T.,5,.T.,.F.)
 	oFont11  := TFont():New("Arial",9,11,.T.,.T.,5,.T.,5,.T.,.F.)
@@ -333,21 +331,21 @@ Static Function Impress(oPrint,aDadosEmp,aDadosTit,aDadosBanco,aDatSacado,aBolTe
 	oFont14n := TFont():New("Arial",9,14,.T.,.F.,5,.T.,5,.T.,.F.)
 	oFont24  := TFont():New("Arial",9,24,.T.,.T.,5,.T.,5,.T.,.F.)
 
-	oPrint:StartPage()   // Inicia uma nova página
+	oPrint:StartPage()      // Inicia uma nova página
 
-/******************/
-/* PRIMEIRA PARTE */
-/******************/
+	/******************/
+	/* PRIMEIRA PARTE */
+	/******************/
 
 	nRow1 := 0
 
 
 
 	If File(cBmp)
-		oPrint:SayBitmap(nRow1+0080,100,cBmp,215,65) // ******************* Primeiro Logo ********************************
+		oPrint:SayBitmap(nRow1+0080,100,cBmp,215,65)    // ******************* Primeiro Logo ********************************
 	Endif
 
-//oPrint:Say  (nRow1+0084,100,aDadosBanco[2],oFont10 )	        // [2]Nome do Banco 
+	//oPrint:Say  (nRow1+0084,100,aDadosBanco[2],oFont10 )	           // [2]Nome do Banco
 
 
 	oPrint:Line (nRow1+0150,100,nRow1+0150,2300)
@@ -355,7 +353,7 @@ Static Function Impress(oPrint,aDadosEmp,aDadosTit,aDadosBanco,aDatSacado,aBolTe
 	oPrint:Say  (nRow1+0150,100 ,"Benefici�rio",oFont10)
 	oPrint:Say  (nRow1+0200,100 ,aDadosEmp[1]+" ("+aDadosEmp[6]+")"             ,oFont8)
 	oPrint:Say  (nRow1+0250,100 ,aDadosEmp[2]                                    ,oFont8)
-	oPrint:Say  (nRow1+0300,100 ,aDadosEmp[4]+"    "+aDadosEmp[3] ,oFont8) // CEP+Cidade+Estado
+	oPrint:Say  (nRow1+0300,100 ,aDadosEmp[4]+"    "+aDadosEmp[3] ,oFont8)    // CEP+Cidade+Estado
 	oPrint:Say  (nRow1+0350,100 ,aDadosEmp[6] ,oFont8)
 
 	oPrint:Say  (nRow1+0650,1510,"Nosso N�mero"                                 ,oFont8)
@@ -390,35 +388,35 @@ Static Function Impress(oPrint,aDadosEmp,aDadosTit,aDadosBanco,aDatSacado,aBolTe
 	oPrint:Line (nRow1+0350,1510,nRow1+0350,2300 )
 	oPrint:Line (nRow1+0250,1510,nRow1+0250,2300 )
 	oPrint:Line (nRow1+0450, 100,nRow1+0450,2300 )
-	oPrint:Line (nRow1+0450,1510,nRow1+0450,2300 ) //---
+	oPrint:Line (nRow1+0450,1510,nRow1+0450,2300 )    //---
 	oPrint:Line (nRow1+0550,1510,nRow1+0550,2300 )
 	oPrint:Line (nRow1+0750, 100,nRow1+0750,2300 )
 	oPrint:Line (nRow1+0650,1510,nRow1+0650,2300 )
 
 	oPrint:Line (nRow1+0150,2300,nRow1+0750,2300 )
 	oPrint:Line (nRow1+0150,100,nRow1+0750,0100 )
-	oPrint:Line (nRow1+0150,1500,nRow1+0750,1500 ) //--
+	oPrint:Line (nRow1+0150,1500,nRow1+0750,1500 )    //--
 	oPrint:Line (nRow1+0150,1900,nRow1+0550,1900 )
 
-
-/*****************/
-/* SEGUNDA PARTE */
-/*****************/
+	/*****************/
+	/* SEGUNDA PARTE */
+	/*****************/
 
 	nRow2   := 0
 
-//Pontilhado separador
-/*
-For nI := 100 to 2300 step 50
-oPrint:Line(nRow2+0580, nI,nRow2+0580, nI+30)
-Next nI
-*/
+	//Pontilhado separador
+	/*
+	For nI := 100 to 2300 step 50
+	oPrint:Line(nRow2+0580, nI,nRow2+0580, nI+30)
+	Next nI
+	*/
 
-/*
-If File(cBmp)
-	oPrint:SayBitmap(nRow2+0644,100,cBmp,215,65)    *********COMENTEI PQ ESTA CHAMANDO NO LUGAR ERRADO************************** AQUI ************
-Endif
-*/
+	/*
+	If File(cBmp)
+		oPrint:SayBitmap(nRow2+0644,100,cBmp,215,65)    *********COMENTEI PQ ESTA CHAMANDO NO LUGAR ERRADO************************** AQUI ************
+	Endif
+	*/
+
 	oPrint:Say  (nRow2+880,100,"Dados do Pagador",oFont11)
 
 	oPrint:Line (nRow2+0950,100,nRow2+0950,2300 )
@@ -435,26 +433,26 @@ Endif
 	oPrint:Line (nRow2+0950,2300,nRow2+1600,2300)
 
 	oPrint:Say  (nRow2+0950,110 ,"Nome do Pagador"                                        ,oFont8)
-	oPrint:Say  (nRow2+1000,110 ,aDatSacado[1]+"                   ",oFont10) //Nome
+	oPrint:Say  (nRow2+1000,110 ,aDatSacado[1]+"                   ",oFont10)    //Nome
 
 
 	oPrint:Say  (nRow2+0950,1810 ,"Nro.Documento"                                  ,oFont8)
-	oPrint:Say  (nRow2+1000,1810 ,aDadosTit[7]+aDadosTit[1]						,oFont10) //Prefixo +Numero+Parcela
+	oPrint:Say  (nRow2+1000,1810 ,aDadosTit[7]+aDadosTit[1]						,oFont10)    //Prefixo +Numero+Parcela
 
 	oPrint:Say  (nRow2+1050,110 ,"Endere�o"                                        ,oFont8)
-	oPrint:Say  (nRow2+1100,110 ,aDatSacado[3]+"                   ",oFont10) //Endereco
+	oPrint:Say  (nRow2+1100,110 ,aDatSacado[3]+"                   ",oFont10)    //Endereco
 
 	oPrint:Say  (nRow2+1150,110 ,"Bairro"                                        ,oFont8)
-	oPrint:Say  (nRow2+1200,110 ,aDatSacado[9]+"                   ",oFont10) //Bairro
+	oPrint:Say  (nRow2+1200,110 ,aDatSacado[9]+"                   ",oFont10)    //Bairro
 
 	oPrint:Say  (nRow2+1250,110 ,"Municipio"                                        ,oFont8)
-	oPrint:Say  (nRow2+1300,110 ,aDatSacado[4]+"                   ",oFont10) //Cidade
+	oPrint:Say  (nRow2+1300,110 ,aDatSacado[4]+"                   ",oFont10)    //Cidade
 
 	oPrint:Say  (nRow2+1250,1510 ,"UF"                                        ,oFont8)
-	oPrint:Say  (nRow2+1300,1510,aDatSacado[5]+"                   ",oFont10) //UF
+	oPrint:Say  (nRow2+1300,1510,aDatSacado[5]+"                   ",oFont10)    //UF
 
 	oPrint:Say  (nRow2+1250,1710 ,"CEP"                                        ,oFont8)
-	oPrint:Say  (nRow2+1300,1710,aDatSacado[6]+"                   ",oFont10) //CEP
+	oPrint:Say  (nRow2+1300,1710,aDatSacado[6]+"                   ",oFont10)    //CEP
 
 
 	oPrint:Say  (nRow2+1350,110 ,"Mensagem Pagador"                                        ,oFont8)
@@ -471,9 +469,9 @@ Endif
 	oPrint:Line (nRow2+1630,2100,nRow2+1800,2100)
 
 
-/******************/
-/* TERCEIRA PARTE */
-/******************/
+	/******************/
+	/* TERCEIRA PARTE */
+	/******************/
 
 	nRow3 := 0
 
@@ -486,11 +484,11 @@ Endif
 	oPrint:Line (nRow3+2000,710,nRow3+1920, 710)
 
 	If File(cBmp)
-		oPrint:SayBitmap(nRow3+1934,100,cBmp,215,65)		// [2]Nome do Banco    *********troquei o nome SICOOB por cBmp************************** AQUI ********************
+		oPrint:SayBitmap(nRow3+1934,100,cBmp,215,65)		   // [2]Nome do Banco    *********troquei o nome SICOOB por cBmp************************** AQUI ********************
 	Endif
 
-	oPrint:Say  (nRow3+1934,575,aDadosBanco[1],oFont16n)	// 	[1]Numero do Banco    ********** adicionei ,oFont16n e alterei a margem 1934 ******************* AQUI ***********
-	oPrint:Say  (nRow3+1934,0900,transform(aCB_RN_NN[2],"@R 99999.99999 99999.999999 99999.999999 9 99999999999999"),oFont15n)			//	Linha Digitavel do Codigo de Barras
+	oPrint:Say  (nRow3+1934,575,aDadosBanco[1],oFont16n)	   // 	[1]Numero do Banco    ********** adicionei ,oFont16n e alterei a margem 1934 ******************* AQUI ***********
+	oPrint:Say  (nRow3+1934,0900,transform(aCB_RN_NN[2],"@R 99999.99999 99999.999999 99999.999999 9 99999999999999"),oFont15n)			   //	Linha Digitavel do Codigo de Barras
 
 	oPrint:Line (nRow3+2100,100,nRow3+2100,2300 )
 	oPrint:Line (nRow3+2200,100,nRow3+2200,2300 )
@@ -515,7 +513,7 @@ Endif
 	oPrint:Say  (nRow3+2040,nCol,cString,oFont11c)
 
 	oPrint:Say  (nRow3+2100,100 ,"Benefici�rio",oFont8)
-	oPrint:Say  (nRow3+2140,100 ,aDadosEmp[1]+"        - "+aDadosEmp[6]	,oFont10) //Nome + CNPJ  ************ recuar um pouco  *********AQUI********************
+	oPrint:Say  (nRow3+2140,100 ,aDadosEmp[1]+"        - "+aDadosEmp[6]	,oFont10)    //Nome + CNPJ  ************ recuar um pouco  *********AQUI********************
 
 	oPrint:Say  (nRow3+2100,1810,"Ag�ncia/C�digo Benefici�rio",oFont8)
 	cString := Alltrim(aDadosBanco[3]+"/"+aDadosBanco[4]+"  "+aDadosBanco[5])
@@ -527,16 +525,16 @@ Endif
 	oPrint:Say (nRow3+2230,100, StrZero(Day(dDataBase),2) +"/"+ StrZero(Month(dDataBase),2) +"/"+ Right(Str(Year(dDataBase)),4), oFont10)
 
 	oPrint:Say (nRow3+2200,505 ,"Nro.Documento"                                 ,oFont8)
-	oPrint:Say (nRow3+2230,605 ,aDadosTit[7]+aDadosTit[1]						,oFont10) //Prefixo +Numero+Parcela
+	oPrint:Say (nRow3+2230,605 ,aDadosTit[7]+aDadosTit[1]						,oFont10)    //Prefixo +Numero+Parcela
 
 	oPrint:Say (nRow3+2200,1005,"Esp�cie Doc."                                  ,oFont8)
-	oPrint:Say (nRow3+2230,1050,aDadosTit[8]									,oFont10) //Tipo do Titulo
+	oPrint:Say (nRow3+2230,1050,aDadosTit[8]									,oFont10)    //Tipo do Titulo
 
 	oPrint:Say (nRow3+2200,1305,"Aceite"                                        ,oFont8)
 	oPrint:Say (nRow3+2230,1400,"N"                                             ,oFont10)
 
 	oPrint:Say  (nRow3+2200,1485,"Data do Processamento"                        ,oFont8)
-	oPrint:Say  (nRow3+2230,1550,StrZero(Day(aDadosTit[3]),2) +"/"+ StrZero(Month(aDadosTit[3]),2) +"/"+ Right(Str(Year(aDadosTit[3])),4)                               ,oFont10) // Data impressao
+	oPrint:Say  (nRow3+2230,1550,StrZero(Day(aDadosTit[3]),2) +"/"+ StrZero(Month(aDadosTit[3]),2) +"/"+ Right(Str(Year(aDadosTit[3])),4)                               ,oFont10)    // Data impressao
 
 
 	oPrint:Say  (nRow3+2200,1810,"Nosso N�mero"                                 ,oFont8)
@@ -578,13 +576,13 @@ Endif
 	oPrint:Say  (nRow3+2700,400 ,aDatSacado[1]+" ("+aDatSacado[2]+")"           ,oFont10)
 
 	if aDatSacado[8] = "J"
-		oPrint:Say  (nRow3+2700,1750,"CNPJ: "+TRANSFORM(aDatSacado[7],"@R 99.999.999/9999-99"),oFont10) // CGC
+		oPrint:Say  (nRow3+2700,1750,"CNPJ: "+TRANSFORM(aDatSacado[7],"@R 99.999.999/9999-99"),oFont10)    // CGC
 	Else
-		oPrint:Say  (nRow3+2700,1750,"CPF: "+TRANSFORM(aDatSacado[7],"@R 999.999.999-99"),oFont10) 	// CPF
+		oPrint:Say  (nRow3+2700,1750,"CPF: "+TRANSFORM(aDatSacado[7],"@R 999.999.999-99"),oFont10) 	   // CPF
 	EndIf
 
 	oPrint:Say  (nRow3+2753,400 ,aDatSacado[3]+"    "+aDatSacado[9]                          ,oFont10)
-	oPrint:Say  (nRow3+2806,400 ,aDatSacado[6]+"    "+aDatSacado[4]+" - "+aDatSacado[5],oFont10) // CEP+Cidade+Estado
+	oPrint:Say  (nRow3+2806,400 ,aDatSacado[6]+"    "+aDatSacado[4]+" - "+aDatSacado[5],oFont10)    // CEP+Cidade+Estado
 
 
 	oPrint:Say  (nRow3+2815,100 ,"Pagador/Avalista"                             ,oFont8)
@@ -600,68 +598,62 @@ Endif
 	oPrint:Line (nRow3+2850,100,nRow3+2850,2300  )
 
 
-	MSBAR3("INT25",25.3,0.75,aCB_RN_NN[1],oPrint,.F.,Nil,Nil,0.0220,1.50,Nil,Nil,"A",.F.)//datasupri
+	MSBAR3("INT25",25.3,0.75,aCB_RN_NN[1],oPrint,.F.,Nil,Nil,0.0220,1.50,Nil,Nil,"A",.F.)   //datasupri
 
 
 
-	oPrint:EndPage() // Finaliza a página
+	oPrint:EndPage()    // Finaliza a página
+
 Return Nil
 
+	/*
+	+-----------+----------+-------+--------------------+------+-------------+
+	| Programa  |BOLSICOOB   |Autor  |PSS PARTNERS      | Data |  23/10/2014 |
+	+-----------+----------+-------+--------------------+------+-------------+
+	| Desc.     |Obtenção da linha digitavel/codigo de barras                |
+	|           |                                                            |
+	+-----------+------------------------------------------------------------+
+	*/
+Static Function fLinhaDig(cCodBanco, ;    // Codigo do Banco (756)
 
-
-/*
-+-----------+----------+-------+--------------------+------+-------------+
-| Programa  |BOLSICOOB   |Autor  |PSS PARTNERS      | Data |  23/10/2014 |
-+-----------+----------+-------+--------------------+------+-------------+
-| Desc.     |Obtenção da linha digitavel/codigo de barras                |
-|           |                                                            |
-+-----------+------------------------------------------------------------+
-*/
-Static Function fLinhaDig(cCodBanco, ; // Codigo do Banco (756)
-	cCodMoeda, ; // Codigo da Moeda (9)
-	cCarteira, ; // Codigo da Carteira
-	cAgencia , ; // Codigo da Agencia
-	cConta   , ; // Codigo da Conta
-	cDvConta , ; // Digito verificador da Conta
-	nValor   , ; // Valor do Titulo
-	dVencto  , ; // Data de vencimento do titulo
-	cNroDoc   )  // Numero do Documento Ref ao Contas a Receber
+	cCodMoeda, ;    // Codigo da Moeda (9)
+	cCarteira, ;    // Codigo da Carteira
+	cAgencia , ;    // Codigo da Agencia
+	cConta   , ;    // Codigo da Conta
+	cDvConta , ;    // Digito verificador da Conta
+	nValor   , ;    // Valor do Titulo
+	dVencto  , ;    // Data de vencimento do titulo
+	cNroDoc   )     // Numero do Documento Ref ao Contas a Receber
 
 	Local cValorFinal := StrZero(int(nValor*100),10)
 	Local cFator      := StrZero( (dVencto - CtoD("03/07/2000")) + 1000, 4 )
 
-//em observação - acredito que sejam desnecessários
-//Local cCodBar   	:= Replicate("0",43)
-//Local cCampo1   	:= Replicate("0",05)+"."+Replicate("0",05)
-//Local cCampo2   	:= Replicate("0",05)+"."+Replicate("0",06)
-//Local cCampo3   	:= Replicate("0",05)+"."+Replicate("0",06)
-//Local cCampo4   	:= Replicate("0",01)
-//	Local cCampo5   	:= Replicate("0",14)
+	//em observação - acredito que sejam desnecessários
+	//Local cCodBar   	:= Replicate("0",43)
+	//Local cCampo1   	:= Replicate("0",05)+"."+Replicate("0",05)
+	//Local cCampo2   	:= Replicate("0",05)+"."+Replicate("0",06)
+	//Local cCampo3   	:= Replicate("0",05)+"."+Replicate("0",06)
+	//Local cCampo4   	:= Replicate("0",01)
+	//	Local cCampo5   	:= Replicate("0",14)
 
 	Local cTemp     	:= ""
-	Local cDV			:= "" // Digito verificador dos campos
+	Local cDV			:= ""    // Digito verificador dos campos
 	Local cLinDig		:= ""
-	Local _cNumDoBco  	:= right(rtrim(SE1->E1_NUMBCO), 7) // Nosso numero
+	Local _cNumDoBco  	:= right(rtrim(SE1->E1_NUMBCO), 7)    // Nosso numero
 	Local _cParcela
-	Local _cCodCliente	:= padl(ALLTRIM(SEE->EE_CODEMP),10,'0') //acrescentado por augusto (código do cliente)
+	Local _cCodCliente	:= padl(ALLTRIM(SEE->EE_CODEMP),10,'0')    //acrescentado por augusto (código do cliente)
 	Local _cCodCAR 	:= Alltrim(SEE->EE_CODCART)
 	Local _cDV_CB		:= ""
-/*
-	if .not. empty ( SE1->E1_PARCELA)
-		_cParcela := StrZero( Asc( Upper( ALLTRIM( SE1->E1_PARCELA ) ) ) - 64, 3, 0 )
-	else
-		_cParcela := '001'
-	endif
-	*/
-	if .not. empty(SE1->E1_PARCELA)
-    		_cParcela := StrZero(Val(ALLTRIM(SE1->E1_PARCELA)), 3, 0)
-		else
-    		_cParcela := '001'
-		endif
 
-//	-------------------------
-//	Definicao do NOSSO NUMERO
-//	-------------------------
+	//if .not. empty ( SE1->E1_PARCELA)
+	//	_cParcela := StrZero(ALLTRIM(SE1->E1_PARCELA), 3, 0 )     //StrZero( Asc( Upper( ALLTRIM( SE1->E1_PARCELA ) ) ) - 64, 3, 0 )
+	//else
+	_cParcela := '001'
+	//endif
+
+	//	-------------------------
+	//	Definicao do NOSSO NUMERO
+	//	-------------------------
 	If At("-",cConta) > 0
 		cDig   := Right(AllTrim(cConta),1)
 		cConta := AllTrim(Str(Val(Left(cConta,At('-',cConta)-1) + cDig)))
@@ -669,14 +661,14 @@ Static Function fLinhaDig(cCodBanco, ; // Codigo do Banco (756)
 		cConta := AllTrim(Str(Val(cConta)))
 	Endif
 
-	cTemp			:= Alltrim(cAgencia) + _cCodCliente + _cNumDoBco //base numérica para calcular o digito verificador do nosso número
-	cConstRep			:= "319731973197319731973" //constante fornecida pelo SICOOB "3197"
+	cTemp			:= Alltrim(cAgencia) + _cCodCliente + _cNumDoBco    //base numérica para calcular o digito verificador do nosso número
+	cConstRep			:= "319731973197319731973"    //constante fornecida pelo SICOOB "3197"
 	nSoma_Resultado 	:= 0
 
 	FOR _nI := 1 TO 21  STEP 1
 
-		_nD_NN :=  VAL( SUBSTR( cTemp, _nI, 1 ) ) // PEGA UM DIGITO DO NOSSO NUMERO
-		_nD_CR :=  VAL( SUBSTR( cConstRep   , _nI, 1 ) ) // PEGA UM DIGITO DA CONSTANTE REPETIDA
+		_nD_NN :=  VAL( SUBSTR( cTemp, _nI, 1 ) )    // PEGA UM DIGITO DO NOSSO NUMERO
+		_nD_CR :=  VAL( SUBSTR( cConstRep   , _nI, 1 ) )    // PEGA UM DIGITO DA CONSTANTE REPETIDA
 
 		nSoma_Resultado += _nD_NN * _nD_CR
 
@@ -689,129 +681,126 @@ Static Function fLinhaDig(cCodBanco, ; // Codigo do Banco (756)
 
 	else
 
-		_cDV_NumBco  := STR( 11 - _nRestoOperacao, 1 ) //digito verificador do número do banco
+		_cDV_NumBco  := STR( 11 - _nRestoOperacao, 1 )    //digito verificador do número do banco
 
 	ENDIF
 
-
 	cNossoNum	:= _cNumDoBco + _cDV_NumBco
 
-//GRAVA O DÝGITO VERIFICAR DO NOSSO NÚMERO
+	//GRAVA O DÝGITO VERIFICAR DO NOSSO NÚMERO
 	RECLOCK("SE1",.F.)
 	SE1->E1_NUMDV := _cDV_NumBco
 	SE1->(MSUNLOCK() )
 
 
-//	-----------------------------
-//	Definicao do CODIGO DE BARRAS
-//	-----------------------------
+	//	-----------------------------
+	//	Definicao do CODIGO DE BARRAS
+	//	-----------------------------
 
-//Campo Obrigatório: determinado pelo BACEN
-	cCodBar := Alltrim(cCodBanco)        // 01 a 03
-	cCodBar += Alltrim(cCodMoeda)        // 04 a 04
-	cCodBar += "0"					// 05 a 05 - DV (será preenchido após o cálculo, conforme função delphi
-	cCodBar += cFator		              // 06 a 09
-	cCodBar += Alltrim(cValorFinal)      // 10 a 19
+	//Campo Obrigatório: determinado pelo BACEN
+	cCodBar := Alltrim(cCodBanco)           // 01 a 03
+	cCodBar += Alltrim(cCodMoeda)           // 04 a 04
+	cCodBar += "0"					   // 05 a 05 - DV (será preenchido após o cálculo, conforme função delphi
+	cCodBar += cFator		                 // 06 a 09
+	cCodBar += Alltrim(cValorFinal)         // 10 a 19
 
-//Campo Livre, conforme definição de cada banco
-	cCodBar += cCarteira             	// 20 a 20
-	cCodBar += cAgencia		   		// 21 a 24
-	cCodBar += _cCodCAR				// 25 A 26
-	cCodBar += _cCodCliente			// 27 a 33
-	cCodBar += _cNumDoBco + _cDV_NumBco	// 34 a 41
-	cCodBar += _cParcela			     // 32 a 35
+	//Campo Livre, conforme definição de cada banco
+	cCodBar += cCarteira             	   // 20 a 20
+	cCodBar += cAgencia		   		   // 21 a 24
+	cCodBar += _cCodCAR				   // 25 A 26
+	cCodBar += _cCodCliente			   // 27 a 33
+	cCodBar += _cNumDoBco + _cDV_NumBco	   // 34 a 41
+	cCodBar += _cParcela			        // 32 a 35
 
 	cCodBar := LEFT( cCodBar, 4 ) + (_cDV_CB := Modulo11( cCodBar )) + SUBSTR( cCodBar, 6 )
 
+	/*
+	-----------------------------------------------------
+	Definicao da LINHA DIGITAVEL (Representacao Numerica)
+	-----------------------------------------------------
 
-/*
------------------------------------------------------
-Definicao da LINHA DIGITAVEL (Representacao Numerica)
------------------------------------------------------
+	Campo 1			Campo 2			Campo 3			Campo 4		Campo 5
+	AAABC.CCDDX		DDDDD.DDFFFY	FGGGG.GGHHHZ	K			UUUUVVVVVVVVVV
 
-Campo 1			Campo 2			Campo 3			Campo 4		Campo 5
-AAABC.CCDDX		DDDDD.DDFFFY	FGGGG.GGHHHZ	K			UUUUVVVVVVVVVV
-
-CAMPO 1:
-AAA = Codigo do banco na Camara de Compensacao                                            Substr(Right(AllTrim(SE1->E1_NUMBCO
-B = Codigo da moeda, sempre 9
-CCC = Codigo da Carteira de Cobranca
-DD = Dois primeiros digitos no nosso numero
-X = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
-*/
+	CAMPO 1:
+	AAA = Codigo do banco na Camara de Compensacao                                            Substr(Right(AllTrim(SE1->E1_NUMBCO
+	B = Codigo da moeda, sempre 9
+	CCC = Codigo da Carteira de Cobranca
+	DD = Dois primeiros digitos no nosso numero
+	X = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
+	*/
 
 	cTemp   := cCodBanco + cCodMoeda + cCarteira + Right(AllTrim(SE1->E1_AGEDEP), 4)
 	cDV		:= Alltrim( Str( Modulo10(cTemp) ) )
 
 	cCampo1 := SubStr( cTemp, 1, 5 ) + Alltrim( SubStr( cTemp, 6 ) ) + cDV
 
-/*
+	/*
 
-CAMPO 2:
-DDDDDD = Restante do Nosso Numero
-E = DAC do campo Agencia/Conta/Carteira/Nosso Numero
-FFF = Tres primeiros numeros que identificam a agencia
-Y = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
-*/
+	CAMPO 2:
+	DDDDDD = Restante do Nosso Numero
+	E = DAC do campo Agencia/Conta/Carteira/Nosso Numero
+	FFF = Tres primeiros numeros que identificam a agencia
+	Y = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
+	*/
 
 	cTemp	:= PADL(alltrim(_cCODCAR),2,"0") + RIGHT(_cCodCliente,7) + LEFT(_cNumDoBco,1)
 	cDV		:= Alltrim( Str( Modulo10(cTemp) ) )
 
 	cCampo2 := Substr( cTemp, 1, 5 ) + Substr( cTemp, 6 )  + cDV
 
-/*
-CAMPO 3:
-F = Restante do numero que identifica a agencia
-GGGGGG = Numero da Conta + DAC da mesma
-HHH = Zeros (Nao utilizado)
-Z = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
-*/
+	/*
+	CAMPO 3:
+	F = Restante do numero que identifica a agencia
+	GGGGGG = Numero da Conta + DAC da mesma
+	HHH = Zeros (Nao utilizado)
+	Z = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
+	*/
 
 	cTemp  	:= Substr( _cNumDoBco, 2 ) + _cDV_NumBco + _cParcela
 	cDV		:= Alltrim( Str (Modulo10(cTemp) ) )
 
 	cCampo3	:= Substr( cTemp, 1, 5 ) +  Substr(cTemp,6)  + cDV
 
-/*
-CAMPO 4:
-K = DAC do Codigo de Barras
-*/
+	/*
+	CAMPO 4:
+	K = DAC do Codigo de Barras
+	*/
 
 	cCampo4 :=  _cDV_CB
 
-/*
-CAMPO 5:
-UUUU = Fator de Vencimento
-VVVVVVVVVV = Valor do Titulo
-*/
+	/*
+	CAMPO 5:
+	UUUU = Fator de Vencimento
+	VVVVVVVVVV = Valor do Titulo
+	*/
 	cCampo5 := cFator + cValorFinal
 
 	cLinDig := cCampo1 + cCampo2 + cCampo3 + cCampo4 + cCampo5
 
-	cTemp := substr(cLinDig,01,03) //codigo do banco
-	cTemp += substr(cLinDig,04,01) //moeda
-	cTemp += substr(cLinDig,33,01) //digito verificador
-	cTemp += substr(cLinDig,34,04) //fator de vencimento
-	cTemp += substr(cLinDig,38,10) //valor do documento
-	cTemp += substr(cLinDig,05,01) //carteira
-	cTemp += substr(cLinDig,06,04) //agencia
-	cTemp += substr(cLinDig,11,02) //modalidade de cobrança
-	cTemp += substr(cLinDig,13,07) //código do cliente
-	cTemp += substr(cLinDig,20,01) //nosso número inicio
-	cTemp += substr(cLinDig,22,07) //nosso número fim
-	cTemp += substr(cLinDig,29,03) //parcela
+	cTemp := substr(cLinDig,01,03)    //codigo do banco
+	cTemp += substr(cLinDig,04,01)    //moeda
+	cTemp += substr(cLinDig,33,01)    //digito verificador
+	cTemp += substr(cLinDig,34,04)    //fator de vencimento
+	cTemp += substr(cLinDig,38,10)    //valor do documento
+	cTemp += substr(cLinDig,05,01)    //carteira
+	cTemp += substr(cLinDig,06,04)    //agencia
+	cTemp += substr(cLinDig,11,02)    //modalidade de cobrança
+	cTemp += substr(cLinDig,13,07)    //código do cliente
+	cTemp += substr(cLinDig,20,01)    //nosso número inicio
+	cTemp += substr(cLinDig,22,07)    //nosso número fim
+	cTemp += substr(cLinDig,29,03)    //parcela
 
 	cLinDig := cCampo1 + cCampo2 + cCampo3 + Modulo11(cTemp) + cCampo5
 
 
 Return {cCodBar, cLinDig, cNossoNum}
 
-
-//+-----------+----------+-------+--------------------+------+-------------+
-//| Programa  |AJUSTASX1 |Autor  |PSS PARTNERS        | Data | 23/10/2014  |
-//+-----------+----------+-------+--------------------+------+-------------+
-//| Desc.     |Ajuste das perguntas no SX1                                 |
-//+-----------+------------------------------------------------------------+
+	//+-----------+----------+-------+--------------------+------+-------------+
+	//| Programa  |AJUSTASX1 |Autor  |PSS PARTNERS        | Data | 23/10/2014  |
+	//+-----------+----------+-------+--------------------+------+-------------+
+	//| Desc.     |Ajuste das perguntas no SX1                                 |
+	//+-----------+------------------------------------------------------------+
 
 Static Function AjustaSX1(cPerg, aPergs)
 	Local _sAlias	:= Alias()
@@ -844,7 +833,7 @@ Static Function AjustaSX1(cPerg, aPergs)
 		Endif
 
 		If ! lAltera .And. Found() .And. X1_TIPO <> aPergs[nX][5]
-			lAltera := .T.		// Garanto que o tipo da pergunta esteja correto
+			lAltera := .T.		   // Garanto que o tipo da pergunta esteja correto
 		Endif
 
 		If ! Found() .Or. lAltera
@@ -883,14 +872,14 @@ Static Function AjustaSX1(cPerg, aPergs)
 	Next
 Return
 
-/*
-+-----------+----------+-------+--------------------+------+-------------+
-| Programa  |MODULO10  |Autor  |PSS PARTNERS        | Data |  23/10/2014 |
-+-----------+----------+-------+--------------------+------+-------------+
-| Desc.     |Cálculo do Modulo 10 para obtenção do DV dos campos do      |
-|           |Codigo de Barras                                            |
-+-----------+------------------------------------------------------------+
-*/
+	/*
+	+-----------+----------+-------+--------------------+------+-------------+
+	| Programa  |MODULO10  |Autor  |PSS PARTNERS        | Data |  23/10/2014 |
+	+-----------+----------+-------+--------------------+------+-------------+
+	| Desc.     |Cálculo do Modulo 10 para obtenção do DV dos campos do      |
+	|           |Codigo de Barras                                            |
+	+-----------+------------------------------------------------------------+
+	*/
 Static Function Modulo10(cData)
 
 	LOCAL L,D,P := 0
@@ -916,11 +905,11 @@ Static Function Modulo10(cData)
 	End
 Return(D)
 
-//+-----------+----------+-------+--------------------+------+-------------+
-//| Programa  |MODULO11  |Autor  |PSS PARTNERS        | Data | 23/10/2014  |
-//+-----------+----------+-------+--------------------+------+-------------+
-//| Desc.     |Calculo do Modulo 11 para obtencao do DV do Codigo de Barras|
-//+-----------+------------------------------------------------------------+
+	//+-----------+----------+-------+--------------------+------+-------------+
+	//| Programa  |MODULO11  |Autor  |PSS PARTNERS        | Data | 23/10/2014  |
+	//+-----------+----------+-------+--------------------+------+-------------+
+	//| Desc.     |Calculo do Modulo 11 para obtencao do DV do Codigo de Barras|
+	//+-----------+------------------------------------------------------------+
 Static Function Modulo11( _cCodBarra )
 
 	LOCAL _cDvMod11 	:= ''
@@ -929,7 +918,7 @@ Static Function Modulo11( _cCodBarra )
 	LOCAL nSoma		:= 0
 
 	FOR nContador := 1 TO 44  STEP 1
-		nSoma +=  VAL( SUBSTR( _cCodBarra, nContador, 1 ) ) *  VAL( SUBSTR( cIndice , nContador, 1 ) ) // SOMATÓRIA PARA COMPOR A BASE DE CÝLCULO PARA O DÝGITO VERIFICADOR
+		nSoma +=  VAL( SUBSTR( _cCodBarra, nContador, 1 ) ) *  VAL( SUBSTR( cIndice , nContador, 1 ) )    // SOMATÓRIA PARA COMPOR A BASE DE CÝLCULO PARA O DÝGITO VERIFICADOR
 	NEXT
 
 	_cDvMod11 := ALLTRIM( STR( 11 - MOD( nSoma, 11 ) ) )

@@ -220,6 +220,7 @@ Else
 		Processa({|lEnd|MontaRel(aMarked, c_Banco, c_Agen, c_Cta, c_Subc)})
 
 	ENDIF
+	
 Endif
 
 DBSELECTAREA("TTRB")
@@ -496,8 +497,6 @@ oPrint:Line (nRow1+0550, 100,nRow1+0550,2300 )
 
 oPrint:Line (nRow1+0350,1050,nRow1+0150,1050 )
 oPrint:Line (nRow1+0350,1500,nRow1+0150,1500 ) 
-
-          
 
 /*****************/
 /* SEGUNDA PARTE */

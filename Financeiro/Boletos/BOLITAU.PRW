@@ -14,248 +14,252 @@ Uso      : Financeiro
 /*/
 
 User Function BOLITAU(c_SerNf, c_Agen, c_Cta, c_Subc)
-Local   aMarked := {}
-Local _stru:={}
-Local aCpoBro := {}
-Local n_Clic:= 0
-Private lInverte := .F.
-Private cMark   := GetMark()
-Private oMark
-PRIVATE Exec    := .F.
-PRIVATE cIndexName := ''
-PRIVATE cIndexKey  := ''
-PRIVATE cFilter    := ''
-PRIVATE nCB1Linha    := 14.4
-PRIVATE nCB2Linha    := 25.4
-Private nCBColuna    := 1.3
-Private nCBLargura   := 0.0220
-Private nCBAltura    := 1.285
-Private l_GeraNN := .F.
-Default c_SerNf	:= ''
-Default	c_Agen	:= ''
-Default c_Cta	:= ''
-Default c_Subc	:= ''
+	Local   aMarked := {}
+	Local _stru:={}
+	Local aCpoBro := {}
+	Local n_Clic:= 0
+	Private lInverte := .F.
+	Private cMark   := GetMark()
+	Private oMark
+	PRIVATE Exec    := .F.
+	PRIVATE cIndexName := ''
+	PRIVATE cIndexKey  := ''
+	PRIVATE cFilter    := ''
+	PRIVATE nCB1Linha    := 14.4
+	PRIVATE nCB2Linha    := 25.4
+	Private nCBColuna    := 1.3
+	Private nCBLargura   := 0.0220
+	Private nCBAltura    := 1.285
+	Private l_GeraNN := .F.
+	Default c_SerNf	:= ''
+	Default	c_Agen	:= ''
+	Default c_Cta	:= ''
+	Default c_Subc	:= ''
 
-AADD(_stru,{"OK"     	, "C",  2, 0})
-AADD(_stru,{"E1_PREFIXO", "C", TAMSX3("E1_PREFIXO")[1], 0})
-AADD(_stru,{"E1_NUM"   	, "C", TAMSX3("E1_NUM")[1], 0})
-AADD(_stru,{"E1_TIPO"   , "C", TAMSX3("E1_TIPO")[1], 0})
-AADD(_stru,{"E1_CLIENTE", "C", TAMSX3("E1_CLIENTE")[1], 2})
-AADD(_stru,{"E1_LOJA"   , "C", TAMSX3("E1_LOJA")[1], 0})
-AADD(_stru,{"E1_VALOR" 	, "N", 17, 2})
-AADD(_stru,{"E1_VENCTO" , "D", 8, 0})
-AADD(_stru,{"E1_NUMBOR" , "C", TAMSX3("E1_NUMBOR")[1], 0})
-AADD(_stru,{"E1_PORTADO", "C", TAMSX3("E1_PORTADO")[1], 0})
-AADD(_stru,{"E1_AGEDEP" , "C", TAMSX3("E1_AGEDEP")[1], 0})
-AADD(_stru,{"E1_CONTA" 	, "C", TAMSX3("E1_CONTA")[1], 0})
-AADD(_stru,{"E1_PARCELA", "C", TAMSX3("E1_PARCELA")[1], 0})
-AADD(_stru,{"E1_SITUACA", "C", TAMSX3("E1_SITUACA")[1], 0})
-AADD(_stru,{"E1_SALDO" 	, "N", 17, 2})
-AADD(_stru,{"E1_EMISSAO", "D", 8, 0})
-AADD(_stru,{"E1_NUMBCO" , "C", TAMSX3("E1_NUMBCO")[1], 0})
-AADD(_stru,{"E1_NUMDV" , "C", TAMSX3("E1_NUMDV")[1], 0})
-AADD(_stru,{"E1_NOMCLI" , "C", TAMSX3("E1_NOMCLI")[1], 0})
-AADD(_stru,{"E1_FSFORMA"   , "C", TAMSX3("E1_FSFORMA")[1], 0})
+	AADD(_stru,{"OK"     	, "C",  2, 0})
+	AADD(_stru,{"E1_PREFIXO", "C", TAMSX3("E1_PREFIXO")[1], 0})
+	AADD(_stru,{"E1_NUM"   	, "C", TAMSX3("E1_NUM")[1], 0})
+	AADD(_stru,{"E1_TIPO"   , "C", TAMSX3("E1_TIPO")[1], 0})
+	AADD(_stru,{"E1_CLIENTE", "C", TAMSX3("E1_CLIENTE")[1], 2})
+	AADD(_stru,{"E1_LOJA"   , "C", TAMSX3("E1_LOJA")[1], 0})
+	AADD(_stru,{"E1_VALOR" 	, "N", 17, 2})
+	AADD(_stru,{"E1_VENCTO" , "D", 8, 0})
+	AADD(_stru,{"E1_NUMBOR" , "C", TAMSX3("E1_NUMBOR")[1], 0})
+	AADD(_stru,{"E1_PORTADO", "C", TAMSX3("E1_PORTADO")[1], 0})
+	AADD(_stru,{"E1_AGEDEP" , "C", TAMSX3("E1_AGEDEP")[1], 0})
+	AADD(_stru,{"E1_CONTA" 	, "C", TAMSX3("E1_CONTA")[1], 0})
+	AADD(_stru,{"E1_PARCELA", "C", TAMSX3("E1_PARCELA")[1], 0})
+	AADD(_stru,{"E1_SITUACA", "C", TAMSX3("E1_SITUACA")[1], 0})
+	AADD(_stru,{"E1_SALDO" 	, "N", 17, 2})
+	AADD(_stru,{"E1_EMISSAO", "D", 8, 0})
+	AADD(_stru,{"E1_NUMBCO" , "C", TAMSX3("E1_NUMBCO")[1], 0})
+	AADD(_stru,{"E1_NUMDV" , "C", TAMSX3("E1_NUMDV")[1], 0})
+	AADD(_stru,{"E1_NOMCLI" , "C", TAMSX3("E1_NOMCLI")[1], 0})
+	AADD(_stru,{"E1_FSFORMA"   , "C", TAMSX3("E1_FSFORMA")[1], 0})
 
-oTempTable := FWTemporaryTable():New( "TTRB" )
-oTemptable:SetFields( _stru )
+	oTempTable := FWTemporaryTable():New( "TTRB" )
+	oTemptable:SetFields( _stru )
 
-oTempTable:Create()
+	oTempTable:Create()
 
-If 	Len(c_SerNf) > 0
-	c_QRY := " SELECT * "
-	c_QRY += " FROM " + RetSqlName("SE1")
-	c_QRY += " WHERE E1_FILIAL = '" + xFilial("SE1")+ "'"
-	c_QRY += " AND E1_PREFIXO+E1_NUM IN "+FormatIn(c_SerNf,";")
-	c_QRY += " AND E1_SALDO > 0"
-	c_QRY += " AND SUBSTRING(E1_TIPO,3,1) <> '-' "
-	c_QRY += " AND E1_FSFORMA = 'BOL ' "
-	c_QRY += " AND D_E_L_E_T_ <> '*'
-	c_QRY += " ORDER BY E1_PREFIXO, E1_NUM, E1_PARCELA
+	If 	Len(c_SerNf) > 0
+		c_QRY := " SELECT * "
+		c_QRY += " FROM " + RetSqlName("SE1")
+		c_QRY += " WHERE E1_FILIAL = '" + xFilial("SE1")+ "'"
+		c_QRY += " AND E1_PREFIXO+E1_NUM IN "+FormatIn(c_SerNf,";")
+		c_QRY += " AND E1_SALDO > 0"
+		c_QRY += " AND SUBSTRING(E1_TIPO,3,1) <> '-' "
+		c_QRY += " AND E1_FSFORMA = 'BOL ' "
+		c_QRY += " AND D_E_L_E_T_ <> '*'
+		c_QRY += " ORDER BY E1_PREFIXO, E1_NUM, E1_PARCELA
 
-	TcQuery c_QRY New Alias 'TRB'
+		TcQuery c_QRY New Alias 'TRB'
 
-	DBSELECTAREA("TRB")
-	TRB->(dbGoTop())
-	IF	TRB->(Eof())
-        msgalert("Nenhum título encontrado em aberto para esta seleção.")	
+		DBSELECTAREA("TRB")
+		TRB->(dbGoTop())
+		IF	TRB->(Eof())
+			msgalert("Nenhum título encontrado em aberto para esta seleção.")	
+			TRB->(DBCLOSEAREA())
+			TTRB->(DBCLOSEAREA())
+			Return
+		ENDIF
+
+		While  TRB->(!Eof())
+			DbSelectArea("TTRB")
+			RecLock("TTRB",.T.)
+			TTRB->OK			:= cMark
+			TTRB->E1_PREFIXO	:=  TRB->E1_PREFIXO
+			TTRB->E1_NUM		:=  TRB->E1_NUM
+			TTRB->E1_TIPO		:=  TRB->E1_TIPO
+			TTRB->E1_CLIENTE	:=  TRB->E1_CLIENTE
+			TTRB->E1_LOJA		:=  TRB->E1_LOJA
+			TTRB->E1_VALOR		:=  TRB->E1_VALOR
+			TTRB->E1_VENCTO		:=  stod(TRB->E1_VENCTO)
+			TTRB->E1_NUMBOR		:=  TRB->E1_NUMBOR
+			TTRB->E1_PORTADO	:=  TRB->E1_PORTADO
+			TTRB->E1_AGEDEP		:=  TRB->E1_AGEDEP
+			TTRB->E1_CONTA		:=  TRB->E1_CONTA
+			TTRB->E1_PARCELA	:=  TRB->E1_PARCELA
+			TTRB->E1_SITUACA	:=  TRB->E1_SITUACA
+			TTRB->E1_SALDO		:=  TRB->E1_SALDO
+			TTRB->E1_EMISSAO	:=  STOD(TRB->E1_EMISSAO)
+			TTRB->E1_NUMBCO		:=  TRB->E1_NUMBCO
+			TTRB->E1_NOMCLI	:=  TRB->E1_NOMCLI
+			TTRB->E1_FSFORMA	:=  TRB->E1_FSFORMA
+			MsunLock()
+
+			AADD(aMarked,.T.)
+			TRB->(DbSkip())
+		Enddo
 		TRB->(DBCLOSEAREA())
-		TTRB->(DBCLOSEAREA())
-		Return
-	ENDIF
 
-	While  TRB->(!Eof())
-		DbSelectArea("TTRB")
-		RecLock("TTRB",.T.)
-		TTRB->OK			:= cMark
-		TTRB->E1_PREFIXO	:=  TRB->E1_PREFIXO
-		TTRB->E1_NUM		:=  TRB->E1_NUM
-		TTRB->E1_TIPO		:=  TRB->E1_TIPO
-		TTRB->E1_CLIENTE	:=  TRB->E1_CLIENTE
-		TTRB->E1_LOJA		:=  TRB->E1_LOJA
-		TTRB->E1_VALOR		:=  TRB->E1_VALOR
-		TTRB->E1_VENCTO		:=  stod(TRB->E1_VENCTO)
-		TTRB->E1_NUMBOR		:=  TRB->E1_NUMBOR
-		TTRB->E1_PORTADO	:=  TRB->E1_PORTADO
-		TTRB->E1_AGEDEP		:=  TRB->E1_AGEDEP
-		TTRB->E1_CONTA		:=  TRB->E1_CONTA
-		TTRB->E1_PARCELA	:=  TRB->E1_PARCELA
-		TTRB->E1_SITUACA	:=  TRB->E1_SITUACA
-		TTRB->E1_SALDO		:=  TRB->E1_SALDO
-		TTRB->E1_EMISSAO	:=  STOD(TRB->E1_EMISSAO)
-		TTRB->E1_NUMBCO		:=  TRB->E1_NUMBCO
-		TTRB->E1_NOMCLI	:=  TRB->E1_NOMCLI
-		TTRB->E1_FSFORMA	:=  TRB->E1_FSFORMA
-		MsunLock()
-
-		AADD(aMarked,.T.)
-		TRB->(DbSkip())
-	Enddo
-	TRB->(DBCLOSEAREA())
-
-	TTRB->(dbGoTop())
-
-	Processa({|lEnd|MontaRel(aMarked, c_Banco, c_Agen, c_Cta, c_Subc)})
-
-Else
-	cPerg  :="BOLITAU"
-	CriaPerg()
-
-	If !Pergunte(cPerg,.T.)
-		Return()
-	EndIf
-
-	c_QRY := " SELECT * "
-	c_QRY += " FROM " + RetSqlName("SE1")
-	c_QRY += " WHERE E1_FILIAL = '" + xFilial("SE1")+ "'"
-	c_QRY += " AND E1_EMISSAO BETWEEN '" + Dtos(MV_PAR05) + "' AND '" + Dtos(MV_PAR06) + "'"
-	c_QRY += " AND E1_VENCTO BETWEEN '" + Dtos(MV_PAR07) + "' AND '" + Dtos(MV_PAR08) + "'"
-	c_QRY += " AND E1_CLIENTE BETWEEN '" + MV_PAR09 + "' AND '" + MV_PAR11 + "'"
-	c_QRY += " AND E1_LOJA BETWEEN '" + MV_PAR10 + "' AND '" + MV_PAR12 + "'"
-	c_QRY += " AND E1_NUM BETWEEN '" + MV_PAR13 + "' And '" + MV_PAR14 + "'"
-	c_QRY += " AND E1_PORTADO IN ('','"+MV_PAR01+"')
-	c_QRY += " AND E1_SALDO > 0"
-	c_QRY += " AND SUBSTRING(E1_TIPO,3,1) <> '-' "
-	c_QRY += " AND E1_FSFORMA = 'BOL ' "
-	c_QRY += " AND D_E_L_E_T_ <> '*'
-	c_QRY += " ORDER BY E1_PREFIXO, E1_NUM, E1_PARCELA
-
-	TcQuery c_QRY New Alias 'TRB'
-
-	DBSELECTAREA("TRB")
-	TRB->(dbGoTop())
-
-	While  TRB->(!Eof())
-		DbSelectArea("TTRB")
-		RecLock("TTRB",.T.)
-		TTRB->E1_PREFIXO	:=  TRB->E1_PREFIXO
-		TTRB->E1_NUM		:=  TRB->E1_NUM
-		TTRB->E1_TIPO		:=  TRB->E1_TIPO
-		TTRB->E1_CLIENTE	:=  TRB->E1_CLIENTE
-		TTRB->E1_LOJA		:=  TRB->E1_LOJA
-		TTRB->E1_VALOR		:=  TRB->E1_VALOR
-		TTRB->E1_VENCTO		:=  stod(TRB->E1_VENCTO)
-		TTRB->E1_NUMBOR		:=  TRB->E1_NUMBOR
-		TTRB->E1_PORTADO	:=  TRB->E1_PORTADO
-		TTRB->E1_AGEDEP		:=  TRB->E1_AGEDEP
-		TTRB->E1_CONTA		:=  TRB->E1_CONTA
-		TTRB->E1_PARCELA	:=  TRB->E1_PARCELA
-		TTRB->E1_SITUACA	:=  TRB->E1_SITUACA
-		TTRB->E1_SALDO		:=  TRB->E1_SALDO
-		TTRB->E1_EMISSAO	:=  STOD(TRB->E1_EMISSAO)
-		TTRB->E1_NUMBCO		:=  TRB->E1_NUMBCO
-		TTRB->E1_NUMDV		:=  TRB->E1_NUMDV
-		TTRB->E1_NOMCLI	:=  TRB->E1_NOMCLI
-		TTRB->E1_FSFORMA	:=  TRB->E1_FSFORMA
-		MsunLock()
-		TRB->(DbSkip())
-	Enddo
-
-	DBSELECTAREA("TRB")
-	TRB->(DBCLOSEAREA())
-
-	aCpoBro	:= {{ "OK"		    ,, " "            ,"@!"},;
-				{ "E1_PREFIXO"  ,, "Prefixo"	  ,"@!"},;
-				{ "E1_NUM"	    ,, "Numero"       ,"@!"},;
-				{ "E1_PARCELA"  ,, "Parcela"      ,"@!"},;
-				{ "E1_FSFORMA"	,, "Tipo"         ,"@X"},;
-				{ "E1_CLIENTE"  ,, "Cliente"      ,"@!"},;
-				{ "E1_NOMCLI"  ,, "Nome"      ,"@!"},;
-				{ "E1_VALOR"    ,, "Valor"        ,"@E 999,999,999.99"},;
-				{ "E1_VENCTO"   ,, "Vencimento"   , "@!"},;
-				{ "E1_NUMBCO"   ,, "Nosso Numero" ,"@!"},;
-				{ "E1_PORTADOR" ,, "Portador"     ,"@!"}}
-
-	DEFINE MSDIALOG oDlg TITLE "Titulos" From 9,0 To 315,800 PIXEL
-	DbSelectArea("TTRB")
-	TTRB->(DbGotop())
-
-	oMark := MsSelect():New("TTRB","OK","",aCpoBro,@lInverte,@cMark,{40,1,150,400},,,,,)
-	oMark:bMark := {|| Disp()}
-	oMark:oBrowse:bAllMark := {|| FILMARK()}
-	oMark:oBrowse:lCanAllMark:= .T.
-	oMark:oBrowse:lHasMark:= .T.
-
-	ACTIVATE MSDIALOG oDlg CENTERED ON INIT EnchoiceBar(oDlg,{|| n_Clic:= 1, oDlg:End()},{|| n_Clic:= 2, oDlg:End()})
-
-	IF n_Clic = 1
 		TTRB->(dbGoTop())
-		While TTRB->(!Eof())
-			If TTRB->OK = cMark
-				AADD(aMarked,.T.)
-			Else
-				AADD(aMarked,.F.)
-			EndIf
-			TTRB->(dbSkip())
-		EndDo
-
-		dbGoTop()
-
-		c_Banco := MV_PAR01
-		c_Agen := MV_PAR02
-		c_Cta := MV_PAR03
-		c_Subc := MV_PAR04
-		If 	MV_PAR15 = 2 //Sobrepoe Nosso Numero
-			l_GeraNN := .T.
-		Endif
 
 		Processa({|lEnd|MontaRel(aMarked, c_Banco, c_Agen, c_Cta, c_Subc)})
 
-	ENDIF
-Endif
+	Else
+		cPerg  :="BOLITAU"
+		CriaPerg()
 
-DBSELECTAREA("TTRB")
-DBCLOSEAREA()
+		If !Pergunte(cPerg,.T.)
+			Return()
+		EndIf
+
+		c_QRY := " SELECT * "
+		c_QRY += " FROM " + RetSqlName("SE1")
+		c_QRY += " WHERE E1_FILIAL = '" + xFilial("SE1")+ "'"
+		c_QRY += " AND E1_EMISSAO BETWEEN '" + Dtos(MV_PAR05) + "' AND '" + Dtos(MV_PAR06) + "'"
+		c_QRY += " AND E1_VENCTO BETWEEN '" + Dtos(MV_PAR07) + "' AND '" + Dtos(MV_PAR08) + "'"
+		c_QRY += " AND E1_CLIENTE BETWEEN '" + MV_PAR09 + "' AND '" + MV_PAR11 + "'"
+		c_QRY += " AND E1_LOJA BETWEEN '" + MV_PAR10 + "' AND '" + MV_PAR12 + "'"
+		c_QRY += " AND E1_NUM BETWEEN '" + MV_PAR13 + "' And '" + MV_PAR14 + "'"
+		c_QRY += " AND E1_PORTADO IN ('','"+MV_PAR01+"')
+		c_QRY += " AND E1_SALDO > 0"
+		c_QRY += " AND SUBSTRING(E1_TIPO,3,1) <> '-' "
+		c_QRY += " AND E1_FSFORMA = 'BOL ' "
+		c_QRY += " AND D_E_L_E_T_ <> '*'
+		c_QRY += " ORDER BY E1_PREFIXO, E1_NUM, E1_PARCELA
+
+		TcQuery c_QRY New Alias 'TRB'
+
+		DBSELECTAREA("TRB")
+		TRB->(dbGoTop())
+
+		While  TRB->(!Eof())
+			DbSelectArea("TTRB")
+			RecLock("TTRB",.T.)
+			TTRB->E1_PREFIXO	:=  TRB->E1_PREFIXO
+			TTRB->E1_NUM		:=  TRB->E1_NUM
+			TTRB->E1_TIPO		:=  TRB->E1_TIPO
+			TTRB->E1_CLIENTE	:=  TRB->E1_CLIENTE
+			TTRB->E1_LOJA		:=  TRB->E1_LOJA
+			TTRB->E1_VALOR		:=  TRB->E1_VALOR
+			TTRB->E1_VENCTO		:=  stod(TRB->E1_VENCTO)
+			TTRB->E1_NUMBOR		:=  TRB->E1_NUMBOR
+			TTRB->E1_PORTADO	:=  TRB->E1_PORTADO
+			TTRB->E1_AGEDEP		:=  TRB->E1_AGEDEP
+			TTRB->E1_CONTA		:=  TRB->E1_CONTA
+			TTRB->E1_PARCELA	:=  TRB->E1_PARCELA
+			TTRB->E1_SITUACA	:=  TRB->E1_SITUACA
+			TTRB->E1_SALDO		:=  TRB->E1_SALDO
+			TTRB->E1_EMISSAO	:=  STOD(TRB->E1_EMISSAO)
+			TTRB->E1_NUMBCO		:=  TRB->E1_NUMBCO
+			TTRB->E1_NUMDV		:=  TRB->E1_NUMDV
+			TTRB->E1_NOMCLI	:=  TRB->E1_NOMCLI
+			TTRB->E1_FSFORMA	:=  TRB->E1_FSFORMA
+			MsunLock()
+			TRB->(DbSkip())
+		Enddo
+
+		DBSELECTAREA("TRB")
+		TRB->(DBCLOSEAREA())
+
+		aCpoBro	:= {{ "OK"		    ,, " "            ,"@!"},;
+					{ "E1_PREFIXO"  ,, "Prefixo"	  ,"@!"},;
+					{ "E1_NUM"	    ,, "Numero"       ,"@!"},;
+					{ "E1_PARCELA"  ,, "Parcela"      ,"@!"},;
+					{ "E1_FSFORMA"	,, "Tipo"         ,"@X"},;
+					{ "E1_CLIENTE"  ,, "Cliente"      ,"@!"},;
+					{ "E1_NOMCLI"  ,, "Nome"      ,"@!"},;
+					{ "E1_VALOR"    ,, "Valor"        ,"@E 999,999,999.99"},;
+					{ "E1_VENCTO"   ,, "Vencimento"   , "@!"},;
+					{ "E1_NUMBCO"   ,, "Nosso Numero" ,"@!"},;
+					{ "E1_PORTADOR" ,, "Portador"     ,"@!"}}
+
+		DEFINE MSDIALOG oDlg TITLE "Titulos" From 9,0 To 315,800 PIXEL
+		DbSelectArea("TTRB")
+		TTRB->(DbGotop())
+
+		oMark := MsSelect():New("TTRB","OK","",aCpoBro,@lInverte,@cMark,{40,1,150,400},,,,,)
+		oMark:bMark := {|| Disp()}
+		oMark:oBrowse:bAllMark := {|| FILMARK()}
+		oMark:oBrowse:lCanAllMark:= .T.
+		oMark:oBrowse:lHasMark:= .T.
+
+		ACTIVATE MSDIALOG oDlg CENTERED ON INIT EnchoiceBar(oDlg,{|| n_Clic:= 1, oDlg:End()},{|| n_Clic:= 2, oDlg:End()})
+
+		IF n_Clic = 1
+			TTRB->(dbGoTop())
+			While TTRB->(!Eof())
+				If TTRB->OK = cMark
+					AADD(aMarked,.T.)
+				Else
+					AADD(aMarked,.F.)
+				EndIf
+				TTRB->(dbSkip())
+			EndDo
+
+			dbGoTop()
+
+			c_Banco := MV_PAR01
+			c_Agen := MV_PAR02
+			c_Cta := MV_PAR03
+			c_Subc := MV_PAR04
+			
+			If 	MV_PAR15 = 2 //Sobrepoe Nosso Numero
+				l_GeraNN := .T.
+			Endif
+
+			Processa({|lEnd|MontaRel(aMarked, c_Banco, c_Agen, c_Cta, c_Subc)})
+
+		ENDIF
+	Endif
+
+	DBSELECTAREA("TTRB")
+	DBCLOSEAREA()
 
 Return Nil
 
 Static Function Disp()
-RecLock("TTRB",.F.)
-If Marked("OK")
-	TTRB->OK := cMark
-Else
-	TTRB->OK := ""
-Endif
-MSUNLOCK()
-oMark:oBrowse:Refresh()
-Return()
 
-Static Function FILMARK()
-
-TTRB->(dbGoTop())
-While TTRB->(!EOF())
 	RecLock("TTRB",.F.)
-	If Empty(TTRB->OK)
+	If Marked("OK")
 		TTRB->OK := cMark
 	Else
 		TTRB->OK := ""
 	Endif
-	MsUnLock()
-	TTRB->(dbSkip())
-EndDo
+	MSUNLOCK()
+	oMark:oBrowse:Refresh()
 
-TTRB->(dbGoTop())
-oMark:oBrowse:Refresh()
+Return()
+
+Static Function FILMARK()
+
+	TTRB->(dbGoTop())
+	While TTRB->(!EOF())
+		RecLock("TTRB",.F.)
+		If Empty(TTRB->OK)
+			TTRB->OK := cMark
+		Else
+			TTRB->OK := ""
+		Endif
+		MsUnLock()
+		TTRB->(dbSkip())
+	EndDo
+
+	TTRB->(dbGoTop())
+	oMark:oBrowse:Refresh()
+
 Return()
 
 /*/

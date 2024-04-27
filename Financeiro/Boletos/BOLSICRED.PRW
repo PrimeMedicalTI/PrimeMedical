@@ -792,7 +792,7 @@ If 	Empty(SE1->E1_NUMBCO) .or. l_GeraNN	//MV_PAR17 = 2 //Sobrepoe Nosso Numero
 	cNosso 	:= c_Sequencia
 	// crédito/agência beneficiária (aaaa), posto beneficiário (pp), do beneficiário (ccccc), ano atual (yy), indicador de geração do nosso
 	// número (b) e o número sequencial do beneficiário (nnnnn): aaaappcccccyybnnnnn
-	c_Nros 	:= cAgencia + cPosto + cConta + Left(Dtos(dDatabase),2) + "2" + cNosso
+	c_Nros 	:= cAgencia + cPosto + cConta + SubStr(Dtos(dDatabase), 3, 2) + "2" + cNosso
 	
 	n_Soma 	:= ClcMod11(c_Nros,n_BaseMod11)
 	n_DV	:= Mod(n_Soma,11)
@@ -802,9 +802,9 @@ If 	Empty(SE1->E1_NUMBCO) .or. l_GeraNN	//MV_PAR17 = 2 //Sobrepoe Nosso Numero
               
 	dbSelectArea("SE1")
 	RecLock("SE1",.F.)    
-		SE1->E1_NUMBCO := Left(Dtos(dDatabase),2) + "2" + cNosso
+		SE1->E1_NUMBCO := SubStr(Dtos(dDatabase), 3, 2) + "2" + cNosso
 		SE1->E1_NUMDV  := cDigNosso
-		SE1->E1_PORTADO := '748'
+		SE1->E1_PORTADO := '748'	
 	MsUnlock()
 Endif
 
@@ -884,19 +884,19 @@ c_Dv :=	 Alltrim(Str(n_DV))
 Return (c_DV)
 
 Static Function ClcMod11(c_Num, n_Base)
-local a_Nros 	:= {}
-local n_Divisor := 2
-local n_Soma	:= 0
-local I			:= 0
+	local a_Nros 	:= {}
+	local n_Divisor := 2
+	local n_Soma	:= 0
+	local I			:= 0
 
-For i := 1 to Len(c_Num)
-	AADD(a_Nros,Substr(c_Num,i,1))
-Next
+	For i := 1 to Len(c_Num)
+		AADD(a_Nros,Substr(c_Num,i,1))
+	Next
 
-For i := Len(a_Nros)  to  1  step -1
-	n_Soma := n_Soma+ (   Val(a_Nros[i]) * n_Divisor   )
-	n_Divisor	:= iif( n_Divisor >= n_Base , 2 , n_Divisor+1	)
-Next
+	For i := Len(a_Nros)  to  1  step -1
+		n_Soma := n_Soma+ (   Val(a_Nros[i]) * n_Divisor   )
+		n_Divisor	:= iif( n_Divisor >= n_Base , 2 , n_Divisor+1	)
+	Next
 Return (n_Soma)
 
 ************************

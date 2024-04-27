@@ -7,7 +7,7 @@
 			"name": "Depuração do idioma TOTVS",
 			"program": "${command:AskForProgramName}",
 			"cwb": "${workspaceFolder}",
-			"smartclientBin": "D:\\Totvs\\Homologacao\\smartclient.exe",
+			"smartclientBin": "D:\\Totvs\\Smartclient - Homologação\\smartclient.exe",
 			"isMultiSession": true,
 			"enableTableSync": true,
 			"enableMultiThread": true
@@ -58,7 +58,10 @@
 				"cNota"
 			],
 			"label": "u_BLTSICOOB"
+		},
+		{
+			"label": "launch"
 		}
 	],
-	"lastProgramExecuted": "SigaADV"
+	"lastProgramExecuted": "SIGAMDI"
 }
