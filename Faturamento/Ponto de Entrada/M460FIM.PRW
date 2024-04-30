@@ -58,6 +58,18 @@ User Function M460FIM()
           "Where B1_COD like '%.'"
         n_Erro := TcSqlExec(c_Query)
 
+        c_Query := "Update SE5010 Set E5_FSMUN = A1_MUN, E5_FSUF = A1_EST " + ;
+          "from SE5010 E5 " + ;
+          "Inner Join SA1010 A1 ON A1_COD = E5_CLIENTE AND A1_LOJA = E5_LOJA AND A1.D_E_L_E_T_ <> '*' " + ;
+          "Where E5.D_E_L_E_T_ <> '*' AND E5_RECPAG = 'R' AND Year(E5_DATA) = Year(GetDate()) AND E5_FSMUN = ''"
+        n_Erro := TcSqlExec(c_Query)
+
+        c_Query := "Update SE5010 Set E5_FSMUN = A2_MUN, E5_FSUF = A2_EST " + ;
+                "from SE5010 E5 " + ;
+                "Inner Join SA2010 A2 ON A2_COD = E5_FORNECE AND A2_LOJA = E5_LOJA AND A2.D_E_L_E_T_ <> '*' " + ;
+                "Where E5.D_E_L_E_T_ <> '*' AND E5_RECPAG = 'P' AND Year(E5_DATA) = Year(GetDate()) AND E5_FSMUN = ''"
+        n_Erro := TcSqlExec(c_Query)
+
         c_Query := "Update SE1010 Set E1_PORTADO = C5_FSBANCO, " + ;
            "E1_AGEDEP = C5_FSAGENC, E1_CONTA = C5_FSCTA from SF2010 F2 (nolock) " + ;
            "Inner Join SE1010 E1 (nolock) ON E1_FILIAL = F2_FILIAL " + ;
