@@ -135,6 +135,21 @@ User Function M460FIM()
            "Where Round(B1_UPRC,2) <> ValorUltimaNota"
          n_Erro := TcSqlExec(c_Query2)
 
+         // Atualizar o Usuário que fez o Pedido na SD2 
+         c_Query := "Update SD2010 Set D2_FSURSPE = C5.C5_FSNOME " + ;
+                  "from SD2010 D2 (nolock) " + ;
+                  "Inner Join SC6010 C6 (nolock) ON C6_FILIAL = D2_FILIAL AND " + ;
+                  "                            C6.D_E_L_E_T_ <> '*' AND " + ;
+                  "                            C6_PRODUTO = D2_COD AND " + ;
+                  "                            C6_NUM = D2_PEDIDO AND " + ;
+                  "                            C6_ITEM = D2_ITEMPV " + ;
+                  "Inner Join SC5010 C5 (nolock) ON C5_FILIAL = C6_FILIAL AND " + ;
+                  "                               C5.D_E_L_E_T_ <> '*' AND " + ;
+                  "                               C5_NUM = C6_NUM " + ;
+                  "Where D2.D_E_L_E_T_ <> '*' AND " + ;
+                  "      Isnull(D2_FSURSPE, '') <> C5.C5_FSNOME"
+         n_Erro := TcSqlExec(c_Query)         
+
         If n_Erro != 0
             MsgStop("Erro na execução da query: "+TcSqlError(), "Atenção")
             DisarmTransaction()
