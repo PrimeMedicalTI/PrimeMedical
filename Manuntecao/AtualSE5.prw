@@ -23,6 +23,7 @@ Local c_Query := ""
             DisarmTransaction()
         Else
            l_AtuNotas := .T. 
+           MsgAlert("Terminou", "Atenção")
         EndIf
    End Transaction
 
