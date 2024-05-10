@@ -148,14 +148,21 @@ User Function M460FIM()
                   "                               C5_NUM = C6_NUM " + ;
                   "Where D2.D_E_L_E_T_ <> '*' AND " + ;
                   "      Isnull(D2_FSURSPE, '') <> C5.C5_FSNOME"
-         n_Erro := TcSqlExec(c_Query)   
+         n_Erro := TcSqlExec(c_Query)  
+
+         // Update SE5010 (Movimentos Bancarios) para deletar registros vindo do banco e Sheila não reconcilia ***************************************
+         c_Query := "Update SE5010 Set D_E_L_E_T_ = '*', R_E_C_D_E_L_ = R_E_C_N_O_ " + ;
+         "from SE5010 E5 (nolock) " + ;
+         "Where D_E_L_E_T_ <> '*' AND E5_RECONC = '' AND E5_RECPAG = 'R' AND E5_NATUREZ like 'DESP%' " + ;
+         "AND Year(E5_DATA) >= 2024 AND Convert(Datetime,E5_DATA,112) <= GetDate() - 1"
+         n_Erro := TcSqlExec(c_Query)
 
          // Colocar a Natureza na SF1 ***********************************************************************************************************
          c_Query := "Update SE1010 Set E1_FSNATUR = ED_DESCRIC " + ;
          "from SE1010 E1 " + ;
          "Inner Join SED010 SED ON SED.ED_FILIAL = '' AND SED.D_E_L_E_T_ <> '*' AND ED_CODIGO = E1_NATUREZ " + ;
          "Where 1=1 AND E1.D_E_L_E_T_ <> '*' AND E1_FSNATUR <> ED_DESCRIC"
-         n_Erro := TcSqlExec(c_Query)               
+         n_Erro := TcSqlExec(c_Query)  
 
         If n_Erro != 0
             MsgStop("Erro na execução da query: "+TcSqlError(), "Atenção")
