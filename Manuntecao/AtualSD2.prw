@@ -30,7 +30,6 @@ Local c_Query := ""
                   "AND C5_FSNOME <> Upper(USR_I.USR_CODIGO)"
          n_Erro := TcSqlExec(c_Query)
 
-
          c_Query := "Update SD2010 Set D2_FSURSPE = C5.C5_FSNOME " + ;
                   "from SD2010 D2 (nolock) " + ;
                   "Inner Join SC6010 C6 (nolock) ON C6_FILIAL = D2_FILIAL AND " + ;

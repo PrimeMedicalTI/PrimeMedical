@@ -150,10 +150,10 @@ User Function M460FIM()
                   "      Isnull(D2_FSURSPE, '') <> C5.C5_FSNOME"
          n_Erro := TcSqlExec(c_Query)  
 
-         // Update SE5010 (Movimentos Bancarios) para deletar registros vindo do banco e Sheila não reconcilia ***************************************
+         // Atualize o SE5010 (Movimentos Bancários) para deletar registros vindos do banco que a Sheila não reconciliou. ***************************************
          c_Query := "Update SE5010 Set D_E_L_E_T_ = '*', R_E_C_D_E_L_ = R_E_C_N_O_ " + ;
          "from SE5010 E5 (nolock) " + ;
-         "Where D_E_L_E_T_ <> '*' AND E5_RECONC = '' AND E5_RECPAG = 'R' AND E5_NATUREZ like 'DESP%' " + ;
+         "Where D_E_L_E_T_ <> '*' AND E5_RECONC = '' AND E5_NATUREZ = 'DESP BANC' " + ;
          "AND Year(E5_DATA) >= 2024 AND Convert(Datetime,E5_DATA,112) <= GetDate() - 1"
          n_Erro := TcSqlExec(c_Query)
 
