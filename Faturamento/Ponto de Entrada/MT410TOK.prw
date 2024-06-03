@@ -1,5 +1,5 @@
 #include 'Totvs.ch'
- 
+
 /*------------------------------------------------------------------------------------------------------*
  | P.E.:  MT410TOK                                                                                      |
  | Desc:  Função executa antes de confirmar a inclusão do Pedido de Venda                               |
@@ -17,6 +17,8 @@ User Function MT410TOK()
     Local nPTES     := aScan(aHeader,{|x| AllTrim(x[2]) == 'C6_TES'}) 
     Local i         := 0
     Local cAlias := getNextAlias()
+
+    Alert('PEDIDO')
     
     BEGINSQL ALIAS cAlias
         Select 
@@ -27,9 +29,8 @@ User Function MT410TOK()
         AND D_E_L_E_T_ <> '*'
         AND A1_COD = %Exp:M->C5_CLIENTE% 
         AND A1_LOJA = %Exp:M->C5_LOJACLI% 
-    ENDSQL   
-    
-    
+    ENDSQL  
+        
     if AllTrim((cAlias)->A1_FSCADM) <> ''
         if (AllTrim(M->C5_FSCADM) <> AllTrim((cAlias)->A1_FSCADM))
             cMsg :=  "Este cliente tem definido pelo Financeiro o Cod Adm padrão"
@@ -66,6 +67,7 @@ User Function MT410TOK()
                 Endif
             Endif     
         Next
+
     Endif
 
     (cAlias)->(DbCloseArea())

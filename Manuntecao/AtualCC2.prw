@@ -436,8 +436,6 @@ User Function AtualCC2()
 		n_Erro := TcSqlExec(c_Query)
 
 
-
-
 		//Se houve erro, mostra a mensagem e cancela a transação
 		If n_Erro != 0
 			MsgStop("Erro na execução da query: "+TcSqlError(), "Atenção")
