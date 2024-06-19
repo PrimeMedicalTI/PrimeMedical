@@ -23,23 +23,23 @@ User Function FGATATF01
 
 Private cString := "SN1"
 
-_cArqSN1:= retsqlname("SN1")
-cQry := " SELECT max(N1_CBASE) AS CBASE "
-cQry := cQry +" FROM "+ _cArqSN1 +" SN1 "
-cQry := cQry +" WHERE  N1_GRUPO='"+M->N1_GRUPO+"' AND SN1.D_E_L_E_T_<>'*' "
+	_cArqSN1:= retsqlname("SN1")
+	cQry := " SELECT max(N1_CBASE) AS CBASE "
+	cQry := cQry +" FROM "+ _cArqSN1 +" SN1 "
+	cQry := cQry +" WHERE  N1_GRUPO='"+M->N1_GRUPO+"' AND SN1.D_E_L_E_T_<>'*' "
 
-TCQUERY cQry NEW ALIAS "QRY"
+	TCQUERY cQry NEW ALIAS "QRY"
 
-DbselectArea("QRY")            
-cSeq:=strzero(val(substr(QRY->CBASE,5))+1,6)
+	DbselectArea("QRY")            
+	cSeq:=strzero(val(substr(QRY->CBASE,5))+1,6)
 
-cCod:= substr(QRY->CBASE,1,4)+cSeq
-If empty(substr(QRY->CBASE,1,4))
-	cCod := strzero(val(M->N1_GRUPO),4)+cSeq
-Endif
-M->N1_ITEM := "0001"
+	cCod:= substr(QRY->CBASE,1,4)+cSeq
+	If empty(substr(QRY->CBASE,1,4))
+		cCod := strzero(val(M->N1_GRUPO),4)+cSeq
+	Endif
+	M->N1_ITEM := "0001"
 
-DbselectArea("QRY")
-DbCloseArea()               
+	DbselectArea("QRY")
+	DbCloseArea()               
 
 Return(cCod)

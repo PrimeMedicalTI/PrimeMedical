@@ -933,3 +933,87 @@ For i:=1 to Len(aRegs)
 Next
 
 Return
+
+/*  
+### BANCO SANTANDER
+O código fornecido para o programa ADVPL do Banco Santander contém várias funções e procedimentos importantes para a impressão de boletos. Aqui estão as principais funções e suas respectivas descrições:
+
+### Funções Principais
+
+1.  User Function BOLSANTA(c_SerNf, c_Agen, c_Cta, c_Subc) 
+   -  Objetivo : Função principal para gerar boletos do Banco Santander.
+   -  Parâmetros :
+     - c_SerNf: Série da nota fiscal.
+     - c_Agen: Agência bancária.
+     - c_Cta: Conta bancária.
+     - c_Subc: Subconta bancária.
+
+### Funções Auxiliares
+
+2.  Static Function Disp() 
+   -  Objetivo : Marca os registros que devem ser processados.
+   -  Descrição : Alterna a marcação dos registros na tabela temporária TTRB.
+
+3.  Static Function FILMARK() 
+   -  Objetivo : Marca ou desmarca todos os registros na tabela temporária TTRB.
+   -  Descrição : Itera sobre os registros, alternando o valor do campo OK.
+
+4.  Static Function MontaRel(aMarked, c_Banco, c_Agen, c_Cta, c_Subc) 
+   -  Objetivo : Monta o relatório de boletos para impressão.
+   -  Parâmetros :
+     - aMarked: Array de registros marcados.
+     - c_Banco: Código do banco.
+     - c_Agen: Agência bancária.
+     - c_Cta: Conta bancária.
+     - c_Subc: Subconta bancária.
+   -  Descrição : Configura e imprime os boletos com base nos dados fornecidos.
+
+5.  Static Function Impress(oPrint, aDadosEmp, aDadosTit, aDadosBanco, aDatSacado, CB_RN_NN, nMulta, nJuros) 
+   -  Objetivo : Função de impressão detalhada do boleto.
+   -  Parâmetros :
+     - oPrint: Objeto de impressão.
+     - aDadosEmp: Dados da empresa.
+     - aDadosTit: Dados do título.
+     - aDadosBanco: Dados do banco.
+     - aDatSacado: Dados do sacado.
+     - CB_RN_NN: Código de barras e linha digitável.
+     - nMulta: Valor da multa.
+     - nJuros: Valor dos juros.
+   -  Descrição : Realiza a impressão do boleto em três partes distintas.
+
+6.  Static Function Ret_cBarra(cBanco, cAgencia, cConta, cDacCC, nValor, cCart, cMoeda) 
+   -  Objetivo : Gera o código de barras para o boleto.
+   -  Parâmetros :
+     - cBanco: Código do banco.
+     - cAgencia: Código da agência.
+     - cConta: Número da conta.
+     - cDacCC: Dígito verificador da conta.
+     - nValor: Valor do boleto.
+     - cCart: Código da carteira.
+     - cMoeda: Código da moeda.
+   -  Descrição : Calcula e retorna o código de barras e a linha digitável.
+
+7.  Static Function ClcMod10(c_Num) 
+   -  Objetivo : Calcula o dígito verificador usando o módulo 10.
+   -  Parâmetros : c_Num - Número para cálculo.
+   -  Descrição : Realiza a soma ponderada dos dígitos e calcula o dígito verificador.
+
+8.  Static Function ClcMod11(c_Num, n_Base) 
+   -  Objetivo : Calcula o dígito verificador usando o módulo 11.
+   -  Parâmetros :
+     - c_Num: Número para cálculo.
+     - n_Base: Base para o cálculo.
+   -  Descrição : Realiza a soma ponderada dos dígitos e calcula o dígito verificador.
+
+9.  Static Function CriaPerg() 
+   -  Objetivo : Cria a estrutura de perguntas para coletar parâmetros do usuário.
+   -  Descrição : Adiciona registros na tabela SX1 para armazenar as perguntas e respostas necessárias para a execução do programa.
+
+### Considerações:
+
+- O programa se divide em duas partes principais: a seleção e marcação de títulos e a geração e impressão dos boletos.
+- As funções de cálculo de dígitos verificadores (`ClcMod10` e `ClcMod11`) são essenciais para a criação correta do código de barras e linha digitável.
+- A função `MontaRel` é responsável por organizar os dados e chamar a função de impressão `Impress`, que lida com os detalhes do layout do boleto.
+- A função `CriaPerg` define a interface de perguntas para obter parâmetros de execução do usuário.
+
+*/

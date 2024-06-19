@@ -442,7 +442,7 @@ User Function AtualCC2()
 			DisarmTransaction()
 		Else
 			l_AtuNotas := .T.
-			MsgAlert("Terminou Estados", "Atenção")
+			MsgAlert("Terminou", "Atenção")
 		EndIf
 	End Transaction
 

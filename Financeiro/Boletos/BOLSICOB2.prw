@@ -8,125 +8,258 @@
 #DEFINE _cMoeda    "9"
 //-----------------------------------------------------------------------------------------------------------------------------------
 
-User Function BLTSICOOB(cNota)
+User Function BOLSICOOB(c_SerNf, c_Agen, c_Cta, c_Subc)
 
-	Local	aPergs := {}
-	Private lExec    := .F.
-	Private cIndexName := ''
-	Private cIndexKey  := ''
-	Private cFilter    := ''
+	Local   aMarked := {}
+	Local _stru:={}
+	Local aCpoBro := {}
+	Local n_Clic:= 0
+	Private lInverte := .F.
+	Private cMark   := GetMark()
+	Private oMark
+	PRIVATE Exec    := .F.
+	PRIVATE cIndexName := ''
+	PRIVATE cIndexKey  := ''
+	PRIVATE cFilter    := ''
+	PRIVATE nCB1Linha    := 14.4
+	PRIVATE nCB2Linha    := 25.4
+	Private nCBColuna    := 1.3
+	Private nCBLargura   := 0.0220
+	Private nCBAltura    := 1.285
+	Private l_GeraNN := .F.
+	Default c_SerNf	:= ''
+	Default	c_Agen	:= ''
+	Default c_Cta	:= ''
+	Default c_Subc	:= ''
 
-	DEFAULT cNota := Space(09)
+	AADD(_stru,{"OK"     	, "C",  2, 0})
+	AADD(_stru,{"E1_PREFIXO", "C", TAMSX3("E1_PREFIXO")[1], 0})
+	AADD(_stru,{"E1_NUM"   	, "C", TAMSX3("E1_NUM")[1], 0})
+	AADD(_stru,{"E1_TIPO"   , "C", TAMSX3("E1_TIPO")[1], 0})
+	AADD(_stru,{"E1_CLIENTE", "C", TAMSX3("E1_CLIENTE")[1], 2})
+	AADD(_stru,{"E1_LOJA"   , "C", TAMSX3("E1_LOJA")[1], 0})
+	AADD(_stru,{"E1_VALOR" 	, "N", 17, 2})
+	AADD(_stru,{"E1_VENCTO" , "D", 8, 0})
+	AADD(_stru,{"E1_NUMBOR" , "C", TAMSX3("E1_NUMBOR")[1], 0})
+	AADD(_stru,{"E1_PORTADO", "C", TAMSX3("E1_PORTADO")[1], 0})
+	AADD(_stru,{"E1_AGEDEP" , "C", TAMSX3("E1_AGEDEP")[1], 0})
+	AADD(_stru,{"E1_CONTA" 	, "C", TAMSX3("E1_CONTA")[1], 0})
+	AADD(_stru,{"E1_PARCELA", "C", TAMSX3("E1_PARCELA")[1], 0})
+	AADD(_stru,{"E1_SITUACA", "C", TAMSX3("E1_SITUACA")[1], 0})
+	AADD(_stru,{"E1_SALDO" 	, "N", 17, 2})
+	AADD(_stru,{"E1_EMISSAO", "D", 8, 0})
+	AADD(_stru,{"E1_NUMBCO" , "C", TAMSX3("E1_NUMBCO")[1], 0})
+	AADD(_stru,{"E1_NUMDV" , "C", TAMSX3("E1_NUMDV")[1], 0})
+	AADD(_stru,{"E1_NOMCLI" , "C", TAMSX3("E1_NOMCLI")[1], 0})
+	AADD(_stru,{"E1_FSFORMA", "C", TAMSX3("E1_FSFORMA")[1], 0})
 
-	Tamanho  := "M"
-	titulo   := "Impressao de Boleto com Codigo de Barras"
-	cDesc1   := "Este programa destina-se a impressao do Boleto com Codigo de Barras."
-	cDesc2   := ""
-	cDesc3   := ""
-	cString  := "SE1"
-	wnrel    := "BOLETO"
-	lEnd     := .F.
-	cPerg     := Padr("BOLTSICOOB",10)
-	aReturn  := {"Zebrado", 1,"Administracao", 2, 2, 1, "",1 }
-	nLastKey := 0
+	//cArq:=Criatrab(_stru,.T.)
+	//DBUSEAREA(.t.,,carq,"TTRB")
+	oTempTable := FWTemporaryTable():New( "TTRB" )
+	oTemptable:SetFields( _stru )
 
-	cNf	:= cNota
+	oTempTable:Create()
 
-	dbSelectArea("SE1")
+	If 	Len(c_SerNf) > 0
+		c_QRY := " SELECT * "
+		c_QRY += " FROM " + RetSqlName("SE1")
+		c_QRY += " WHERE E1_FILIAL = '" + xFilial("SE1")+ "'"
+		c_QRY += " AND E1_PREFIXO+E1_NUM IN "+FormatIn(c_SerNf,";")
+		c_QRY += " AND E1_SALDO > 0"
+		c_QRY += " AND SUBSTRING(E1_TIPO,3,1) <> '-' "
+		c_QRY += " AND E1_FSFORMA = 'BOL ' "
+		c_QRY += " AND D_E_L_E_T_ <> '*'
+		c_QRY += " ORDER BY E1_PREFIXO, E1_NUM, E1_PARCELA
 
-	PutSx1( cPerg   ,"01","Banco     "             ,"","","mv_chj","C",3,0,0,"G","","SEE","","","MV_PAR19","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"02","Agencia    "            ,"","","mv_chl","C",5,0,0,"G","","","","","MV_PAR20","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"03","Conta      "            ,"","","mv_chm","C",10,0,0,"G","","","","","MV_PAR21","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"04","De Emissao"	           ,"","","mv_chd","D",8,0,0,"G","","","","","MV_PAR13","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"05","De Emissao"	           ,"","","mv_che","D",8,0,0,"G","","","","","MV_PAR14","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"06","De Vencimento"	       ,"","","mv_chf","D",8,0,0,"G","","","","","MV_PAR15","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"07","Ate Vencimento"         ,"","","mv_chg","D",8,0,0,"G","","","","","MV_PAR16","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"08","Do Bordero"	           ,"","","mv_chh","C",6,0,0,"G","","","","","MV_PAR17","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"09","Ate Bordero"            ,"","","mv_chi","C",6,0,0,"G","","","","","MV_PAR18","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"10","De Prefixo"	           ,"","","mv_ch1","C",3,0,0,"G","","","","","MV_PAR01","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"11","Ate Prefixo"	           ,"","","mv_ch2","C",3,0,0,"G","","","","","MV_PAR02","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"12","De Numero"		       ,"","","mv_ch3","C",9,0,0,"G","","SE1","","","MV_PAR03","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"13","Ate Numero"	           ,"","","mv_ch4","C",9,0,0,"G","","SE1","","","MV_PAR04","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"14","De Parcela"	           ,"","","mv_ch5","C",2,0,0,"G","","","","","MV_PAR05","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"15","Ate Parcela"	           ,"","","mv_ch6","C",2,0,0,"G","","","","","MV_PAR06","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"16","De Portador"	           ,"","","mv_ch7","C",3,0,0,"G","","","","","MV_PAR07","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"17","Ate Portador" 	       ,"","","mv_ch8","C",3,0,0,"G","","","","","MV_PAR08","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"18","De Cliente"	           ,"","","mv_ch9","C",6,0,0,"G","","SA1","","","MV_PAR09","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"19","Ate Cliente"	           ,"","","mv_cha","C",6,0,0,"G","","SA1","","","MV_PAR10","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"20","De Loja"		           ,"","","mv_chb","C",2,0,0,"G","","","","","MV_PAR11","","","","","","","","","","","","","","","","",{},{},{})
-	PutSx1( cPerg   ,"21","Ate Loja"		       ,"","","mv_chc","C",2,0,0,"G","","","","","MV_PAR12","","","","","","","","","","","","","","","","",{},{},{})
+		TcQuery c_QRY New Alias 'TRB'
 
-	If Empty(cNF)
+		DBSELECTAREA("TRB")
+		TRB->(dbGoTop())
 
-		If !Pergunte (cPerg,.T.)
+		IF	TRB->(Eof())
+			msgalert("Nenhum título encontrado em aberto para esta seleção.")	
+			TRB->(DBCLOSEAREA())
+			TTRB->(DBCLOSEAREA())
 			Return
-		Endif
+		ENDIF
 
-		cIndexName	:= Criatrab(Nil,.F.)
-		cIndexKey		:= "E1_PORTADO+E1_CLIENTE+E1_PREFIXO+E1_NUM+E1_PARCELA+E1_TIPO+DTOS(E1_EMISSAO)"
+		While  TRB->(!Eof())
+			DbSelectArea("TTRB")
+			RecLock("TTRB",.T.)
+			TTRB->OK			:= cMark
+			TTRB->E1_PREFIXO	:=  TRB->E1_PREFIXO
+			TTRB->E1_NUM		:=  TRB->E1_NUM
+			TTRB->E1_TIPO		:=  TRB->E1_TIPO
+			TTRB->E1_CLIENTE	:=  TRB->E1_CLIENTE
+			TTRB->E1_LOJA		:=  TRB->E1_LOJA
+			TTRB->E1_VALOR		:=  TRB->E1_VALOR
+			TTRB->E1_VENCTO		:=  stod(TRB->E1_VENCTO)
+			TTRB->E1_NUMBOR		:=  TRB->E1_NUMBOR
+			TTRB->E1_PORTADO	:=  TRB->E1_PORTADO
+			TTRB->E1_AGEDEP		:=  TRB->E1_AGEDEP
+			TTRB->E1_CONTA		:=  TRB->E1_CONTA
+			TTRB->E1_PARCELA	:=  TRB->E1_PARCELA
+			TTRB->E1_SITUACA	:=  TRB->E1_SITUACA
+			TTRB->E1_SALDO		:=  TRB->E1_SALDO
+			TTRB->E1_EMISSAO	:=  STOD(TRB->E1_EMISSAO)
+			TTRB->E1_NUMBCO		:=  TRB->E1_NUMBCO
+			TTRB->E1_NUMDV		:=  TRB->E1_NUMDV
+			TTRB->E1_NOMCLI	:=  TRB->E1_NOMCLI
+			TTRB->E1_FSFORMA	:=  TRB->E1_FSFORMA		
+			MsunLock()
 
-		cFilter		+= "E1_FILIAL=='"+xFilial("SE1")+"'.And.E1_SALDO>0.And."
-		cFilter		+= "E1_PREFIXO>='" + MV_PAR01 + "'.And.E1_PREFIXO<='" + MV_PAR02 + "'.And."
-		cFilter		+= "E1_NUM>='" + MV_PAR03 + "'.And.E1_NUM<='" + MV_PAR04 + "'.And."
-		cFilter		+= "E1_PARCELA>='" + MV_PAR05 + "'.And.E1_PARCELA<='" + MV_PAR06 + "'.And."
-		cFilter		+= "E1_CLIENTE>='" + MV_PAR09 + "'.And.E1_CLIENTE<='" + MV_PAR10 + "'.And."
-		cFilter		+= "E1_LOJA>='" + MV_PAR11 + "'.And.E1_LOJA<='"+MV_PAR12+"'.And."
-		cFilter		+= "DTOS(E1_EMISSAO)>='"+DTOS(mv_par13)+"'.and.DTOS(E1_EMISSAO)<='"+DTOS(mv_par14)+"'.And."
-		cFilter		+= "DTOS(E1_VENCREA)>='"+DTOS(mv_par15)+"'.and.DTOS(E1_VENCREA)<='"+DTOS(mv_par16)+"'.And."
-		cFilter		+= "E1_NUMBOR>='" + MV_PAR17 + "'.And.E1_NUMBOR<='" + MV_PAR18 + "'.And."
-		cFilter		+= "!(E1_TIPO$MVABATIM)"
+			AADD(aMarked,.T.)
+			TRB->(DbSkip())
+		Enddo
+		TRB->(DBCLOSEAREA())
 
-		If Empty(MV_PAR19)
-			cFilter		+= ".And. E1_PORTADO>='" + MV_PAR07 + "'.And.E1_PORTADO<='" + MV_PAR08 + "' "
-			cFilter		+= ".And. E1_PORTADO<>'   '"
-		else
-			cFilter		+= ".And. E1_AGEDEP>='" + MV_PAR20 + "'.And.E1_AGEDEP<='" + MV_PAR20 + "'.And."
-			cFilter		+= "E1_CONTA>='" + MV_PAR21 + "'.And.E1_CONTA<='" + MV_PAR21 + "'.And."
-			cFilter		+= "E1_PORTADO>='" + MV_PAR19 + "'.And.E1_PORTADO<='" + MV_PAR19 + "' "
-			cFilter		+= ".And. E1_PORTADO<>'   '"
-		Endif
+		TTRB->(dbGoTop())
 
-	Else
-
-		cFilter		+= "E1_NUM = '" + cNF + "' "		
-
-	Endif
-
-	IndRegua("SE1", cIndexName, cIndexKey,, cFilter, "Aguarde selecionando registros....")
-	DbSelectArea("SE1")
-
-	#IFNDEF TOP
-		DbSetIndex(cIndexName + OrdBagExt())
-	#ENDIF
-
-	dbGoTop()
-
-	If Empty(cNF)
-
-		@ 001,001 TO 400,700 DIALOG oDlg TITLE "Seleção de Titulos - Nova Versão Filtros"
-		@ 001,001 TO 170,350 BROWSE "SE1" MARK "E1_OK" 
-		@ 180,310 BMPBUTTON TYPE 01 ACTION (lExec := .T.,Close(oDlg))
-		@ 180,280 BMPBUTTON TYPE 02 ACTION (lExec := .F.,Close(oDlg))
-		ACTIVATE DIALOG oDlg CENTERED
-
-		dbGoTop()
-
-	Else
-
-		lExec := .T.
-
-	Endif
-
-	If lExec
 		Processa({ |lEnd| MontaRel() })
+
+	Else
+		cPerg  := Padr("BOLSICOOB",10)
+		CriaPerg()
+
+		If !Pergunte(cPerg,.T.)
+			Return()
+		EndIf
+
+		c_QRY := " SELECT * "
+		c_QRY += " FROM " + RetSqlName("SE1")
+		c_QRY += " WHERE E1_FILIAL = '" + xFilial("SE1")+ "'"
+		c_QRY += " AND E1_EMISSAO BETWEEN '" + Dtos(MV_PAR05) + "' AND '" + Dtos(MV_PAR06) + "'"
+		c_QRY += " AND E1_VENCTO BETWEEN '" + Dtos(MV_PAR07) + "' AND '" + Dtos(MV_PAR08) + "'"
+		c_QRY += " AND E1_CLIENTE BETWEEN '" + MV_PAR09 + "' AND '" + MV_PAR11 + "'"
+		c_QRY += " AND E1_LOJA BETWEEN '" + MV_PAR10 + "' AND '" + MV_PAR12 + "'"
+		c_QRY += " AND E1_NUM BETWEEN '" + MV_PAR13 + "' And '" + MV_PAR14 + "'"
+		c_QRY += " AND E1_PORTADO IN ('','"+MV_PAR01+"')
+		c_QRY += " AND E1_SALDO > 0"
+		c_QRY += " AND SUBSTRING(E1_TIPO,3,1) <> '-' "
+		c_QRY += " AND E1_FSFORMA = 'BOL ' "
+		c_QRY += " AND D_E_L_E_T_ <> '*'
+		c_QRY += " ORDER BY E1_PREFIXO, E1_NUM, E1_PARCELA
+
+		TcQuery c_QRY New Alias 'TRB'
+
+		DBSELECTAREA("TRB")
+		TRB->(dbGoTop())
+
+		While  TRB->(!Eof())
+			DbSelectArea("TTRB")
+			RecLock("TTRB",.T.)
+			TTRB->E1_PREFIXO	:=  TRB->E1_PREFIXO
+			TTRB->E1_NUM		:=  TRB->E1_NUM
+			TTRB->E1_TIPO		:=  TRB->E1_TIPO
+			TTRB->E1_CLIENTE	:=  TRB->E1_CLIENTE
+			TTRB->E1_LOJA		:=  TRB->E1_LOJA
+			TTRB->E1_VALOR		:=  TRB->E1_VALOR
+			TTRB->E1_VENCTO		:=  stod(TRB->E1_VENCTO)
+			TTRB->E1_NUMBOR		:=  TRB->E1_NUMBOR
+			TTRB->E1_PORTADO	:=  TRB->E1_PORTADO
+			TTRB->E1_AGEDEP		:=  TRB->E1_AGEDEP
+			TTRB->E1_CONTA		:=  TRB->E1_CONTA
+			TTRB->E1_PARCELA	:=  TRB->E1_PARCELA
+			TTRB->E1_SITUACA	:=  TRB->E1_SITUACA
+			TTRB->E1_SALDO		:=  TRB->E1_SALDO
+			TTRB->E1_EMISSAO	:=  STOD(TRB->E1_EMISSAO)
+			TTRB->E1_NUMBCO		:=  TRB->E1_NUMBCO
+			TTRB->E1_NOMCLI		:=  TRB->E1_NOMCLI
+			TTRB->E1_FSFORMA	:=  TRB->E1_FSFORMA
+			MsunLock()
+			TRB->(DbSkip())
+		Enddo
+
+		DBSELECTAREA("TRB")
+		TRB->(DBCLOSEAREA())
+
+		aCpoBro	:= {{ "OK"		    ,, " "            ,"@!"},;
+					{ "E1_PREFIXO"  ,, "Prefixo"	  ,"@!"},;
+					{ "E1_NUM"	    ,, "Numero"       ,"@!"},;
+					{ "E1_PARCELA"  ,, "Parcela"      ,"@!"},;
+					{ "E1_EMISSAO"   ,, "Emissão"   , "@!"},;				
+					{ "E1_CLIENTE"  ,, "Cliente"      ,"@!"},;
+					{ "E1_NOMCLI"  ,, "Nome"      ,"@!"},;
+					{ "E1_VALOR"    ,, "Valor"        ,"@E 999,999,999.99"},;
+					{ "E1_VENCTO"   ,, "Vencimento"   , "@!"},;
+					{ "E1_NUMBCO"   ,, "Nosso Numero" ,"@!"},;
+					{ "E1_PORTADOR" ,, "Portador"     ,"@!"}}
+
+		DEFINE MSDIALOG oDlg TITLE "Titulos" From 9,0 To 315,800 PIXEL
+		DbSelectArea("TTRB")
+		TTRB->(DbGotop())
+
+		oMark := MsSelect():New("TTRB","OK","",aCpoBro,@lInverte,@cMark,{40,1,150,400},,,,,)
+		oMark:bMark := {|| Disp()}
+		oMark:oBrowse:bAllMark := {|| FILMARK()}
+		oMark:oBrowse:lCanAllMark:= .T.
+		oMark:oBrowse:lHasMark:= .T.
+
+		ACTIVATE MSDIALOG oDlg CENTERED ON INIT EnchoiceBar(oDlg,{|| n_Clic:= 1, oDlg:End()},{|| n_Clic:= 2, oDlg:End()})
+
+		IF n_Clic = 1
+			TTRB->(dbGoTop())
+			While TTRB->(!Eof())
+				If TTRB->OK = cMark
+					AADD(aMarked,.T.)
+				Else
+					AADD(aMarked,.F.)
+				EndIf
+				TTRB->(dbSkip())
+			EndDo
+
+			dbGoTop()
+
+			c_Banco := MV_PAR01
+			c_Agen := MV_PAR02
+			c_Cta := MV_PAR03
+			c_Subc := MV_PAR04
+			If 	MV_PAR15 = 2 //Sobrepoe Nosso Numero
+				l_GeraNN := .T.
+			Endif
+
+			Processa({ |lEnd| MontaRel() })
+
+		ENDIF
 	Endif
 
-	RetIndex("SE1")
-	Ferase(cIndexName+OrdBagExt())
+	DBSELECTAREA("TTRB")
+	DBCLOSEAREA()
 
-Return
+Return Nil
 	
-	
+Static Function Disp()
+
+		RecLock("TTRB",.F.)
+		If Marked("OK")
+			TTRB->OK := cMark
+		Else
+			TTRB->OK := ""
+		Endif
+		MSUNLOCK()
+		oMark:oBrowse:Refresh()
+
+Return()
+
+Static Function FILMARK()
+
+	TTRB->(dbGoTop())
+	While TTRB->(!EOF())
+		RecLock("TTRB",.F.)
+		If Empty(TTRB->OK)
+			TTRB->OK := cMark
+		Else
+			TTRB->OK := ""
+		Endif
+		MsUnLock()
+		TTRB->(dbSkip())
+	EndDo
+
+	TTRB->(dbGoTop())
+	oMark:oBrowse:Refresh()
+
+Return()
+
 Static Function MontaRel()
 
 	Local oPrint
@@ -795,82 +928,6 @@ Static Function fLinhaDig(cCodBanco, ;    // Codigo do Banco (756)
 
 
 Return {cCodBar, cLinDig, cNossoNum}
-
-	//+-----------+----------+-------+--------------------+------+-------------+
-	//| Programa  |AJUSTASX1 |Autor  |PSS PARTNERS        | Data | 23/10/2014  |
-	//+-----------+----------+-------+--------------------+------+-------------+
-	//| Desc.     |Ajuste das perguntas no SX1                                 |
-	//+-----------+------------------------------------------------------------+
-
-Static Function AjustaSX1(cPerg, aPergs)
-	Local _sAlias	:= Alias()
-	Local aCposSX1	:= {}
-	Local nX 		:= 0
-	Local lAltera	:= .F.
-	Local nCondicao
-	Local cKey		:= ""
-	Local nJ			:= 0
-
-	aCposSX1:={"X1_PERGUNT","X1_PERSPA","X1_PERENG","X1_VARIAVL","X1_TIPO","X1_TAMANHO",;
-		"X1_DECIMAL","X1_PRESEL","X1_GSC","X1_VALID",;
-		"X1_VAR01","X1_DEF01","X1_DEFSPA1","X1_DEFENG1","X1_CNT01",;
-		"X1_VAR02","X1_DEF02","X1_DEFSPA2","X1_DEFENG2","X1_CNT02",;
-		"X1_VAR03","X1_DEF03","X1_DEFSPA3","X1_DEFENG3","X1_CNT03",;
-		"X1_VAR04","X1_DEF04","X1_DEFSPA4","X1_DEFENG4","X1_CNT04",;
-		"X1_VAR05","X1_DEF05","X1_DEFSPA5","X1_DEFENG5","X1_CNT05",;
-		"X1_F3", "X1_GRPSXG", "X1_PYME","X1_HELP" }
-
-	dbSelectArea("SX1")
-	dbSetOrder(1)
-	For nX:=1 to Len(aPergs)
-		lAltera := .F.
-		If MsSeek(cPerg+Right(aPergs[nX][11], 2))
-			If (ValType(aPergs[nX][Len(aPergs[nx])]) = "B" .And.;
-					Eval(aPergs[nX][Len(aPergs[nx])], aPergs[nX] ))
-				aPergs[nX] := ASize(aPergs[nX], Len(aPergs[nX]) - 1)
-				lAltera := .T.
-			Endif
-		Endif
-
-		If ! lAltera .And. Found() .And. X1_TIPO <> aPergs[nX][5]
-			lAltera := .T.		   // Garanto que o tipo da pergunta esteja correto
-		Endif
-
-		If ! Found() .Or. lAltera
-			RecLock("SX1",If(lAltera, .F., .T.))
-			Replace X1_GRUPO with cPerg
-			Replace X1_ORDEM with Right(aPergs[nX][11], 2)
-			For nj:=1 to Len(aCposSX1)
-				If 	Len(aPergs[nX]) >= nJ .And. aPergs[nX][nJ] <> Nil .And.;
-						FieldPos(AllTrim(aCposSX1[nJ])) > 0
-					Replace &(AllTrim(aCposSX1[nJ])) With aPergs[nx][nj]
-				Endif
-			Next nj
-			MsUnlock()
-			cKey := "P."+AllTrim(X1_GRUPO)+AllTrim(X1_ORDEM)+"."
-
-			If ValType(aPergs[nx][Len(aPergs[nx])]) = "A"
-				aHelpSpa := aPergs[nx][Len(aPergs[nx])]
-			Else
-				aHelpSpa := {}
-			Endif
-
-			If ValType(aPergs[nx][Len(aPergs[nx])-1]) = "A"
-				aHelpEng := aPergs[nx][Len(aPergs[nx])-1]
-			Else
-				aHelpEng := {}
-			Endif
-
-			If ValType(aPergs[nx][Len(aPergs[nx])-2]) = "A"
-				aHelpPor := aPergs[nx][Len(aPergs[nx])-2]
-			Else
-				aHelpPor := {}
-			Endif
-
-			PutSX1Help(cKey,aHelpPor,aHelpEng,aHelpSpa)
-		Endif
-	Next
-Return
 
 	/*
 	+-----------+----------+-------+--------------------+------+-------------+

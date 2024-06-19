@@ -20,7 +20,7 @@ User Function VALORTIT()
 
 Private cRetorno := ""
 
-cRetorno 	:= SE1->(E1_SALDO-E1_IRRF-E1_INSS-E1_CSLL-E1_COFINS-E1_PIS)       
+cRetorno := SE1->(E1_SALDO-E1_IRRF-E1_INSS-E1_CSLL-E1_COFINS-E1_PIS)       
 
 Return(cRetorno)
 

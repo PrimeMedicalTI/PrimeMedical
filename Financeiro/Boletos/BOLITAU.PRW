@@ -276,141 +276,141 @@ Return()
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 /*/
 Static Function MontaRel(aMarked, c_Banco, c_Agen, c_Cta, c_Subc)
-Local oPrint
-Local n := 0
-Local aDadosEmp    := {	SM0->M0_NOMECOM                                                             ,; //[1]Nome da Empresa
-                        SM0->M0_ENDCOB                                                              ,; //[2]Endereço
-                        AllTrim(SM0->M0_BAIRCOB)+", "+AllTrim(SM0->M0_CIDCOB)+", "+SM0->M0_ESTCOB ,; //[3]Complemento
-                        "CEP: "+Subs(SM0->M0_CEPCOB,1,5)+"-"+Subs(SM0->M0_CEPCOB,6,3)             ,; //[4]CEP
-                        "PABX/FAX: "+SM0->M0_TEL                                                    ,; //[5]Telefones
-                        "C.N.P.J.: "+Subs(SM0->M0_CGC,1,2)+"."+Subs(SM0->M0_CGC,3,3)+"."+          ; //[6]
-                        Subs(SM0->M0_CGC,6,3)+"/"+Subs(SM0->M0_CGC,9,4)+"-"+                       ; //[6]
-                        Subs(SM0->M0_CGC,13,2)                                                     ,; //[6]CGC
-                        "I.E.: "+Subs(SM0->M0_INSC,1,3)+"."+Subs(SM0->M0_INSC,4,3)+"."+            ; //[7]
-                        Subs(SM0->M0_INSC,7,3)+"."+Subs(SM0->M0_INSC,10,3)                         }  //[7]I.E
+	Local oPrint
+	Local n := 0
+	Local aDadosEmp    := {	SM0->M0_NOMECOM                                                             ,; //[1]Nome da Empresa
+							SM0->M0_ENDCOB                                                              ,; //[2]Endereço
+							AllTrim(SM0->M0_BAIRCOB)+", "+AllTrim(SM0->M0_CIDCOB)+", "+SM0->M0_ESTCOB ,; //[3]Complemento
+							"CEP: "+Subs(SM0->M0_CEPCOB,1,5)+"-"+Subs(SM0->M0_CEPCOB,6,3)             ,; //[4]CEP
+							"PABX/FAX: "+SM0->M0_TEL                                                    ,; //[5]Telefones
+							"C.N.P.J.: "+Subs(SM0->M0_CGC,1,2)+"."+Subs(SM0->M0_CGC,3,3)+"."+          ; //[6]
+							Subs(SM0->M0_CGC,6,3)+"/"+Subs(SM0->M0_CGC,9,4)+"-"+                       ; //[6]
+							Subs(SM0->M0_CGC,13,2)                                                     ,; //[6]CGC
+							"I.E.: "+Subs(SM0->M0_INSC,1,3)+"."+Subs(SM0->M0_INSC,4,3)+"."+            ; //[7]
+							Subs(SM0->M0_INSC,7,3)+"."+Subs(SM0->M0_INSC,10,3)                         }  //[7]I.E
 
-Local aDadosTit
-Local aDadosBanco
-Local aDatSacado
-Local nMulta       	:= SUPERGetMV("FS_MULTA",.F.,2) 
-Local nJuros       	:= SUPERGetMV("FS_JUROS",.F.,0.08) 
-Local nMark        	:= 1
-Local CB_RN_NN     	:= {}
-Local nRec         	:= 0
-Local _nVlrAbat    	:= 0
-Local c_Titulo		:= ""
-Local _nVlrDesc    	:= 0
-Local _nVlrCred    	:= 0
+	Local aDadosTit
+	Local aDadosBanco
+	Local aDatSacado
+	Local nMulta       	:= SUPERGetMV("FS_MULTA",.F.,2) 
+	Local nJuros       	:= SUPERGetMV("FS_JUROS",.F.,0.08) 
+	Local nMark        	:= 1
+	Local CB_RN_NN     	:= {}
+	Local nRec         	:= 0
+	Local _nVlrAbat    	:= 0
+	Local c_Titulo		:= ""
+	Local _nVlrDesc    	:= 0
+	Local _nVlrCred    	:= 0
 
-//Posiciona o SA6 (Bancos)
-DbSelectArea("SA6")
-DbSetOrder(1)
-If	!DbSeek(xFilial("SA6")+c_Banco+c_Agen+c_Cta,.T.)
-	Msgbox("Banco/agencia/conta não localizado!")
-	Return
-Endif
+	//Posiciona o SA6 (Bancos)
+	DbSelectArea("SA6")
+	DbSetOrder(1)
+	If	!DbSeek(xFilial("SA6")+c_Banco+c_Agen+c_Cta,.T.)
+		Msgbox("Banco/agencia/conta não localizado!")
+		Return
+	Endif
 
-//Posiciona na Arq de Parametros CNAB
-DbSelectArea("SEE")
-DbSetOrder(1)
-If	!DbSeek(xFilial("SEE")+c_Banco+c_Agen+c_Cta+c_Subc,.T.)
-	Msgbox("Parametros de banco não localizado!")
-	Return
-Endif
+	//Posiciona na Arq de Parametros CNAB
+	DbSelectArea("SEE")
+	DbSetOrder(1)
+	If	!DbSeek(xFilial("SEE")+c_Banco+c_Agen+c_Cta+c_Subc,.T.)
+		Msgbox("Parametros de banco não localizado!")
+		Return
+	Endif
 
-oPrint:= TMSPrinter():New( "Boleto Laser" )
-oPrint:Setup()
-oPrint:SetPortrait() // ou SetLandscape()
-oPrint:SetPaperSize( DMPAPER_A4 )
-oPrint:StartPage()   // Inicia uma nova página
-
-DbSelectArea("TTRB")
-TTRB->(dbGoTop())
-While TTRB->(!EOF())
-	nRec := nRec + 1
-	TTRB->(dbSkip())
-EndDo
-dbGoTop()
-
-ProcRegua(nRec)
-
-Do While TTRB->(!EOF())
-
-	cCart   := Alltrim(SEE->EE_CODCART)
-	If TTRB->OK = cMark
-	    DBSELECTAREA("TTRB")
-		//Posiciona o SA1 (Cliente)
-		DbSelectArea("SA1")
-		DbSetOrder(1)
-		DbSeek(xFilial("SA1")+TTRB->E1_CLIENTE+TTRB->E1_LOJA)
-
-		DbSelectArea("TTRB")
-		aDadosBanco  := {Alltrim(SA6->A6_COD)           		                ,; // [1]Numero do Banco
-	   	            	 SA6->A6_NOME      	            	                    ,; // [2]Nome do Banco
-	    	             SUBSTR(SA6->A6_AGENCIA, 1, 4)                          ,; // [3]Agência
-	        	         Subs(SA6->A6_NUMCON,1,5)    							,; // [4]Conta Corrente Itau
-	            	     SA6->A6_DVCTA                                          ,; // [5]Dígito da conta corrente
-	                	 cCart                                            		 } // [6]Codigo da Carteira
-
-		If Empty(SA1->A1_ENDCOB)
-			aDatSacado   := {AllTrim(SA1->A1_NOME)                            ,;     // [1]Razão Social
-			                 AllTrim(SA1->A1_COD )+"-"+SA1->A1_LOJA           ,;     // [2]Código
-			                 AllTrim(SA1->A1_END )+"-"+AllTrim(SA1->A1_BAIRRO),;     // [3]Endereço
-			                 AllTrim(SA1->A1_MUN )                             ,;     // [4]Cidade
-			                 SA1->A1_EST                                       ,;     // [5]Estado
-			                 SA1->A1_CEP                                       ,;     // [6]CEP
-			                 SA1->A1_CGC									   ,;     // [7]CGC
-			                 SA1->A1_PESSOA									  }       // [8]CGC
-		Else
-			aDatSacado   := {AllTrim(SA1->A1_NOME)                               ,;   // [1]Razão Social
-			                 AllTrim(SA1->A1_COD )+"-"+SA1->A1_LOJA              ,;   // [2]Código
-			                 AllTrim(SA1->A1_ENDCOB)+"-"+AllTrim(SA1->A1_BAIRROC),;   // [3]Endereço
-			                 AllTrim(SA1->A1_MUNC)	                              ,;   // [4]Cidade
-			                 SA1->A1_ESTC	                                      ,;   // [5]Estado
-			                 SA1->A1_CEPC                                         ,;   // [6]CEP
-			                 SA1->A1_CGC									   ,;     // [7]CGC
-			                 SA1->A1_PESSOA									  }       // [8]CGC
-		Endif
-
-		DbSelectArea("SE1")
-		DBSETORDER(1)
-		DBSEEK(XFILIAL("SE1")+TTRB->E1_PREFIXO+TTRB->E1_NUM+TTRB->E1_PARCELA+TTRB->E1_TIPO)
-
-		_nVlrAbat   :=  SomaAbat(SE1->E1_PREFIXO,SE1->E1_NUM,SE1->E1_PARCELA,"R",1,,SE1->E1_CLIENTE,SE1->E1_LOJA)
-		_nVlrDesc   :=  SE1->E1_DECRESC
-		_nVlrCred   :=  SE1->E1_ACRESC
-
-		CB_RN_NN    := Ret_cBarra(aDadosBanco[1], aDadosBanco[3], aDadosBanco[4], aDadosBanco[5], (SE1->E1_SALDO-_nVlrAbat), aDadosBanco[6], "9")
-
-		c_Titulo := If(!Empty(SE1->E1_NFELETR),SE1->E1_NFELETR,SE1->E1_NUM)
-//		aDadosTit    := {AllTrim(SE1->E1_NUM)+AllTrim(SE1->E1_PARCELA)							,;  // [1] Número do título
-
-		aDadosTit    := {AllTrim(c_Titulo)+AllTrim(SE1->E1_PARCELA)							,;  // [1] Número do título
-	                    SE1->E1_EMISSAO                              					,;  // [2] Data da emissão do título
-	                    Date()                                  					,;  // [3] Data da emissão do boleto
-	                    SE1->E1_VENCTO                 					,;  // [4] Data do vencimento
-	                    (SE1->E1_SALDO-_nVlrAbat)  				               					,;  // [5] Valor do título
-	                    CB_RN_NN[3]                             					,;  // [6] Nosso número (Ver fórmula para calculo)
-	                    SE1->E1_PREFIXO                               					,;  // [7] Prefixo da NF
-	                    SE1->E1_TIPO	                               						,;   // [8] Tipo do Titulo
-						SE1->E1_DECRESC	                               						}  // [9] Desconto
-
-		Impress(oPrint,aDadosEmp,aDadosTit,aDadosBanco,aDatSacado,CB_RN_NN,nMulta,nJuros)
-		n := n + 1
-
-//		l_ok := oPrint:SaveAllAsJpeg( '\bol'+strzero(n,3), 1120, 840, 140, 100 )
-    EndIf
+	oPrint:= TMSPrinter():New( "Boleto Laser" )
+	oPrint:Setup()
+	oPrint:SetPortrait() // ou SetLandscape()
+	oPrint:SetPaperSize( DMPAPER_A4 )
+	oPrint:StartPage()   // Inicia uma nova página
 
 	DbSelectArea("TTRB")
-	TTRB->(dbSkip())
-	IncProc()
-	nMark++
+	TTRB->(dbGoTop())
+	While TTRB->(!EOF())
+		nRec := nRec + 1
+		TTRB->(dbSkip())
+	EndDo
+	dbGoTop()
 
-EndDo
+	ProcRegua(nRec)
 
-//oPrint:Print()
-//oPrint:EndPage()     // Finaliza a página
-oPrint:Preview()     // Visualiza antes de imprimir
+	Do While TTRB->(!EOF())
+
+		cCart   := Alltrim(SEE->EE_CODCART)
+		If TTRB->OK = cMark
+			DBSELECTAREA("TTRB")
+			//Posiciona o SA1 (Cliente)
+			DbSelectArea("SA1")
+			DbSetOrder(1)
+			DbSeek(xFilial("SA1")+TTRB->E1_CLIENTE+TTRB->E1_LOJA)
+
+			DbSelectArea("TTRB")
+			aDadosBanco  := {Alltrim(SA6->A6_COD)           		                ,; // [1]Numero do Banco
+							SA6->A6_NOME      	            	                    ,; // [2]Nome do Banco
+							SUBSTR(SA6->A6_AGENCIA, 1, 4)                          ,; // [3]Agência
+							Subs(SA6->A6_NUMCON,1,5)    							,; // [4]Conta Corrente Itau
+							SA6->A6_DVCTA                                          ,; // [5]Dígito da conta corrente
+							cCart                                            		 } // [6]Codigo da Carteira
+
+			If Empty(SA1->A1_ENDCOB)
+				aDatSacado   := {AllTrim(SA1->A1_NOME)                            ,;     // [1]Razão Social
+								AllTrim(SA1->A1_COD )+"-"+SA1->A1_LOJA           ,;     // [2]Código
+								AllTrim(SA1->A1_END )+"-"+AllTrim(SA1->A1_BAIRRO),;     // [3]Endereço
+								AllTrim(SA1->A1_MUN )                             ,;     // [4]Cidade
+								SA1->A1_EST                                       ,;     // [5]Estado
+								SA1->A1_CEP                                       ,;     // [6]CEP
+								SA1->A1_CGC									   ,;     // [7]CGC
+								SA1->A1_PESSOA									  }       // [8]CGC
+			Else
+				aDatSacado   := {AllTrim(SA1->A1_NOME)                               ,;   // [1]Razão Social
+								AllTrim(SA1->A1_COD )+"-"+SA1->A1_LOJA              ,;   // [2]Código
+								AllTrim(SA1->A1_ENDCOB)+"-"+AllTrim(SA1->A1_BAIRROC),;   // [3]Endereço
+								AllTrim(SA1->A1_MUNC)	                              ,;   // [4]Cidade
+								SA1->A1_ESTC	                                      ,;   // [5]Estado
+								SA1->A1_CEPC                                         ,;   // [6]CEP
+								SA1->A1_CGC									   ,;     // [7]CGC
+								SA1->A1_PESSOA									  }       // [8]CGC
+			Endif
+
+			DbSelectArea("SE1")
+			DBSETORDER(1)
+			DBSEEK(XFILIAL("SE1")+TTRB->E1_PREFIXO+TTRB->E1_NUM+TTRB->E1_PARCELA+TTRB->E1_TIPO)
+
+			_nVlrAbat   :=  SomaAbat(SE1->E1_PREFIXO,SE1->E1_NUM,SE1->E1_PARCELA,"R",1,,SE1->E1_CLIENTE,SE1->E1_LOJA)
+			_nVlrDesc   :=  SE1->E1_DECRESC
+			_nVlrCred   :=  SE1->E1_ACRESC
+
+			CB_RN_NN    := Ret_cBarra(aDadosBanco[1], aDadosBanco[3], aDadosBanco[4], aDadosBanco[5], (SE1->E1_SALDO-_nVlrAbat), aDadosBanco[6], "9")
+
+			c_Titulo := If(!Empty(SE1->E1_NFELETR),SE1->E1_NFELETR,SE1->E1_NUM)
+	//		aDadosTit    := {AllTrim(SE1->E1_NUM)+AllTrim(SE1->E1_PARCELA)							,;  // [1] Número do título
+
+			aDadosTit    := {AllTrim(c_Titulo)+AllTrim(SE1->E1_PARCELA)							,;  // [1] Número do título
+							SE1->E1_EMISSAO                              					,;  // [2] Data da emissão do título
+							Date()                                  					,;  // [3] Data da emissão do boleto
+							SE1->E1_VENCTO                 					,;  // [4] Data do vencimento
+							(SE1->E1_SALDO-_nVlrAbat)  				               					,;  // [5] Valor do título
+							CB_RN_NN[3]                             					,;  // [6] Nosso número (Ver fórmula para calculo)
+							SE1->E1_PREFIXO                               					,;  // [7] Prefixo da NF
+							SE1->E1_TIPO	                               						,;   // [8] Tipo do Titulo
+							SE1->E1_DECRESC	                               						}  // [9] Desconto
+
+			Impress(oPrint,aDadosEmp,aDadosTit,aDadosBanco,aDatSacado,CB_RN_NN,nMulta,nJuros)
+			n := n + 1
+
+	//		l_ok := oPrint:SaveAllAsJpeg( '\bol'+strzero(n,3), 1120, 840, 140, 100 )
+		EndIf
+
+		DbSelectArea("TTRB")
+		TTRB->(dbSkip())
+		IncProc()
+		nMark++
+
+	EndDo
+
+	//oPrint:Print()
+	//oPrint:EndPage()     // Finaliza a página
+	oPrint:Preview()     // Visualiza antes de imprimir
 Return nil
 
 /*/
@@ -777,114 +777,114 @@ oPrint:EndPage() // Finaliza a página
 Return Nil
 
 Static Function Ret_cBarra(cBanco, cAgencia, cConta, cDacCC, nValor, cCart, cMoeda) 
-LOCAL dvcb         := 0
-LOCAL dv           := 0
-LOCAL NN           := ''
-LOCAL RN           := ''
-LOCAL CB           := ''
-LOCAL s            := ''
-LOCAL _cfator      := strzero(SE1->E1_VENCTO - ctod("07/10/97"),4)
-LOCAL blvalorfinal := strzero(nValor*100,10)
-LOCAL I
-If	Empty(TTRB->E1_NUMBCO) .or. l_GeraNN	//MV_PAR17 = 2
-	RecLock("SEE",.F.)
-		SEE->EE_FAXATU:=Strzero(Val(SEE->EE_FAXATU)+1,8)
-	MsUnlock()
+	LOCAL dvcb         := 0
+	LOCAL dv           := 0
+	LOCAL NN           := ''
+	LOCAL RN           := ''
+	LOCAL CB           := ''
+	LOCAL s            := ''
+	LOCAL _cfator      := strzero(SE1->E1_VENCTO - ctod("07/10/97"),4)
+	LOCAL blvalorfinal := strzero(nValor*100,10)
+	LOCAL I
+	If	Empty(TTRB->E1_NUMBCO) .or. l_GeraNN	//MV_PAR17 = 2
+		RecLock("SEE",.F.)
+			SEE->EE_FAXATU:=Strzero(Val(SEE->EE_FAXATU)+1,8)
+		MsUnlock()
 
-	cNossoNum 	:= StrZero(Val(SEE->EE_FAXATU),8)
-	cNroDoc		:= cCart+cNossoNum	
+		cNossoNum 	:= StrZero(Val(SEE->EE_FAXATU),8)
+		cNroDoc		:= cCart+cNossoNum	
 
-	cNros := ALLTRIM(cAgencia)+ALLTRIM(cConta)+Alltrim(cNroDoc)
-	aNros := {}
-	For i := 1 to Len(cNros)
-		AADD(aNros,Subs(cNros,i,1))
-	Next
-	nResul:= {}
-	nSoma:=0
-	nMult:=2
-	For i := Len(aNros)  to  1  step -1
-		Resul:= Val(aNros[i]) * nMult
-		If Resul < 10
-			AADD(nResul,Resul)
+		cNros := ALLTRIM(cAgencia)+ALLTRIM(cConta)+Alltrim(cNroDoc)
+		aNros := {}
+		For i := 1 to Len(cNros)
+			AADD(aNros,Subs(cNros,i,1))
+		Next
+		nResul:= {}
+		nSoma:=0
+		nMult:=2
+		For i := Len(aNros)  to  1  step -1
+			Resul:= Val(aNros[i]) * nMult
+			If Resul < 10
+				AADD(nResul,Resul)
+			Else
+				AADD(nResul,Val(Subs(Str(Resul,2),1,1)))
+				AADD(nResul,Val(Subs(Str(Resul,2),2,1)))
+			Endif
+			nMult := iif( nMult = 1 , 2 , 1 )
+		Next
+		For i := 1 to Len(nResul)
+			nSoma := nSoma + nResul[i]
+		Next
+		resto:= MOD(nSoma,10)
+		If resto = 0
+			cNroDV := "0"
 		Else
-			AADD(nResul,Val(Subs(Str(Resul,2),1,1)))
-			AADD(nResul,Val(Subs(Str(Resul,2),2,1)))
+			cNroDV := Str(10-RESTO,1)
 		Endif
-		nMult := iif( nMult = 1 , 2 , 1 )
-	Next
-	For i := 1 to Len(nResul)
-		nSoma := nSoma + nResul[i]
-	Next
-	resto:= MOD(nSoma,10)
-	If resto = 0
-		cNroDV := "0"
+
+		RecLock("SE1",.F.)
+			SE1->E1_NUMBCO :=cNroDoc
+			SE1->E1_NUMDV  := cNroDV
+			SE1->E1_PORTADO := '341'
+		MsUnlock()
+		cNossoNum  := Substr(TTRB->E1_NUMBCO,4,8)
+		// Substr(cNroDoc,4,8)	
+
+		cNroDV     := cNroDV
 	Else
-		cNroDV := Str(10-RESTO,1)
+		cNossoNum  := Substr(TTRB->E1_NUMBCO,4,8)
+		cNroDV     := TTRB->E1_NUMDV
 	Endif
 
-	RecLock("SE1",.F.)
-		SE1->E1_NUMBCO :=cNroDoc
-		SE1->E1_NUMDV  := cNroDV
-		SE1->E1_PORTADO := '341'
-	MsUnlock()
-	cNossoNum  := Substr(TTRB->E1_NUMBCO,4,8)
-	// Substr(cNroDoc,4,8)	
+	NN   := cCart + cNossoNum + '-' + cNroDV
 
-	cNroDV     := cNroDV
-Else
-	cNossoNum  := Substr(TTRB->E1_NUMBCO,4,8)
-	cNroDV     := TTRB->E1_NUMDV
-Endif
+	//	-------- Definicao do CODIGO DE BARRAS
+	s    := cBanco + '9' + _cfator + blvalorfinal + cCart + cNossoNum + cNroDV + cAgencia + cConta + cDacCC + '000'
+	dvcb := modulo11(s)
+	CB   := SubStr(s, 1, 4) + AllTrim(Str(dvcb)) + SubStr(s,5)
 
-NN   := cCart + cNossoNum + '-' + cNroDV
+	//-------- Definicao da LINHA DIGITAVEL (Representacao Numerica)
+	//	Campo 1			Campo 2			Campo 3			Campo 4		Campo 5
+	//	AAABC.CCDDX		DDDDD.DDFFFY	FGGGG.GGHHHZ	K			UUUUVVVVVVVVVV
 
-//	-------- Definicao do CODIGO DE BARRAS
-s    := cBanco + '9' + _cfator + blvalorfinal + cCart + cNossoNum + cNroDV + cAgencia + cConta + cDacCC + '000'
-dvcb := modulo11(s)
-CB   := SubStr(s, 1, 4) + AllTrim(Str(dvcb)) + SubStr(s,5)
+	// 	CAMPO 1:
+	//	AAA	= Codigo do banco na Camara de Compensacao
+	//	  B = Codigo da moeda, sempre 9
+	//	CCC = Codigo da Carteira de Cobranca
+	//	 DD = Dois primeiros digitos no nosso numero
+	//	  X = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
 
-//-------- Definicao da LINHA DIGITAVEL (Representacao Numerica)
-//	Campo 1			Campo 2			Campo 3			Campo 4		Campo 5
-//	AAABC.CCDDX		DDDDD.DDFFFY	FGGGG.GGHHHZ	K			UUUUVVVVVVVVVV
+	s    := cBanco + '9' + cCart + SubStr(cNossoNum,1,2)
+	dv   := modulo10(s)
+	RN   := SubStr(s, 1, 5) + '.' + SubStr(s, 6, 4) + AllTrim(Str(dv)) + ' '
 
-// 	CAMPO 1:
-//	AAA	= Codigo do banco na Camara de Compensacao
-//	  B = Codigo da moeda, sempre 9
-//	CCC = Codigo da Carteira de Cobranca
-//	 DD = Dois primeiros digitos no nosso numero
-//	  X = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
+	// 	CAMPO 2:
+	//	DDDDDD = Restante do Nosso Numero
+	//	     E = DAC do campo Agencia/Conta/Carteira/Nosso Numero
+	//	   FFF = Tres primeiros numeros que identificam a agencia
+	//	     Y = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
 
-s    := cBanco + '9' + cCart + SubStr(cNossoNum,1,2)
-dv   := modulo10(s)
-RN   := SubStr(s, 1, 5) + '.' + SubStr(s, 6, 4) + AllTrim(Str(dv)) + ' '
+	s    := SubStr(cNossoNum, 3, 6) + cNroDV + SubStr(cAgencia, 1, 3)
+	dv   := modulo10(s)
+	RN   := RN + SubStr(s, 1, 5) + '.' + SubStr(s, 6, 5) + AllTrim(Str(dv)) + ' '
 
-// 	CAMPO 2:
-//	DDDDDD = Restante do Nosso Numero
-//	     E = DAC do campo Agencia/Conta/Carteira/Nosso Numero
-//	   FFF = Tres primeiros numeros que identificam a agencia
-//	     Y = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
+	// 	CAMPO 3:
+	//	     F = Restante do numero que identifica a agencia
+	//	GGGGGG = Numero da Conta + DAC da mesma
+	//	   HHH = Zeros (Nao utilizado)
+	//	     Z = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
+	s    := SubStr(cAgencia, 4, 1) + cConta + cDacCC + '000'
+	dv   := modulo10(s)
+	RN   := RN + SubStr(s, 1, 5) + '.' + SubStr(s, 6, 5) + AllTrim(Str(dv)) + ' '
 
-s    := SubStr(cNossoNum, 3, 6) + cNroDV + SubStr(cAgencia, 1, 3)
-dv   := modulo10(s)
-RN   := RN + SubStr(s, 1, 5) + '.' + SubStr(s, 6, 5) + AllTrim(Str(dv)) + ' '
+	// 	CAMPO 4:
+	//	     K = DAC do Codigo de Barras
+	RN   := RN + AllTrim(Str(dvcb)) + ' '
 
-// 	CAMPO 3:
-//	     F = Restante do numero que identifica a agencia
-//	GGGGGG = Numero da Conta + DAC da mesma
-//	   HHH = Zeros (Nao utilizado)
-//	     Z = DAC que amarra o campo, calculado pelo Modulo 10 da String do campo
-s    := SubStr(cAgencia, 4, 1) + cConta + cDacCC + '000'
-dv   := modulo10(s)
-RN   := RN + SubStr(s, 1, 5) + '.' + SubStr(s, 6, 5) + AllTrim(Str(dv)) + ' '
-
-// 	CAMPO 4:
-//	     K = DAC do Codigo de Barras
-RN   := RN + AllTrim(Str(dvcb)) + ' '
-
-// 	CAMPO 5:
-//	      UUUU = Fator de Vencimento
-//	VVVVVVVVVV = Valor do Titulo
-RN   := RN + _cfator + StrZero(nValor * 100,14-Len(_cfator))
+	// 	CAMPO 5:
+	//	      UUUU = Fator de Vencimento
+	//	VVVVVVVVVV = Valor do Titulo
+	RN   := RN + _cfator + StrZero(nValor * 100,14-Len(_cfator))
 
 Return({CB,RN,NN})
 
@@ -997,3 +997,76 @@ For i:=1 to Len(aRegs)
 Next
 
 Return
+
+
+/* 
+BANCO ITAU
+Vamos analisar o código para impressão de boletos do Banco Itaú. Esse código tem várias partes responsáveis por diferentes funcionalidades, desde a seleção de dados até a formatação e impressão do boleto. Vamos detalhar cada função e seção do código.
+
+Funções Principais
+
+1. User Function BOLITAU
+	Objetivo: Função principal para gerar boletos do Banco Itaú.
+	Parâmetros:
+	c_SerNf: Série da nota fiscal.
+	c_Agen: Agência bancária.
+	c_Cta: Conta bancária.
+	c_Subc: Subconta bancária.
+	Descrição: Esta função configura a estrutura temporária de dados, consulta os dados dos títulos a serem processados, insere esses dados na tabela temporária TTRB, e chama a função de processamento de impressão.
+
+2. Static Function Disp
+	Objetivo: Marca os registros que devem ser processados.
+	Descrição: Alterna a marcação dos registros na tabela temporária TTRB.
+
+3. Static Function FILMARK
+	Objetivo: Marca ou desmarca todos os registros na tabela temporária TTRB.
+	Descrição: Itera sobre os registros, alternando o valor do campo OK.
+
+4. Static Function MontaRel
+	Objetivo: Montar e imprimir o relatório de boletos.
+	Parâmetros:
+	aMarked: Array de registros marcados.
+	c_Banco: Código do banco.
+	c_Agen: Agência bancária.
+	c_Cta: Conta bancária.
+	c_Subc: Subconta bancária.
+	Descrição: Monta os dados do boleto, chama a função Impress para realizar a impressão.
+	Funções Auxiliares
+
+5. Static Function Impress
+	Objetivo: Realizar a impressão do boleto.
+	Parâmetros:
+	oPrint: Objeto de impressão.
+	aDadosEmp: Dados da empresa.
+	aDadosTit: Dados do título.
+	aDadosBanco: Dados do banco.
+	aDatSacado: Dados do sacado.
+	CB_RN_NN: Código de barras e linha digitável.
+	nMulta: Valor da multa.
+	nJuros: Valor dos juros.
+	Descrição: Configura as fontes, formata o layout do boleto e imprime cada seção.
+
+6. Static Function Ret_cBarra
+	Objetivo: Retornar o código de barras e a linha digitável do boleto.
+	Parâmetros:
+	cBanco, cAgencia, cConta, cDacCC, nValor, cCart, cMoeda
+	Descrição: Calcula o código de barras e a linha digitável baseado nas informações fornecidas.
+
+7. Static Function Modulo10 e Static Function Modulo11
+	Objetivo: Calcular os dígitos verificadores utilizando os módulos 10 e 11.
+	Parâmetros: cData - String de dados para cálculo.
+	Descrição: Utilizadas para validar números como código de barras e linha digitável.
+
+8. Static Function CriaPerg
+	Objetivo: Criar perguntas para a interface do usuário.
+	Descrição: Define as perguntas e os campos necessários para a interação com o usuário na interface do sistema.
+
+Considerações:
+	A função principal BOLITAU configura a estrutura temporária para armazenar os dados dos títulos a serem processados, realiza a consulta SQL para obter esses dados e os insere na tabela temporária TTRB. Se a consulta não retorna nenhum título, uma mensagem é exibida ao usuário.
+	Após a inserção dos dados, a função Processa é chamada com a função MontaRel, que é responsável por montar e imprimir os boletos. Esta função monta os dados do boleto, incluindo informações do banco, da empresa, do sacado e do título, e chama a função Impress para realizar a impressão.
+	A função Impress configura as fontes de impressão, define o layout do boleto e imprime as informações nas posições corretas. Ela também utiliza a função Ret_cBarra para calcular o código de barras e a linha digitável.
+	Funções auxiliares como Modulo10 e Modulo11 são usadas para calcular dígitos verificadores, essenciais para a validação dos números nos boletos.
+	Por fim, a função CriaPerg é utilizada para definir as perguntas que serão apresentadas ao usuário na interface do sistema, permitindo a seleção de parâmetros para a geração dos boletos.
+	Este código é um exemplo de como estruturar e implementar a geração de boletos bancários, um processo comum em sistemas financeiros no Brasil. Ele inclui a configuração de dados, consulta a bancos de dados, processamento de informações e formatação para impressão.
+
+*/

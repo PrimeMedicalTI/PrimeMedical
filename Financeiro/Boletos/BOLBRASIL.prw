@@ -1003,3 +1003,111 @@ For i:=1 to Len(aRegs)
 Next
 
 Return
+
+/*  
+Banco do Brasil
+O código fornecido para a impressão de boletos do Banco do Brasil em ADVPL é extenso e possui várias funções e procedimentos importantes para garantir a correta geração e impressão dos boletos. A seguir, apresento uma análise detalhada das principais partes do código, incluindo as funções principais, funções auxiliares e os procedimentos utilizados.
+
+Funções Principais
+
+	1. User Function BOLBRASIL(c_SerNf, c_Agen, c_Cta, c_Subc)
+		Objetivo: Função principal para gerar boletos do Banco do Brasil.
+		Parâmetros:
+		c_SerNf: Série da nota fiscal.
+		c_Agen: Agência bancária.
+		c_Cta: Conta bancária.
+		c_Subc: Subconta bancária.
+
+	2. Static Function MontaRel(aMarked, c_Banco, c_Agen, c_Cta, c_Subc)
+		Objetivo: Monta o relatório de boletos para impressão.
+		Parâmetros:
+		aMarked: Array de registros marcados.
+		c_Banco: Código do banco.
+		c_Agen: Agência bancária.
+		c_Cta: Conta bancária.
+		c_Subc: Subconta bancária.
+		Descrição: Configura e imprime os boletos com base nos dados fornecidos.
+
+Funções Auxiliares
+
+	1. Static Function Disp()
+		Objetivo: Marca os registros que devem ser processados.
+		Descrição: Alterna a marcação dos registros na tabela temporária TTRB.
+
+	2. Static Function FILMARK()
+		Objetivo: Marca ou desmarca todos os registros na tabela temporária TTRB.
+		Descrição: Itera sobre os registros, alternando o valor do campo OK.
+
+	3. Static Function Impress(oPrint, aDadosEmp, aDadosTit, aDadosBanco, aDatSacado, CB_RN_NN, nMulta, nJuros)
+		Objetivo: Função de impressão detalhada do boleto.
+		Parâmetros:
+		oPrint: Objeto de impressão.
+		aDadosEmp: Dados da empresa.
+		aDadosTit: Dados do título.
+		aDadosBanco: Dados do banco.
+		aDatSacado: Dados do sacado.
+		CB_RN_NN: Código de barras e linha digitável.
+		nMulta: Valor da multa.
+		nJuros: Valor dos juros.
+		Descrição: Realiza a impressão do boleto em três partes distintas.
+
+	4. Static Function Ret_cBarra(cBanco, cAgencia, cConta, cDacCC, nValor, cCart, cMoeda)
+		Objetivo: Gera o código de barras para o boleto.
+		Parâmetros:
+		cBanco: Código do banco.
+		cAgencia: Código da agência.
+		cConta: Número da conta.
+		cDacCC: Dígito verificador da conta.
+		nValor: Valor do boleto.
+		cCart: Código da carteira.
+		cMoeda: Código da moeda.
+		Descrição: Calcula e retorna o código de barras e a linha digitável.
+
+	5. User Function CALC_di9(cVariavel)
+		Objetivo: Calcula o dígito verificador usando o módulo 11.
+		Parâmetros: cVariavel - Número para cálculo.
+		Descrição: Realiza a soma ponderada dos dígitos e calcula o dígito verificador.
+
+	6. User Function Fatorbb()
+		Objetivo: Calcula o fator de vencimento para a linha digitável.
+		Descrição: Usa a data base 07/03/2000 para calcular a diferença de dias até a data de vencimento do boleto.
+
+	7. User Function CALC_5p(cVariavel)
+		Objetivo: Calcula o dígito verificador para o código de barras.
+		Parâmetros: cVariavel - Número para cálculo.
+		Descrição: Realiza a soma ponderada dos dígitos e calcula o dígito verificador.
+
+	8. User Function DIGIT001(cVariavel)
+		Objetivo: Calcula o dígito verificador para a linha digitável.
+		Parâmetros: cVariavel - Número para cálculo.
+		Descrição: Realiza a soma ponderada dos dígitos e calcula o dígito verificador.
+
+	9. Static Function CriaPerg()
+		Objetivo: Cria a estrutura de perguntas para coletar parâmetros do usuário.
+		Descrição: Adiciona registros na tabela SX1 para armazenar as perguntas e respostas necessárias para a execução do programa.
+
+Fluxo Geral do Código
+
+	1.Inicialização e Configuração:
+		O programa começa definindo a estrutura dos dados (_stru) e criando uma tabela temporária TTRB para armazenar os registros a serem processados.
+		
+	2.Consulta e Marcação dos Registros:
+		Se c_SerNf estiver preenchido, o programa realiza uma consulta na tabela SE1 para obter os registros correspondentes e os marca na tabela TTRB.
+		Se c_SerNf estiver vazio, o programa solicita os parâmetros ao usuário e realiza a consulta com base nesses parâmetros.
+
+	3.Processamento dos Registros:
+		O programa itera sobre os registros marcados na tabela TTRB e monta o relatório de boletos, chamando a função MontaRel.
+
+	4.Impressão dos Boletos:
+		A função Impress é responsável pela impressão detalhada dos boletos, organizando as informações e formatando o layout do boleto.
+
+	5.Geração do Código de Barras e Linha Digitável:
+		As funções Ret_cBarra, CALC_di9, CALC_5p, e DIGIT001 são usadas para calcular o código de barras e a linha digitável, que são essenciais para a validação e pagamento dos boletos.
+
+Considerações Gerais
+	Manutenção de Estado: O código utiliza várias variáveis privadas e locais para manter o estado durante a execução.
+	Interação com o Usuário: A função CriaPerg define a interface de perguntas para obter os parâmetros de execução do usuário, garantindo que todas as informações necessárias sejam coletadas antes da execução do programa.
+	Cálculo de Dígitos Verificadores: As funções auxiliares de cálculo de dígitos verificadores garantem que os códigos de barras e linhas digitáveis sejam válidos e sigam as normas bancárias.
+	Gerenciamento de Tabelas Temporárias: O uso de tabelas temporárias (TTRB) facilita o processamento e marcação dos registros que serão utilizados na geração dos boletos.
+
+*/

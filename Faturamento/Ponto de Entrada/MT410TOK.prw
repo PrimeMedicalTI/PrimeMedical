@@ -17,9 +17,7 @@ User Function MT410TOK()
     Local nPTES     := aScan(aHeader,{|x| AllTrim(x[2]) == 'C6_TES'}) 
     Local i         := 0
     Local cAlias := getNextAlias()
-
-    Alert('PEDIDO')
-    
+   
     BEGINSQL ALIAS cAlias
         Select 
             A1_FSBANCO, A1_FSAGENC, A1_FSCTA, A1_FSSUBCT, A1_NBANCO, A1_FSCADM
